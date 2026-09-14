@@ -41,6 +41,9 @@ export ZED_BUNDLE=true
 
 target_dir="${CARGO_TARGET_DIR:-target}"
 
+# Generate the licenses file so it can be baked into the package
+script/generate-licenses
+
 version="$(script/get-crate-version wu)"
 export RELEASE_VERSION="${version}"
 
@@ -115,7 +118,7 @@ mkdir -p "${package_root}/usr/share/applications"
 envsubst < "crates/wu/resources/zed.desktop.in" > "${package_root}/usr/share/applications/${APP_ID}.desktop"
 chmod +x "${package_root}/usr/share/applications/${APP_ID}.desktop"
 
-# Generated licenses
+# Generated licenses (`assets/licenses.md`) are created by generate-licenses
 mkdir -p "${package_root}/usr/share/doc/${package_name}"
 cp "assets/licenses.md" "${package_root}/usr/share/doc/${package_name}/copyright"
 
