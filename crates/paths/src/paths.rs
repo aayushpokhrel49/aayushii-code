@@ -69,7 +69,7 @@ static CONFIG_DIR: OnceLock<PathBuf> = OnceLock::new();
 /// Returns the relative path to the wu_server directory on the ssh host.
 pub fn remote_server_dir_relative() -> &'static RelPath {
     static CACHED: LazyLock<&'static RelPath> =
-        LazyLock::new(|| RelPath::from_unix_str(".wu_server").unwrap());
+        LazyLock::new(|| RelPath::from_unix_str(".aayushicode_server").unwrap());
     *CACHED
 }
 
@@ -77,7 +77,7 @@ pub fn remote_server_dir_relative() -> &'static RelPath {
 /// Returns the relative path to the wu_wsl_server directory on the wsl host.
 pub fn remote_wsl_server_dir_relative() -> &'static RelPath {
     static CACHED: LazyLock<&'static RelPath> =
-        LazyLock::new(|| RelPath::from_unix_str(".wu_wsl_server").unwrap());
+        LazyLock::new(|| RelPath::from_unix_str(".aayushicode_wsl_server").unwrap());
     *CACHED
 }
 
@@ -498,13 +498,13 @@ pub fn remote_servers_dir() -> &'static PathBuf {
     REMOTE_SERVERS_DIR.get_or_init(|| data_dir().join("remote_servers"))
 }
 
-/// Returns the relative path to a `.wu` folder within a project.
+/// Returns the relative path to a `.aayushicode` folder within a project.
 pub fn local_settings_folder_name() -> &'static str {
-    ".wu"
+    ".aayushicode"
 }
 
 /// Returns the relative path to a `.zed` folder within a project, used as a
-/// fallback when there is no `.wu` folder.
+/// fallback when there is no `.aayushicode` folder.
 pub fn legacy_local_settings_folder_name() -> &'static str {
     ".zed"
 }
@@ -514,8 +514,8 @@ pub fn local_vscode_folder_name() -> &'static str {
     ".vscode"
 }
 
-/// Picks the `.wu` config file over its `.zed` counterpart. The `.zed` file is
-/// only used when it exists and the `.wu` one does not.
+/// Picks the `.aayushicode` config file over its `.zed` counterpart. The `.zed` file is
+/// only used when it exists and the `.aayushicode` one does not.
 pub fn resolve_local_config_path<P: AsRef<RelPath>>(
     path: P,
     legacy_path: P,
@@ -531,12 +531,12 @@ pub fn resolve_local_config_path<P: AsRef<RelPath>>(
 /// Returns the relative path to a `settings.json` file within a project.
 pub fn local_settings_file_relative_path() -> &'static RelPath {
     static CACHED: LazyLock<&'static RelPath> =
-        LazyLock::new(|| RelPath::from_unix_str(".wu/settings.json").unwrap());
+        LazyLock::new(|| RelPath::from_unix_str(".aayushicode/settings.json").unwrap());
     *CACHED
 }
 
 /// Returns the relative path to a `.zed/settings.json` file within a project, used as a
-/// fallback when there is no `.wu/settings.json`.
+/// fallback when there is no `.aayushicode/settings.json`.
 pub fn legacy_local_settings_file_relative_path() -> &'static RelPath {
     static CACHED: LazyLock<&'static RelPath> =
         LazyLock::new(|| RelPath::from_unix_str(".zed/settings.json").unwrap());
@@ -546,12 +546,12 @@ pub fn legacy_local_settings_file_relative_path() -> &'static RelPath {
 /// Returns the relative path to a `tasks.json` file within a project.
 pub fn local_tasks_file_relative_path() -> &'static RelPath {
     static CACHED: LazyLock<&'static RelPath> =
-        LazyLock::new(|| RelPath::from_unix_str(".wu/tasks.json").unwrap());
+        LazyLock::new(|| RelPath::from_unix_str(".aayushicode/tasks.json").unwrap());
     *CACHED
 }
 
 /// Returns the relative path to a `.zed/tasks.json` file within a project, used as a
-/// fallback when there is no `.wu/tasks.json`.
+/// fallback when there is no `.aayushicode/tasks.json`.
 pub fn legacy_local_tasks_file_relative_path() -> &'static RelPath {
     static CACHED: LazyLock<&'static RelPath> =
         LazyLock::new(|| RelPath::from_unix_str(".zed/tasks.json").unwrap());
@@ -574,15 +574,15 @@ pub fn task_file_name() -> &'static str {
 }
 
 /// Returns the relative path to a `debug.json` file within a project.
-/// .wu/debug.json
+/// .aayushicode/debug.json
 pub fn local_debug_file_relative_path() -> &'static RelPath {
     static CACHED: LazyLock<&'static RelPath> =
-        LazyLock::new(|| RelPath::from_unix_str(".wu/debug.json").unwrap());
+        LazyLock::new(|| RelPath::from_unix_str(".aayushicode/debug.json").unwrap());
     *CACHED
 }
 
 /// Returns the relative path to a `.zed/debug.json` file within a project, used as a
-/// fallback when there is no `.wu/debug.json`.
+/// fallback when there is no `.aayushicode/debug.json`.
 pub fn legacy_local_debug_file_relative_path() -> &'static RelPath {
     static CACHED: LazyLock<&'static RelPath> =
         LazyLock::new(|| RelPath::from_unix_str(".zed/debug.json").unwrap());

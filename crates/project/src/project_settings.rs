@@ -1048,9 +1048,9 @@ impl SettingsObserver {
                         legacy_file_path.clone(),
                         exists,
                     );
-                    // A `.zed` file shadowed by its `.wu` counterpart has no effect. Its
+                    // A `.zed` file shadowed by its `.aayushicode` counterpart has no effect. Its
                     // removal still falls through so the `.zed` directory gets cleared,
-                    // e.g. when `.zed` was renamed to `.wu` in one batch.
+                    // e.g. when `.zed` was renamed to `.aayushicode` in one batch.
                     if active_path == file_path
                         && *path != file_path
                         && exists(&file_path)
@@ -1063,7 +1063,7 @@ impl SettingsObserver {
                     } else {
                         file_path
                     };
-                    // Tasks and debug configs are keyed by their `.wu` or `.zed` directory,
+                    // Tasks and debug configs are keyed by their `.aayushicode` or `.zed` directory,
                     // so the directory that lost precedence has to be cleared explicitly.
                     if let Some(shadowed_dir) =
                         strip_components(&shadowed_path, file.directory_depth)

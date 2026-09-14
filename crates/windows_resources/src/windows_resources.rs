@@ -92,8 +92,8 @@ BEGIN
             VALUE "FileVersion", "{pkg_version}\0"
             VALUE "ProductName", "{product_name}\0"
             VALUE "ProductVersion", "{product_version}\0"
-            VALUE "CompanyName", "Farshed\0"
-            VALUE "LegalCopyright", "Copyright 2022 - 2025 Zed Industries, Inc. and Farshed\0"
+            VALUE "CompanyName", "Aayush Pokhrel\0"
+            VALUE "LegalCopyright", "Copyright 2025 Aayush Pokhrel\0"
         END
     END
     BLOCK "VarFileInfo"

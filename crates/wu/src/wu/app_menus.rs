@@ -303,13 +303,13 @@ pub fn app_menus(cx: &mut App) -> Vec<Menu> {
                 MenuItem::action(
                     "Documentation",
                     super::OpenBrowser {
-                        url: "https://aayushicode.app/docs".into(),
+                        url: "https://aayushhpokhrel.com.np".into(),
                     },
                 ),
                 MenuItem::action(
                     "Aayushi Code Repository",
                     super::OpenBrowser {
-                        url: "https://github.com/aayush/aayushicode".into(),
+                        url: "https://github.com/aayushpokhrel49/aayushii-code".into(),
                     },
                 ),
             ],

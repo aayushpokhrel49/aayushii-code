@@ -142,16 +142,31 @@ Version: ${version}-${commit}
 Section: editors
 Priority: optional
 Architecture: ${dpkg_arch}
-Maintainer: Aayushi <aayush@aayushicode.app>
+Maintainer: Aayush Pokhrel <info@aayushhpokhrel.com.np>
 Installed-Size: $(du -sk "${package_root}/opt" | cut -f1)
 Depends: libasound2 | libasound2t64, libglib2.0-0, libstdc++6, libssl3 | libssl1.1, libwayland-client0, libx11-6, libxcb1, libxkbcommon0, libxkbcommon-x11-0, libxi6, libxcursor1
 Recommends: libvulkan1, xdg-desktop-portal, pipewire
-Homepage: https://aayushicode.app
+Homepage: https://aayushhpokhrel.com.np
 Description: Aayushi Code - a fast, native code editor
  A fast, native code editor built in Rust with a GPU-accelerated renderer.
  It pairs the speed of a native app with the familiarity of VS Code and
  stays out of your way.
 EOF
+
+# Refresh the hicolor icon cache and desktop database after install so the app
+# icon appears in the desktop environment's launcher without requiring a logout.
+cat > "${package_root}/DEBIAN/postinst" <<'EOF'
+#!/bin/sh
+set -e
+if command -v gtk-update-icon-cache >/dev/null 2>&1; then
+    gtk-update-icon-cache -f -t /usr/share/icons/hicolor >/dev/null 2>&1 || true
+fi
+if command -v update-desktop-database >/dev/null 2>&1; then
+    update-desktop-database -q /usr/share/applications >/dev/null 2>&1 || true
+fi
+exit 0
+EOF
+chmod 755 "${package_root}/DEBIAN/postinst"
 
 # Package it
 deb_file="${package_name}_${version}-${commit}_${dpkg_arch}.deb"

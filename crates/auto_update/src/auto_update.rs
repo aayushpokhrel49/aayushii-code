@@ -251,7 +251,7 @@ fn github_asset_name(asset: &str, os: &str, arch: &str) -> Result<String> {
         ("zed", "macos") => Ok(format!("AayushiCode-{arch}.dmg")),
         ("zed", "linux") => Ok(format!("aayushicode-linux-{arch}.tar.gz")),
         ("zed", "windows") => Ok(format!("AayushiCode-{arch}.exe")),
-        ("wu-remote-server", _) => Ok(format!("wu-remote-server-{os}-{arch}.gz")),
+        ("aayushicode-remote-server", _) => Ok(format!("aayushicode-remote-server-{os}-{arch}.gz")),
         _ => anyhow::bail!("no release asset for {asset} on {os}"),
     }
 }
@@ -666,7 +666,7 @@ impl AutoUpdater {
             &this,
             release_channel,
             version,
-            "wu-remote-server",
+            "aayushicode-remote-server",
             os,
             arch,
             cx,
@@ -683,7 +683,7 @@ impl AutoUpdater {
 
         if smol::fs::metadata(&version_path).await.is_err() {
             log::info!(
-                "downloading wu-remote-server {os} {arch} version {}",
+                "downloading aayushicode-remote-server {os} {arch} version {}",
                 release.version
             );
             set_status("Downloading remote server", cx);
@@ -718,7 +718,7 @@ impl AutoUpdater {
         })?;
 
         let release =
-            Self::get_release_asset(&this, channel, version, "wu-remote-server", os, arch, cx)
+            Self::get_release_asset(&this, channel, version, "aayushicode-remote-server", os, arch, cx)
                 .await?;
 
         Ok(Some(release.url))

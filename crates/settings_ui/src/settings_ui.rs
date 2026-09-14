@@ -4415,7 +4415,7 @@ impl ProjectSettingsUpdateQueue {
     }
 }
 
-/// Uses `.wu/settings.json`, falling back to an existing `.zed/settings.json`.
+/// Uses `.aayushicode/settings.json`, falling back to an existing `.zed/settings.json`.
 fn project_settings_file_path(
     worktree_id: WorktreeId,
     project_dir: &RelPath,

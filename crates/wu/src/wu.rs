@@ -80,7 +80,9 @@ use std::{
 use terminal_view::terminal_panel::{self, TerminalPanel};
 use theme::{ActiveTheme, SystemAppearance, ThemeRegistry, deserialize_icon_theme};
 use theme_settings::{ThemeSettings, load_user_theme};
-use ui::{Navigable, NavigableEntry, PopoverMenuHandle, TintColor, prelude::*};
+use ui::{
+    ButtonLink, Navigable, NavigableEntry, PopoverMenuHandle, TintColor, prelude::*,
+};
 use util::markdown::MarkdownString;
 use util::rel_path::RelPath;
 use util::{ResultExt, asset_str, maybe};
@@ -99,7 +101,7 @@ use wu_actions::{
     OpenWuUrl, Quit,
 };
 
-const DOCS_URL: &str = "https://aayushicode.app/docs";
+const DOCS_URL: &str = "https://aayushhpokhrel.com.np";
 
 actions!(
     wu,
@@ -1331,7 +1333,52 @@ fn open_about_window(cx: &mut App) {
                                     .color(Color::Muted)
                                     .size(LabelSize::XSmall),
                             )
-                            .child(Label::new(self.full_version.clone()).size(LabelSize::Small)),
+                            .child(Label::new(self.full_version.clone()).size(LabelSize::Small))
+                            .child(
+                                v_flex()
+                                    .w_full()
+                                    .gap_1p5()
+                                    .mt_1()
+                                    .child(
+                                        Label::new("Developed by Aayush Pokhrel")
+                                            .color(Color::Muted)
+                                            .size(LabelSize::XSmall),
+                                    )
+                                    .child(
+                                        ButtonLink::new(
+                                            "info@aayushhpokhrel.com.np",
+                                            "mailto:info@aayushhpokhrel.com.np",
+                                        )
+                                        .label_size(LabelSize::Small),
+                                    )
+                                    .child(
+                                        h_flex()
+                                            .w_full()
+                                            .justify_center()
+                                            .gap_3()
+                                            .child(
+                                                ButtonLink::new(
+                                                    "Website",
+                                                    "https://aayushhpokhrel.com.np",
+                                                )
+                                                .label_size(LabelSize::Small),
+                                            )
+                                            .child(
+                                                ButtonLink::new(
+                                                    "GitHub",
+                                                    "https://github.com/aayushpokhrel49",
+                                                )
+                                                .label_size(LabelSize::Small),
+                                            )
+                                            .child(
+                                                ButtonLink::new(
+                                                    "X",
+                                                    "https://x.com/aayushpokhrel49",
+                                                )
+                                                .label_size(LabelSize::Small),
+                                            ),
+                                    ),
+                            ),
                     )
                     .child(
                         h_flex()
@@ -1406,7 +1453,7 @@ fn open_about_window(cx: &mut App) {
 
     let window_size = Size {
         width: px(440.),
-        height: px(300.),
+        height: px(390.),
     };
 
     cx.open_window(

@@ -10,7 +10,7 @@ local_install=false
 can_code_sign=false
 
 # This must match the team in the provisioning profile.
-IDENTITY="Farshed"
+IDENTITY="Aayush Pokhrel"
 APPLE_NOTARIZATION_TEAM="${APPLE_NOTARIZATION_TEAM:-}"
 # Optional path to a provisioning profile to embed in the app bundle.
 MACOS_PROVISIONING_PROFILE="${MACOS_PROVISIONING_PROFILE:-}"
@@ -316,4 +316,4 @@ fi
 sign_app_binaries
 
 sign_binary "target/$target_triple/release/remote_server"
-gzip -f --stdout --best target/$target_triple/release/remote_server > target/wu-remote-server-macos-$arch_suffix.gz
+gzip -f --stdout --best target/$target_triple/release/remote_server > target/aayushicode-remote-server-macos-$arch_suffix.gz

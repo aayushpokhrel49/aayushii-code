@@ -2,10 +2,10 @@
 AppId={#AppId}
 AppName={#AppName}
 AppVerName={#AppDisplayName}
-AppPublisher=Farshed
-AppPublisherURL=https://github.com/aayush/aayushicode
-AppSupportURL=https://github.com/aayush/aayushicode/issues
-AppUpdatesURL=https://github.com/aayush/aayushicode/releases
+AppPublisher=Aayush Pokhrel
+AppPublisherURL=https://github.com/aayushpokhrel49/aayushii-code
+AppSupportURL=https://github.com/aayushpokhrel49/aayushii-code/issues
+AppUpdatesURL=https://github.com/aayushpokhrel49/aayushii-code/releases
 DefaultGroupName={#AppName}
 DisableProgramGroupPage=yes
 DisableReadyPage=yes

@@ -1362,7 +1362,7 @@ async fn test_wu_tasks_take_precedence_over_zed_tasks(cx: &mut gpui::TestAppCont
     fs.insert_tree(
         path!("/dir"),
         json!({
-            ".wu": {
+            ".aayushicode": {
                 "tasks.json": wu_tasks,
             },
             ".zed": {
@@ -1401,16 +1401,16 @@ async fn test_wu_tasks_take_precedence_over_zed_tasks(cx: &mut gpui::TestAppCont
             })
             .collect()
     }
-    let wu_only = vec![(".wu".to_string(), "wu task".to_string())];
+    let wu_only = vec![(".aayushicode".to_string(), "wu task".to_string())];
 
     assert_eq!(
         local_tasks(&project, &task_contexts, cx).await,
         wu_only,
-        "With both files present, only .wu tasks should be listed"
+        "With both files present, only .aayushicode tasks should be listed"
     );
 
     fs.remove_file(
-        path!("/dir/.wu/tasks.json").as_ref(),
+        path!("/dir/.aayushicode/tasks.json").as_ref(),
         RemoveOptions::default(),
     )
     .await
@@ -1419,16 +1419,16 @@ async fn test_wu_tasks_take_precedence_over_zed_tasks(cx: &mut gpui::TestAppCont
     assert_eq!(
         local_tasks(&project, &task_contexts, cx).await,
         vec![(".zed".to_string(), "zed task".to_string())],
-        "Removing .wu/tasks.json should fall back to .zed/tasks.json"
+        "Removing .aayushicode/tasks.json should fall back to .zed/tasks.json"
     );
 
-    fs.insert_file(path!("/dir/.wu/tasks.json"), wu_tasks.as_bytes().to_vec())
+    fs.insert_file(path!("/dir/.aayushicode/tasks.json"), wu_tasks.as_bytes().to_vec())
         .await;
     cx.executor().run_until_parked();
     assert_eq!(
         local_tasks(&project, &task_contexts, cx).await,
         wu_only,
-        "Adding .wu/tasks.json back should replace the .zed tasks"
+        "Adding .aayushicode/tasks.json back should replace the .zed tasks"
     );
 
     fs.remove_file(
@@ -1450,7 +1450,7 @@ async fn test_wu_tasks_take_precedence_over_zed_tasks(cx: &mut gpui::TestAppCont
     )
     .await;
     fs.remove_file(
-        path!("/dir/.wu/tasks.json").as_ref(),
+        path!("/dir/.aayushicode/tasks.json").as_ref(),
         RemoveOptions::default(),
     )
     .await
@@ -1465,7 +1465,7 @@ async fn test_wu_tasks_take_precedence_over_zed_tasks(cx: &mut gpui::TestAppCont
     cx.executor().run_until_parked();
     assert!(
         local_tasks(&project, &task_contexts, cx).await.is_empty(),
-        "Removing .zed/tasks.json with no .wu counterpart should clear the tasks"
+        "Removing .zed/tasks.json with no .aayushicode counterpart should clear the tasks"
     );
 
     fs.insert_file(
@@ -1476,7 +1476,7 @@ async fn test_wu_tasks_take_precedence_over_zed_tasks(cx: &mut gpui::TestAppCont
     cx.executor().run_until_parked();
     fs.rename(
         path!("/dir/.zed/tasks.json").as_ref(),
-        path!("/dir/.wu/tasks.json").as_ref(),
+        path!("/dir/.aayushicode/tasks.json").as_ref(),
         fs::RenameOptions::default(),
     )
     .await
@@ -1484,8 +1484,8 @@ async fn test_wu_tasks_take_precedence_over_zed_tasks(cx: &mut gpui::TestAppCont
     cx.executor().run_until_parked();
     assert_eq!(
         local_tasks(&project, &task_contexts, cx).await,
-        vec![(".wu".to_string(), "zed task".to_string())],
-        "Renaming .zed/tasks.json to .wu/tasks.json should drop the .zed tasks"
+        vec![(".aayushicode".to_string(), "zed task".to_string())],
+        "Renaming .zed/tasks.json to .aayushicode/tasks.json should drop the .zed tasks"
     );
 }
 

@@ -1,4 +1,4 @@
-name: build-deb
+name: build-windows
 
 on:
   workflow_dispatch:
@@ -16,39 +16,35 @@ env:
   CARGO_INCREMENTAL: '0'
 
 jobs:
-  build_deb:
-    runs-on: ubuntu-24.04
+  build_exe:
+    runs-on: windows-2022
     timeout-minutes: 300
-    env:
-      CC: clang
-      CXX: clang++
     steps:
       - uses: actions/checkout@v4
-      - name: Install Linux dependencies
-        run: ./script/linux
       - name: Install Rust toolchain
         run: rustup show
       - name: Use the dev release channel
         if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
-        run: echo dev > crates/wu/RELEASE_CHANNEL
+        run: Set-Content -Path crates/wu/RELEASE_CHANNEL -Value dev -NoNewline
+        shell: pwsh
       - name: Use the stable release channel
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-        run: echo stable > crates/wu/RELEASE_CHANNEL
-      - name: Build .deb package
-        run: ./script/bundle-deb
+        run: Set-Content -Path crates/wu/RELEASE_CHANNEL -Value stable -NoNewline
+        shell: pwsh
+      - name: Build .exe installer
+        run: ./script/bundle-windows.ps1 -Architecture x86_64
+        shell: pwsh
       - name: Verify package
         run: |
-          deb_file=$(ls target/release/aayushicode*.deb)
-          echo "Package: $deb_file"
-          dpkg-deb --info "$deb_file"
-          dpkg-deb --contents "$deb_file" | head -40
+          Test-Path target/AayushiCode-x86_64.exe
+        shell: pwsh
       - uses: actions/upload-artifact@v4
         with:
-          name: aayushicode-deb
-          path: target/release/aayushicode*.deb
+          name: aayushicode-exe
+          path: target/AayushiCode-*.exe
           if-no-files-found: error
-      - name: Publish .deb to GitHub release
+      - name: Publish .exe to GitHub release
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         uses: softprops/action-gh-release@v2
         with:
-          files: target/release/aayushicode*.deb
+          files: target/AayushiCode-*.exe

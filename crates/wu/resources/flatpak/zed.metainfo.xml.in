@@ -7,7 +7,8 @@
     <name>$APP_NAME</name>
     <summary>The fast, native code editor that doesn't get in your way</summary>
     <developer id="me.aayush">
-        <name translate="no">Farshed</name>
+        <name translate="no">Aayush Pokhrel</name>
+        <email>info@aayushhpokhrel.com.np</email>
     </developer>
     <description>
         <p>
@@ -31,11 +32,11 @@
 
     <content_rating type="oars-1.1" />
 
-    <url type="homepage">https://aayushicode.app</url>
-    <url type="bugtracker">https://github.com/aayush/aayushicode/issues</url>
-    <url type="help">https://aayushicode.app/docs</url>
-    <url type="contact">https://github.com/aayush/aayushicode/issues</url>
-    <url type="vcs-browser">https://github.com/aayush/aayushicode</url>
+    <url type="homepage">https://aayushhpokhrel.com.np</url>
+    <url type="bugtracker">https://github.com/aayushpokhrel49/aayushii-code/issues</url>
+    <url type="help">https://aayushhpokhrel.com.np</url>
+    <url type="contact">mailto:info@aayushhpokhrel.com.np</url>
+    <url type="vcs-browser">https://github.com/aayushpokhrel49/aayushii-code</url>
 
     <supports>
         <internet>offline-only</internet>
@@ -49,11 +50,11 @@
     <screenshots>
         <screenshot type="default">
             <caption>Aayushi Code with a project open, in the Catppuccin Mocha theme</caption>
-            <image>https://raw.githubusercontent.com/aayush/aayushicode/main/assets/images/screenshot-dark.png</image>
+            <image>https://raw.githubusercontent.com/aayushpokhrel49/aayushii-code/main/assets/images/screenshot-dark.png</image>
         </screenshot>
         <screenshot>
             <caption>Aayushi Code with a project open, in the Catppuccin Latte theme</caption>
-            <image>https://raw.githubusercontent.com/aayush/aayushicode/main/assets/images/screenshot-light.png</image>
+            <image>https://raw.githubusercontent.com/aayushpokhrel49/aayushii-code/main/assets/images/screenshot-light.png</image>
         </screenshot>
     </screenshots>
 

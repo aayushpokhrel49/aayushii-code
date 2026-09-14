@@ -7,7 +7,7 @@ main() {
     platform="$(uname -s)"
     arch="$(uname -m)"
     channel="${ZED_CHANNEL:-stable}"
-    repo="farshed/wu"
+    repo="aayushpokhrel49/aayushii-code"
     ZED_VERSION="${ZED_VERSION:-latest}"
     if [ "$ZED_VERSION" = "latest" ]; then
         download_base="https://github.com/$repo/releases/latest/download"
@@ -98,14 +98,14 @@ linux() {
     appid=""
     case "$channel" in
       stable)
-        appid="me.farshed.Wu"
+        appid="me.aayush.Aayushi-Code"
         ;;
       dev)
-        appid="me.farshed.Wu-Dev"
+        appid="me.aayush.Aayushi-Code-Dev"
         ;;
       *)
         echo "Unknown release channel: ${channel}. Using stable app ID."
-        appid="me.farshed.Wu"
+        appid="me.aayush.Aayushi-Code"
         ;;
     esac
 
