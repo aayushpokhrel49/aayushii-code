@@ -82,7 +82,7 @@ install_dir="${package_root}/opt/aayushicode"
 
 # Binaries. The editor lives under opt; the CLI binary is exposed via a
 # symlink in /usr/bin.
-mkdir -p "${install_dir}/libexec" "${install_dir}/lib" "${package_root}/usr/bin"
+mkdir -p "${install_dir}/bin" "${install_dir}/libexec" "${install_dir}/lib" "${package_root}/usr/bin"
 cp "${target_dir}/release/wu" "${install_dir}/libexec/aayushicode-editor"
 cp "${target_dir}/release/cli" "${install_dir}/bin/cli"
 ln -s "/opt/aayushicode/libexec/aayushicode-editor" "${package_root}/usr/bin/aayushicode"
