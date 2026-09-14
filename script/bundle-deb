@@ -41,8 +41,9 @@ export ZED_BUNDLE=true
 
 target_dir="${CARGO_TARGET_DIR:-target}"
 
-# Generate the licenses file so it can be baked into the package
-script/generate-licenses
+# Generate the licenses file so it can be baked into the package.
+# ALLOW_MISSING_LICENSES lets it succeed even if cargo-about is unavailable.
+ALLOW_MISSING_LICENSES=1 script/generate-licenses || true
 
 version="$(script/get-crate-version wu)"
 export RELEASE_VERSION="${version}"
@@ -118,9 +119,13 @@ mkdir -p "${package_root}/usr/share/applications"
 envsubst < "crates/wu/resources/zed.desktop.in" > "${package_root}/usr/share/applications/${APP_ID}.desktop"
 chmod +x "${package_root}/usr/share/applications/${APP_ID}.desktop"
 
-# Generated licenses (`assets/licenses.md`) are created by generate-licenses
-mkdir -p "${package_root}/usr/share/doc/${package_name}"
-cp "assets/licenses.md" "${package_root}/usr/share/doc/${package_name}/copyright"
+# Generated licenses (`assets/licenses.md`) are created by generate-licenses.
+# When that fails (e.g. cargo-about isn't installed), the package just omits
+# the copyright file instead of failing the whole build.
+if [ -f "assets/licenses.md" ]; then
+  mkdir -p "${package_root}/usr/share/doc/${package_name}"
+  cp "assets/licenses.md" "${package_root}/usr/share/doc/${package_name}/copyright"
+fi
 
 # DEBIAN control file
 arch=$(uname -m)
