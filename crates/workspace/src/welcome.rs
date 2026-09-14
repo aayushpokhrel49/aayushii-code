@@ -29,7 +29,7 @@ pub struct OpenRecentProject {
 actions!(
     wu,
     [
-        /// Show the Wu welcome screen
+        /// Show the Aayushi Code welcome screen
         ShowWelcome
     ]
 );
@@ -394,9 +394,9 @@ impl Render for WelcomePage {
         };
 
         let welcome_label = if self.fallback_to_recent_projects {
-            "Welcome back to Wu"
+            "Welcome back to Aayushi Code"
         } else {
-            "Welcome to Wu"
+            "Welcome to Aayushi Code"
         };
 
         h_flex()
@@ -424,7 +424,7 @@ impl Render for WelcomePage {
                             .mb_4()
                             .gap_4()
                             .child(
-                                img("images/wu_icon.png")
+                                img("images/aayushicode_icon.png")
                                     .size(rems_from_px(45_f32))
                                     .flex_none(),
                             )

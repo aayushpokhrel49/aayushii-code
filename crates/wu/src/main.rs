@@ -73,7 +73,7 @@ fn build_application() -> Application {
 }
 
 fn files_not_created_on_launch(errors: HashMap<io::ErrorKind, Vec<&Path>>) {
-    let message = "Wu failed to launch";
+    let message = "Aayushi Code failed to launch";
     let error_details = errors
         .into_iter()
         .flat_map(|(kind, paths)| {
@@ -135,7 +135,7 @@ fn fail_to_open_window_async(e: anyhow::Error, cx: &mut AsyncApp) {
 
 fn fail_to_open_window(e: anyhow::Error, _cx: &mut App) {
     eprintln!(
-        "Wu failed to open a window: {e:?}. See https://zed.dev/docs/linux for troubleshooting steps."
+        "Aayushi Code failed to open a window: {e:?}. See https://zed.dev/docs/linux for troubleshooting steps."
     );
     #[cfg(not(any(target_os = "linux", target_os = "freebsd")))]
     {
@@ -151,11 +151,11 @@ fn fail_to_open_window(e: anyhow::Error, _cx: &mut App) {
                 process::exit(1);
             };
 
-            let notification_id = "me.farshed.Oops";
+            let notification_id = "me.aayush.Oops";
             proxy
                 .add_notification(
                     notification_id,
-                    Notification::new("Wu failed to launch")
+                    Notification::new("Aayushi Code failed to launch")
                         .body(Some(
                             format!(
                                 "{e:?}. See https://zed.dev/docs/linux for troubleshooting steps."
@@ -320,7 +320,7 @@ fn main() {
             client::os_info::os_name(),
             client::os_info::os_version(),
         );
-        println!("Wu System Specs (from CLI):\n{}", system_specs);
+        println!("Aayushi Code System Specs (from CLI):\n{}", system_specs);
         return;
     }
 
@@ -332,7 +332,7 @@ fn main() {
         .unwrap();
 
     log::info!(
-        "========== starting wu version {}, sha {} ==========",
+        "========== starting aayushicode version {}, sha {} ==========",
         app_version,
         app_commit_sha
             .as_ref()
@@ -373,11 +373,11 @@ fn main() {
         }
     };
     if failed_single_instance_check {
-        println!("wu is already running");
+        println!("aayushicode is already running");
         #[cfg(any(target_os = "linux", target_os = "freebsd"))]
         if !args.paths_or_urls.is_empty() || !args.diff.is_empty() {
             println!(
-                "Could not open {:?} {:?}, use the `wu` CLI to open paths in the running instance",
+                "Could not open {:?} {:?}, use the `aayushicode` CLI to open paths in the running instance",
                 args.paths_or_urls, args.diff
             );
         }
@@ -473,7 +473,7 @@ fn main() {
         handle_keymap_file_changes(user_keymap_file_rx, user_keymap_watcher, cx);
 
         let user_agent = format!(
-            "Wu/{} ({}; {})",
+            "Aayushi Code/{} ({}; {})",
             AppVersion::global(cx),
             std::env::consts::OS,
             std::env::consts::ARCH
@@ -1394,14 +1394,14 @@ fn stdout_is_a_pty() -> bool {
 }
 
 #[derive(Parser, Debug)]
-#[command(name = "wu", disable_version_flag = true, max_term_width = 100)]
+#[command(name = "aayushicode", disable_version_flag = true, max_term_width = 100)]
 struct Args {
     /// A sequence of space-separated paths or urls that you want to open.
     ///
     /// Use `path:line:row` syntax to open a file at a specific location.
     /// Non-existing paths and directories will ignore `:line:row` suffix.
     ///
-    /// URLs can either be `file://` or `wu://` scheme, or relative to <https://zed.dev>.
+    /// URLs can either be `file://` or `aayushicode://` scheme, or relative to <https://zed.dev>.
     paths_or_urls: Vec<String>,
 
     /// Pairs of file paths to diff. Can be specified multiple times.
@@ -1412,14 +1412,14 @@ struct Args {
     /// Sets a custom directory for all user data (e.g., database, extensions, logs).
     ///
     /// This overrides the default platform-specific data directory location.
-    /// On macOS, the default is `~/Library/Application Support/Wu`.
-    /// On Linux/FreeBSD, the default is `$XDG_DATA_HOME/wu`.
-    /// On Windows, the default is `%LOCALAPPDATA%\Wu`.
+    /// On macOS, the default is `~/Library/Application Support/Aayushi Code`.
+    /// On Linux/FreeBSD, the default is `$XDG_DATA_HOME/aayushicode`.
+    /// On Windows, the default is `%LOCALAPPDATA%\Aayushi Code`.
     #[arg(long, value_name = "DIR", verbatim_doc_comment)]
     user_data_dir: Option<String>,
 
     /// The username and WSL distribution to use when opening paths. If not specified,
-    /// Wu will attempt to open the paths directly.
+    /// Aayushi Code will attempt to open the paths directly.
     ///
     /// The username is optional, and if not specified, the default user for the distribution
     /// will be used.
@@ -1431,19 +1431,19 @@ struct Args {
     #[arg(long, value_name = "USER@DISTRO")]
     wsl: Option<String>,
 
-    /// Instructs wu to run as a dev server on this machine. (not implemented)
+    /// Instructs aayushicode to run as a dev server on this machine. (not implemented)
     #[arg(long)]
     dev_server_token: Option<String>,
 
     /// Prints system specs.
     ///
     /// Useful for submitting issues on GitHub when encountering a bug that
-    /// prevents Wu from starting, so you can't run `wu: copy system specs to
+    /// prevents Aayushi Code from starting, so you can't run `aayushi: copy system specs to
     /// clipboard`
     #[arg(long)]
     system_specs: bool,
 
-    /// Run wu in the foreground, only used on Windows, to match the behavior on macOS.
+    /// Run aayushicode in the foreground, only used on Windows, to match the behavior on macOS.
     #[arg(long)]
     #[cfg(target_os = "windows")]
     #[arg(hide = true)]
@@ -1456,7 +1456,7 @@ struct Args {
     dock_action: Option<usize>,
 
     /// Used for SSH/Git password authentication, to remove the need for netcat as a dependency,
-    /// by having Wu act like netcat communicating over a Unix socket.
+    /// by having Aayushi Code act like netcat communicating over a Unix socket.
     #[arg(long)]
     #[cfg(not(target_os = "windows"))]
     #[arg(hide = true)]
@@ -1474,12 +1474,12 @@ struct Args {
     #[arg(long, hide = true)]
     record_etw_trace: bool,
 
-    /// The PID of the Wu process to trace for heap analysis.
+    /// The PID of the Aayushi Code process to trace for heap analysis.
     #[cfg(target_os = "windows")]
     #[arg(long, hide = true)]
     etw_zed_pid: Option<u32>,
 
-    /// Unix socket path for IPC with the parent Wu process.
+    /// Unix socket path for IPC with the parent Aayushi Code process.
     #[cfg(target_os = "windows")]
     #[arg(long, hide = true)]
     etw_socket: Option<PathBuf>,
@@ -1522,8 +1522,8 @@ fn parse_url_arg(arg: &str) -> String {
         Ok(path) => format!("file://{}", path.display()),
         Err(_) => {
             if arg.starts_with("file://")
-                || arg.starts_with("wu://")
-                || arg.starts_with("wu-cli://")
+                || arg.starts_with("aayushicode://")
+                || arg.starts_with("aayushicode-cli://")
                 || arg.starts_with("ssh://")
             {
                 arg.into()

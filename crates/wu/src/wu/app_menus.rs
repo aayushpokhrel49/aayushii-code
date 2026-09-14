@@ -57,10 +57,10 @@ pub fn app_menus(cx: &mut App) -> Vec<Menu> {
 
     vec![
         Menu {
-            name: "Wu".into(),
+            name: "Aayushi Code".into(),
             disabled: false,
             items: vec![
-                MenuItem::action("About Wu", wu_actions::About),
+                MenuItem::action("About Aayushi Code", wu_actions::About),
                 MenuItem::action("Check for Updates", auto_update::Check),
                 MenuItem::separator(),
                 MenuItem::submenu(Menu::new("Settings").items([
@@ -92,13 +92,13 @@ pub fn app_menus(cx: &mut App) -> Vec<Menu> {
                 MenuItem::action("Install CLI", install_cli::InstallCliBinary),
                 MenuItem::separator(),
                 #[cfg(target_os = "macos")]
-                MenuItem::action("Hide Wu", super::Hide),
+                MenuItem::action("Hide Aayushi Code", super::Hide),
                 #[cfg(target_os = "macos")]
                 MenuItem::action("Hide Others", super::HideOthers),
                 #[cfg(target_os = "macos")]
                 MenuItem::action("Show All", super::ShowAll),
                 MenuItem::separator(),
-                MenuItem::action("Quit Wu", Quit),
+                MenuItem::action("Quit Aayushi Code", Quit),
             ],
         },
         Menu {
@@ -303,13 +303,13 @@ pub fn app_menus(cx: &mut App) -> Vec<Menu> {
                 MenuItem::action(
                     "Documentation",
                     super::OpenBrowser {
-                        url: "https://wu.farshed.me/docs".into(),
+                        url: "https://aayushicode.app/docs".into(),
                     },
                 ),
                 MenuItem::action(
-                    "Wu Repository",
+                    "Aayushi Code Repository",
                     super::OpenBrowser {
-                        url: "https://github.com/farshed/wu".into(),
+                        url: "https://github.com/aayush/aayushicode".into(),
                     },
                 ),
             ],

@@ -1,4 +1,4 @@
-//! Paths to locations used by Wu.
+//! Paths to locations used by Aayushi Code.
 
 use anyhow::Context as _;
 use std::env;
@@ -16,7 +16,7 @@ pub const EDITORCONFIG_NAME: &str = ".editorconfig";
 /// and state directory paths.
 ///
 /// Forks should change this to avoid colliding with Zed's user data.
-pub const APP_NAME: &str = "Wu";
+pub const APP_NAME: &str = "Aayushi Code";
 
 /// Lowercased form of [`APP_NAME`], for use in XDG-style paths on
 /// Linux/FreeBSD and the macOS `~/.config` fallback.

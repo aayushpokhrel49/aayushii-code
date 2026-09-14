@@ -689,8 +689,8 @@ impl ProtoClient for Client {
     }
 }
 
-/// prefix for the wu:// url scheme
-pub const ZED_URL_SCHEME: &str = "wu";
+/// prefix for the aayushicode:// url scheme
+pub const ZED_URL_SCHEME: &str = "aayushicode";
 
 #[cfg(test)]
 mod tests {

@@ -108,7 +108,7 @@ fn general_page(cx: &App) -> SettingsPage {
             SettingsPageItem::SectionHeader("General Settings"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "Accessible Mode",
-                description: "Optimize Wu's interface for assistive technology such as screen readers. When enabled, otherwise-collapsed controls stay expanded and keyboard-reachable.",
+                description: "Optimize Aayushi Code's interface for assistive technology such as screen readers. When enabled, otherwise-collapsed controls stay expanded and keyboard-reachable.",
                 field: Box::new(SettingField {
                     json_path: Some("accessible_mode"),
                     pick: |settings_content| settings_content.workspace.accessible_mode.as_ref(),
@@ -270,7 +270,7 @@ fn general_page(cx: &App) -> SettingsPage {
             SettingsPageItem::SectionHeader("Security"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "Trust All Projects By Default",
-                description: "When opening Wu, avoid Restricted Mode by auto-trusting all projects, enabling use of all features without having to give permission to each new project.",
+                description: "When opening Aayushi Code, avoid Restricted Mode by auto-trusting all projects, enabling use of all features without having to give permission to each new project.",
                 field: Box::new(SettingField {
                     json_path: Some("session.trust_all_projects"),
                     pick: |settings_content| {
@@ -318,7 +318,7 @@ fn general_page(cx: &App) -> SettingsPage {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "Restore On Startup",
-                description: "What to restore from the previous session when opening Wu.",
+                description: "What to restore from the previous session when opening Aayushi Code.",
                 field: Box::new(SettingField {
                     json_path: Some("restore_on_startup"),
                     pick: |settings_content| settings_content.workspace.restore_on_startup.as_ref(),
@@ -567,7 +567,7 @@ fn appearance_page() -> SettingsPage {
                 discriminant: SettingItem {
                     files: USER,
                     title: "Icon Theme",
-                    description: "The custom set of icons Wu will associate with files and directories.",
+                    description: "The custom set of icons Aayushi Code will associate with files and directories.",
                     field: Box::new(SettingField {
                             json_path: Some("icon_theme$"),
                         pick: |settings_content| {
@@ -3129,7 +3129,7 @@ fn search_and_files_page() -> SettingsPage {
             SettingsPageItem::SectionHeader("File Scan"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "File Scan Exclusions",
-                description: "Files or globs of files that will be excluded by Wu entirely. They will be skipped during file scans, file searches, and not be displayed in the project file tree. Takes precedence over \"File Scan Inclusions\"",
+                description: "Files or globs of files that will be excluded by Aayushi Code entirely. They will be skipped during file scans, file searches, and not be displayed in the project file tree. Takes precedence over \"File Scan Inclusions\"",
                 field: Box::new(
                     SettingField {
                         json_path: Some("file_scan_exclusions"),
@@ -3151,7 +3151,7 @@ fn search_and_files_page() -> SettingsPage {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "File Scan Inclusions",
-                description: "Files or globs of files that will be included by Wu, even when ignored by git. This is useful for files that are not tracked by git, but are still important to your project. Note that globs that are overly broad can slow down Wu's file scanning. \"File Scan Exclusions\" takes precedence over these inclusions",
+                description: "Files or globs of files that will be included by Aayushi Code, even when ignored by git. This is useful for files that are not tracked by git, but are still important to your project. Note that globs that are overly broad can slow down Aayushi Code's file scanning. \"File Scan Exclusions\" takes precedence over these inclusions",
                 field: Box::new(
                     SettingField {
                         json_path: Some("file_scan_inclusions"),
@@ -4190,7 +4190,7 @@ fn window_and_layout_page() -> SettingsPage {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "Window Decorations",
-                description: "(Linux only) whether Wu or your compositor should draw window decorations.",
+                description: "(Linux only) whether Aayushi Code or your compositor should draw window decorations.",
                 field: Box::new(SettingField {
                     json_path: Some("window_decorations"),
                     pick: |settings_content| settings_content.workspace.window_decorations.as_ref(),
@@ -5703,7 +5703,7 @@ fn debugger_page() -> SettingsPage {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "Save Breakpoints",
-                description: "Whether breakpoints should be reused across Wu sessions.",
+                description: "Whether breakpoints should be reused across Aayushi Code sessions.",
                 field: Box::new(SettingField {
                     json_path: Some("debugger.save_breakpoints"),
                     pick: |settings_content| {
@@ -5738,7 +5738,7 @@ fn debugger_page() -> SettingsPage {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "Log DAP Communications",
-                description: "Whether to log messages between active debug adapters and Wu.",
+                description: "Whether to log messages between active debug adapters and Aayushi Code.",
                 field: Box::new(SettingField {
                     json_path: Some("debugger.log_dap_communications"),
                     pick: |settings_content| {
@@ -6646,7 +6646,7 @@ fn version_control_page() -> SettingsPage {
                 discriminant: SettingItem {
                     files: USER,
                     title: "Disable Git Integration",
-                    description: "Disable all Git integration features in Wu.",
+                    description: "Disable all Git integration features in Aayushi Code.",
                     field: Box::new(SettingField::<bool> {
                         json_path: Some("git.disable_git"),
                         pick: |settings_content| {
@@ -7152,7 +7152,7 @@ fn network_page() -> SettingsPage {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "Server URL",
-                description: "The URL of the Wu server to connect to.",
+                description: "The URL of the Aayushi Code server to connect to.",
                 field: Box::new(SettingField {
                     json_path: Some("server_url"),
                     pick: |settings_content| settings_content.server_url.as_ref(),
@@ -7690,7 +7690,7 @@ fn language_settings_data() -> Box<[SettingsPageItem]> {
             SettingsPageItem::SectionHeader("Autoclose"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "Use Autoclose",
-                description: "Whether to automatically type closing characters for you. For example, when you type '(', Wu will automatically add a closing ')' at the correct position.",
+                description: "Whether to automatically type closing characters for you. For example, when you type '(', Aayushi Code will automatically add a closing ')' at the correct position.",
                 field: Box::new(SettingField {
                     json_path: Some("languages.$(language).use_autoclose"),
                     pick: |settings_content| {
@@ -7709,7 +7709,7 @@ fn language_settings_data() -> Box<[SettingsPageItem]> {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "Use Auto Surround",
-                description: "Whether to automatically surround text with characters for you. For example, when you select text and type '(', Wu will automatically surround text with ().",
+                description: "Whether to automatically surround text with characters for you. For example, when you select text and type '(', Aayushi Code will automatically surround text with ().",
                 field: Box::new(SettingField {
                     json_path: Some("languages.$(language).use_auto_surround"),
                     pick: |settings_content| {
@@ -8233,7 +8233,7 @@ fn language_settings_data() -> Box<[SettingsPageItem]> {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "Prefer LSP",
-                description: "Use LSP tasks over Wu language extension tasks.",
+                description: "Use LSP tasks over Aayushi Code language extension tasks.",
                 field: Box::new(SettingField {
                     json_path: Some("languages.$(language).tasks.prefer_lsp"),
                     pick: |settings_content| {

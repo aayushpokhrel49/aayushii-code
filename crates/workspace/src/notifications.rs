@@ -1299,7 +1299,7 @@ pub mod simple_message_notification {
                     "Linux desktop portal initialization failed.".into()
                 }
                 fn secondary_message(&self) -> Option<SharedString> {
-                    Some("Wu needs an xdg-desktop-portal implementation to open files.".into())
+                    Some("Aayushi Code needs an xdg-desktop-portal implementation to open files.".into())
                 }
                 fn severity(&self) -> ErrorSeverity {
                     ErrorSeverity::Critical
@@ -1317,13 +1317,13 @@ pub mod simple_message_notification {
             struct UpdateRequiredError;
             impl WorkspaceError for UpdateRequiredError {
                 fn primary_message(&self) -> SharedString {
-                    "An update is required to continue using Wu AI.".into()
+                    "An update is required to continue using Aayushi Code AI.".into()
                 }
                 fn severity(&self) -> ErrorSeverity {
                     ErrorSeverity::Critical
                 }
                 fn primary_action(&self) -> ErrorAction {
-                    ErrorAction::link("Update Wu", "https://zed.dev/releases")
+                    ErrorAction::link("Update Aayushi Code", "https://zed.dev/releases")
                 }
                 fn secondary_action(&self) -> Option<ErrorAction> {
                     Some(ErrorAction::dismiss())

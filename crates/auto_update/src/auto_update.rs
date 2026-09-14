@@ -230,7 +230,7 @@ pub struct ReleaseAsset {
     pub digest: Option<String>,
 }
 
-const GITHUB_RELEASES_API_URL: &str = "https://api.github.com/repos/farshed/wu/releases";
+const GITHUB_RELEASES_API_URL: &str = "https://api.github.com/repos/aayush/aayushicode/releases";
 
 #[derive(Deserialize)]
 struct GitHubRelease {
@@ -248,9 +248,9 @@ struct GitHubReleaseAsset {
 
 fn github_asset_name(asset: &str, os: &str, arch: &str) -> Result<String> {
     match (asset, os) {
-        ("zed", "macos") => Ok(format!("Wu-{arch}.dmg")),
-        ("zed", "linux") => Ok(format!("wu-linux-{arch}.tar.gz")),
-        ("zed", "windows") => Ok(format!("Wu-{arch}.exe")),
+        ("zed", "macos") => Ok(format!("AayushiCode-{arch}.dmg")),
+        ("zed", "linux") => Ok(format!("aayushicode-linux-{arch}.tar.gz")),
+        ("zed", "windows") => Ok(format!("AayushiCode-{arch}.exe")),
         ("wu-remote-server", _) => Ok(format!("wu-remote-server-{os}-{arch}.gz")),
         _ => anyhow::bail!("no release asset for {asset} on {os}"),
     }
@@ -375,7 +375,7 @@ pub fn check(_: &Check, window: &mut Window, cx: &mut App) {
     {
         drop(window.prompt(
             gpui::PromptLevel::Info,
-            "Wu was installed via a package manager.",
+            "Aayushi Code was installed via a package manager.",
             Some(&message),
             &["OK"],
             cx,
@@ -412,9 +412,9 @@ pub fn release_notes_url(cx: &mut App) -> Option<String> {
             let mut current_version = auto_updater.current_version.clone();
             current_version.pre = semver::Prerelease::EMPTY;
             current_version.build = semver::BuildMetadata::EMPTY;
-            format!("https://github.com/farshed/wu/releases/tag/v{current_version}")
+            format!("https://github.com/aayush/aayushicodecode/releases/tag/v{current_version}")
         }
-        ReleaseChannel::Dev => "https://github.com/farshed/wu/commits/main/".to_string(),
+        ReleaseChannel::Dev => "https://github.com/aayush/aayushicodecode/commits/main/".to_string(),
     };
     Some(url)
 }
@@ -954,9 +954,9 @@ impl AutoUpdater {
 
     async fn target_path(installer_dir: &InstallerDir) -> Result<PathBuf> {
         let filename = match OS {
-            "macos" => anyhow::Ok("Wu.dmg"),
-            "linux" => Ok("wu.tar.gz"),
-            "windows" => Ok("Wu.exe"),
+            "macos" => anyhow::Ok("AayushiCode.dmg"),
+            "linux" => Ok("aayushicode.tar.gz"),
+            "windows" => Ok("AayushiCode.exe"),
             unsupported_os => anyhow::bail!("not supported: {unsupported_os}"),
         }?;
 

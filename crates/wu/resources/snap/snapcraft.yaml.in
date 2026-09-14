@@ -1,24 +1,24 @@
-name: wu
-title: Wu
+name: aayushicode
+title: Aayushi Code
 base: core24
 version: "$RELEASE_VERSION"
 summary: The editor that doesn't get in your way
 description: |
-  Wu is a fast, native code editor built in Rust with a GPU-accelerated
+  Aayushi Code is a fast, native code editor built in Rust with a GPU-accelerated
   renderer. It pairs the speed of a native app with the familiarity of
   VS Code and stays out of your way.
 grade: stable
 confinement: classic
 compression: lzo
-website: https://wu.farshed.me/
-source-code: https://github.com/farshed/wu
-issues: https://github.com/farshed/wu/issues
-contact: https://github.com/farshed/wu/issues
+website: https://aayushicode.app/
+source-code: https://github.com/aayush/aayushicode
+issues: https://github.com/aayush/aayushicode/issues
+contact: https://github.com/aayush/aayushicode/issues
 
 parts:
   wu:
     plugin: dump
-    source: "https://github.com/farshed/wu/releases/download/v$RELEASE_VERSION/wu-linux-x86_64.tar.gz"
+    source: "https://github.com/aayush/aayushicode/releases/download/v$RELEASE_VERSION/aayushi-linux-x86_64.tar.gz"
 
     organize:
       # These renames seem to not be necessary, but it's tidier.
@@ -27,10 +27,10 @@ parts:
 
     stage-packages:
       - libasound2t64
-      # snapcraft has a lint that this is unused, but without it Wu exits with
+      # snapcraft has a lint that this is unused, but without it Aayushi Code exits with
       # "Missing Vulkan entry points: LibraryLoadFailure" in wgpu.
       - libvulkan1
-      # snapcraft has a lint that this is unused, but without it Wu exits with
+      # snapcraft has a lint that this is unused, but without it Aayushi Code exits with
       # "NoWaylandLib" when run with Wayland.
       - libwayland-client0
       - libxcb1
@@ -53,8 +53,8 @@ parts:
       - -usr/share/man
 
 apps:
-  wu:
-    command: usr/bin/wu
-    common-id: me.farshed.Wu
+  aayushicode:
+    command: usr/bin/aayushicode
+    common-id: me.aayush.Aayushi-Code
     environment:
       ZED_BUNDLE_TYPE: snap

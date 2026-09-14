@@ -1,4 +1,4 @@
-use super::register_wu_scheme;
+use super::register_aayushicode_scheme;
 use anyhow::Result;
 use gpui::{AppContext as _, AsyncApp, Context, PromptLevel, Window, actions};
 use release_channel::ReleaseChannel;
@@ -12,7 +12,7 @@ use workspace::{Toast, Workspace};
 actions!(
     cli,
     [
-        /// Installs the Wu CLI tool to the system PATH.
+        /// Installs the Aayushi Code CLI tool to the system PATH.
         InstallCliBinary,
     ]
 );
@@ -25,7 +25,7 @@ const CANT_INSTALL_DOCS_URL: &str = "https://zed.dev/docs/macos#cant-install-cli
 /// commonly because the user is not an admin.
 async fn install_script(cx: &AsyncApp) -> Result<Option<PathBuf>> {
     let cli_path = cx.update(|cx| cx.path_for_auxiliary_executable("cli"))?;
-    let link_path = Path::new("/usr/local/bin/wu");
+    let link_path = Path::new("/usr/local/bin/aayushicode");
     let bin_dir_path = link_path.parent().unwrap();
 
     // Don't re-create symlink if it points to the same CLI binary.
@@ -80,7 +80,7 @@ async fn install_script(cx: &AsyncApp) -> Result<Option<PathBuf>> {
 }
 
 pub fn install_cli_binary(window: &mut Window, cx: &mut Context<Workspace>) {
-    const LINUX_PROMPT_DETAIL: &str = "If you installed Wu from our official release add ~/.local/bin to your PATH.\n\nIf you installed Wu from a different source like your package manager, then you may need to create an alias/symlink manually.\n\nDepending on your package manager, the CLI might be named zeditor, zedit, zed-editor or something else.";
+    const LINUX_PROMPT_DETAIL: &str = "If you installed Aayushi Code from our official release add ~/.local/bin to your PATH.\n\nIf you installed Aayushi Code from a different source like your package manager, then you may need to create an alias/symlink manually.\n\nDepending on your package manager, the CLI might be named zeditor, zedit, zed-editor or something else.";
 
     cx.spawn_in(window, async move |workspace, cx| {
         if cfg!(any(target_os = "linux", target_os = "freebsd")) {
@@ -98,7 +98,7 @@ pub fn install_cli_binary(window: &mut Window, cx: &mut Context<Workspace>) {
             // The user dismissed the administrator prompt; nothing to do.
             Ok(None) => return Ok(()),
             Err(error) => {
-                log::error!("failed to install wu CLI: {error:#}");
+                log::error!("failed to install aayushicode CLI: {error:#}");
                 workspace.update(cx, |workspace, cx| {
                     struct CliInstallFailed;
 
@@ -108,10 +108,10 @@ pub fn install_cli_binary(window: &mut Window, cx: &mut Context<Workspace>) {
                         |cx| {
                             cx.new(|cx| {
                                 MessageNotification::new(
-                                    "You can add `wu` to your PATH manually.",
+                                    "You can add `aayushicode` to your PATH manually.",
                                     cx,
                                 )
-                                .with_title("Couldn't install the Wu CLI")
+                                .with_title("Couldn't install the Aayushi Code CLI")
                                 .more_info_message("Show me how")
                                 .more_info_url(CANT_INSTALL_DOCS_URL)
                             })
@@ -129,7 +129,7 @@ pub fn install_cli_binary(window: &mut Window, cx: &mut Context<Workspace>) {
                 Toast::new(
                     NotificationId::unique::<InstalledZedCli>(),
                     format!(
-                        "Installed `wu` to {}. You can launch {} from your terminal.",
+                        "Installed `aayushicode` to {}. You can launch {} from your terminal.",
                         path.to_string_lossy(),
                         ReleaseChannel::global(cx).display_name()
                     ),
@@ -137,8 +137,8 @@ pub fn install_cli_binary(window: &mut Window, cx: &mut Context<Workspace>) {
                 cx,
             )
         })?;
-        register_wu_scheme(cx).await.log_err();
+        register_aayushicode_scheme(cx).await.log_err();
         Ok(())
     })
-    .detach_and_prompt_err("Cannot install the Wu CLI", window, cx, |_, _, _| None);
+    .detach_and_prompt_err("Cannot install the Aayushi Code CLI", window, cx, |_, _, _| None);
 }

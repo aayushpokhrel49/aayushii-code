@@ -103,7 +103,7 @@ fn run_example() {
         if !example_support::load_fonts(cx) {
             return;
         }
-        cx.set_app_identity("me.farshed.gpui.system-notifications", "GPUI Notifications");
+        cx.set_app_identity("me.aayush.gpui.system-notifications", "GPUI Notifications");
 
         let view = cx.new(|_| SystemNotificationExample {
             revision: 0,

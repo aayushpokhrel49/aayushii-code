@@ -1011,60 +1011,60 @@ impl ExtensionsPage {
         for feature in &self.upsells {
             let banner = match feature {
                 Feature::ExtensionBasedpyright => self.render_feature_upsell_banner(
-                    "Basedpyright (Python language server) support is built-in to Wu!".into(),
+                    "Basedpyright (Python language server) support is built-in to Aayushi Code!".into(),
                     "https://zed.dev/docs/languages/python#basedpyright".into(),
                 ),
                 Feature::ExtensionRuff => self.render_feature_upsell_banner(
-                    "Ruff (linter for Python) support is built-in to Wu!".into(),
+                    "Ruff (linter for Python) support is built-in to Aayushi Code!".into(),
                     "https://zed.dev/docs/languages/python#code-formatting--linting".into(),
                 ),
                 Feature::ExtensionTailwind => self.render_feature_upsell_banner(
-                    "Tailwind CSS support is built-in to Wu!".into(),
+                    "Tailwind CSS support is built-in to Aayushi Code!".into(),
                     "https://zed.dev/docs/languages/tailwindcss".into(),
                 ),
                 Feature::ExtensionTy => self.render_feature_upsell_banner(
-                    "Ty (Python language server) support is built-in to Wu!".into(),
+                    "Ty (Python language server) support is built-in to Aayushi Code!".into(),
                     "https://zed.dev/docs/languages/python".into(),
                 ),
                 Feature::Git => self.render_feature_upsell_banner(
-                    "Wu comes with basic Git support—more features are coming in the future."
+                    "Aayushi Code comes with basic Git support—more features are coming in the future."
                         .into(),
                     "https://zed.dev/docs/git".into(),
                 ),
                 Feature::LanguageBash => self.render_feature_upsell_banner(
-                    "Shell support is built-in to Wu!".into(),
+                    "Shell support is built-in to Aayushi Code!".into(),
                     "https://zed.dev/docs/languages/bash".into(),
                 ),
                 Feature::LanguageC => self.render_feature_upsell_banner(
-                    "C support is built-in to Wu!".into(),
+                    "C support is built-in to Aayushi Code!".into(),
                     "https://zed.dev/docs/languages/c".into(),
                 ),
                 Feature::LanguageCpp => self.render_feature_upsell_banner(
-                    "C++ support is built-in to Wu!".into(),
+                    "C++ support is built-in to Aayushi Code!".into(),
                     "https://zed.dev/docs/languages/cpp".into(),
                 ),
                 Feature::LanguageGo => self.render_feature_upsell_banner(
-                    "Go support is built-in to Wu!".into(),
+                    "Go support is built-in to Aayushi Code!".into(),
                     "https://zed.dev/docs/languages/go".into(),
                 ),
                 Feature::LanguagePython => self.render_feature_upsell_banner(
-                    "Python support is built-in to Wu!".into(),
+                    "Python support is built-in to Aayushi Code!".into(),
                     "https://zed.dev/docs/languages/python".into(),
                 ),
                 Feature::LanguageReact => self.render_feature_upsell_banner(
-                    "React support is built-in to Wu!".into(),
+                    "React support is built-in to Aayushi Code!".into(),
                     "https://zed.dev/docs/languages/typescript".into(),
                 ),
                 Feature::LanguageRust => self.render_feature_upsell_banner(
-                    "Rust support is built-in to Wu!".into(),
+                    "Rust support is built-in to Aayushi Code!".into(),
                     "https://zed.dev/docs/languages/rust".into(),
                 ),
                 Feature::LanguageTypescript => self.render_feature_upsell_banner(
-                    "Typescript support is built-in to Wu!".into(),
+                    "Typescript support is built-in to Aayushi Code!".into(),
                     "https://zed.dev/docs/languages/typescript".into(),
                 ),
                 Feature::OpenIn => self.render_feature_upsell_banner(
-                    "Wu supports linking to a source line on GitHub and others.".into(),
+                    "Aayushi Code supports linking to a source line on GitHub and others.".into(),
                     "https://zed.dev/docs/git#git-integrations".into(),
                 ),
             };

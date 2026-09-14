@@ -31,7 +31,7 @@ use walkdir::WalkDir;
 
 use std::io::IsTerminal;
 
-const URL_PREFIX: [&'static str; 5] = ["wu://", "http://", "https://", "file://", "ssh://"];
+const URL_PREFIX: [&'static str; 5] = ["aayushicode://", "http://", "https://", "file://", "ssh://"];
 
 struct Detect;
 
@@ -48,21 +48,21 @@ trait InstalledApp {
 
 #[derive(Parser, Debug)]
 #[command(
-    name = "wu",
+    name = "aayushicode",
     disable_version_flag = true,
-    before_help = "The Wu CLI binary.
-This CLI is a separate binary that invokes Wu.
+    before_help = "The Aayushi Code CLI binary.
+This CLI is a separate binary that invokes Aayushi Code.
 
 Examples:
-    `wu`
-          Simply opens Wu
-    `wu --foreground`
+    `aayushicode`
+          Simply opens Aayushi Code
+    `aayushicode --foreground`
           Runs in foreground (shows all logs)
-    `wu path-to-your-project`
-          Open your project in Wu
-    `wu -n path-to-file `
+    `aayushicode path-to-your-project`
+          Open your project in Aayushi Code
+    `aayushicode -n path-to-file `
           Open file/folder in a new window",
-    after_help = "To read from stdin, append '-', e.g. 'ps axf | wu -'"
+    after_help = "To read from stdin, append '-', e.g. 'ps axf | aayushicode -'"
 )]
 struct Args {
     /// Wait for all of the given paths to be opened/closed before exiting.
@@ -79,7 +79,7 @@ struct Args {
     /// Reuse an existing window, replacing its workspace
     #[arg(short, long, overrides_with_all = ["add", "new", "existing", "classic"], hide = true)]
     reuse: bool,
-    /// Open in existing Wu window
+    /// Open in existing Aayushi Code window
     #[arg(short = 'e', long = "existing", overrides_with_all = ["add", "new", "reuse", "classic"])]
     existing: bool,
     /// Use the classic open behavior: new window for directories, reuse for files
@@ -87,33 +87,33 @@ struct Args {
     classic: bool,
     /// Sets a custom directory for all user data (e.g., database, extensions, logs).
     /// This overrides the default platform-specific data directory location:
-    #[cfg_attr(target_os = "macos", doc = "`~/Library/Application Support/Wu`.")]
-    #[cfg_attr(target_os = "windows", doc = "`%LOCALAPPDATA%\\Wu`.")]
+    #[cfg_attr(target_os = "macos", doc = "`~/Library/Application Support/Aayushi Code`.")]
+    #[cfg_attr(target_os = "windows", doc = "`%LOCALAPPDATA%\\Aayushi Code`.")]
     #[cfg_attr(
         not(any(target_os = "windows", target_os = "macos")),
-        doc = "`$XDG_DATA_HOME/wu`."
+        doc = "`$XDG_DATA_HOME/aayushicode`."
     )]
     #[arg(long, value_name = "DIR", value_hint = clap::ValueHint::DirPath)]
     user_data_dir: Option<String>,
-    /// The paths to open in Wu (space-separated).
+    /// The paths to open in Aayushi Code (space-separated).
     ///
     /// Use `path:line:column` syntax to open a file at the given line and column.
     #[arg(trailing_var_arg = true, value_hint = clap::ValueHint::AnyPath)]
     paths_with_position: Vec<String>,
-    /// Print Wu's version and the app path.
+    /// Print Aayushi Code's version and the app path.
     #[arg(short, long)]
     version: bool,
-    /// Run wu in the foreground (useful for debugging)
+    /// Run aayushicode in the foreground (useful for debugging)
     #[arg(long)]
     foreground: bool,
-    /// Custom path to Wu.app or the wu binary
+    /// Custom path to Aayushi Code.app or the aayushicode binary
     #[arg(long)]
     zed: Option<PathBuf>,
-    /// Run wu in dev-server mode
+    /// Run aayushicode in dev-server mode
     #[arg(long)]
     dev_server_token: Option<String>,
     /// The username and WSL distribution to use when opening paths. If not specified,
-    /// Wu will attempt to open the paths directly.
+    /// Aayushi Code will attempt to open the paths directly.
     ///
     /// The username is optional, and if not specified, the default user for the distribution
     /// will be used.
@@ -124,7 +124,7 @@ struct Args {
     #[cfg(target_os = "windows")]
     #[arg(long, value_name = "USER@DISTRO")]
     wsl: Option<String>,
-    /// Not supported in Wu CLI, only supported on Wu binary
+    /// Not supported in Aayushi Code CLI, only supported on Aayushi Code binary
     /// Will attempt to give the correct command to run
     #[arg(long)]
     system_specs: bool,
@@ -132,10 +132,10 @@ struct Args {
     /// When directories are provided, recurses into them and shows all changed files in a single multi-diff view.
     #[arg(long, action = clap::ArgAction::Append, num_args = 2, value_names = ["OLD_PATH", "NEW_PATH"], value_hint = clap::ValueHint::AnyPath)]
     diff: Vec<String>,
-    /// Generate shell completions for Wu
+    /// Generate shell completions for Aayushi Code
     #[arg(long, value_names = ["SHELL"])]
     completions: Option<Shell>,
-    /// Uninstall Wu from user system
+    /// Uninstall Aayushi Code from user system
     #[cfg(all(
         any(target_os = "linux", target_os = "macos"),
         not(feature = "no-bundled-uninstall")
@@ -144,7 +144,7 @@ struct Args {
     uninstall: bool,
 
     /// Used for SSH/Git password authentication, to remove the need for netcat as a dependency,
-    /// by having Wu act like netcat communicating over a Unix socket.
+    /// by having Aayushi Code act like netcat communicating over a Unix socket.
     #[arg(long, hide = true)]
     askpass: Option<String>,
 }
@@ -545,7 +545,7 @@ fn run() -> Result<()> {
     if args.system_specs {
         let path = app.path();
         let msg = [
-            "The `--system-specs` argument is not supported in the Wu CLI, only on Wu binary.",
+            "The `--system-specs` argument is not supported in the Aayushi Code CLI, only on Aayushi Code binary.",
             "To retrieve the system specs on the command line, run the following command:",
             &format!("{} --system-specs", path.display()),
         ];
@@ -576,8 +576,8 @@ fn run() -> Result<()> {
     }
 
     let (server, server_name) =
-        IpcOneShotServer::<IpcHandshake>::new().context("Handshake before Wu spawn")?;
-    let url = format!("wu-cli://{server_name}");
+        IpcOneShotServer::<IpcHandshake>::new().context("Handshake before Aayushi Code spawn")?;
+    let url = format!("aayushicode-cli://{server_name}");
 
     let open_behavior = if args.new {
         cli::OpenBehavior::AlwaysNew
@@ -703,7 +703,7 @@ fn run() -> Result<()> {
             let exit_status = exit_status.clone();
             let user_data_dir_for_thread = user_data_dir.clone();
             move || {
-                let (_, handshake) = server.accept().context("Handshake after Wu spawn")?;
+                let (_, handshake) = server.accept().context("Handshake after Aayushi Code spawn")?;
                 let (tx, rx) = (handshake.requests, handshake.responses);
 
                 #[cfg(target_os = "windows")]
@@ -837,7 +837,7 @@ fn anonymous_fd(path: &str) -> Option<fs::File> {
 }
 
 /// Shows an interactive prompt asking the user to choose the default open
-/// behavior for `wu <path>`. Returns `None` if the prompt cannot be shown
+/// behavior for `aayushicode <path>`. Returns `None` if the prompt cannot be shown
 /// (e.g. stdin is not a terminal) or the user cancels.
 fn prompt_open_behavior() -> Option<cli::CliBehaviorSetting> {
     if !std::io::stdin().is_terminal() {
@@ -847,16 +847,16 @@ fn prompt_open_behavior() -> Option<cli::CliBehaviorSetting> {
     let blue = console::Style::new().blue();
     let items = [
         format!(
-            "Add to existing Wu window ({})",
-            blue.apply_to("wu --existing")
+            "Add to existing Aayushi Code window ({})",
+            blue.apply_to("aayushicode --existing")
         ),
-        format!("Open a new window ({})", blue.apply_to("wu --classic")),
+        format!("Open a new window ({})", blue.apply_to("aayushicode --classic")),
     ];
 
     let prompt = format!(
         "Configure default behavior for {}\n{}",
-        blue.apply_to("wu <path>"),
-        console::style("You can change this later in Wu settings"),
+        blue.apply_to("aayushicode <path>"),
+        console::style("You can change this later in Aayushi Code settings"),
     );
 
     let selection = dialoguer::Select::new()
@@ -920,7 +920,7 @@ mod linux {
     impl InstalledApp for App {
         fn zed_version_string(&self) -> String {
             format!(
-                "Wu {}{}{} – {}",
+                "Aayushi Code {}{}{} – {}",
                 if *release_channel::RELEASE_CHANNEL_NAME == "stable" {
                     "".to_string()
                 } else {
@@ -941,7 +941,7 @@ mod linux {
                 .unwrap_or_else(|| paths::data_dir().clone());
 
             let sock_path = data_dir.join(format!(
-                "wu-{}.sock",
+                "aayushicode-{}.sock",
                 *release_channel::RELEASE_CHANNEL_NAME
             ));
             let sock = UnixDatagram::unbound()?;
@@ -1085,7 +1085,7 @@ mod flatpak {
 
     pub fn set_bin_if_no_escape(mut args: super::Args) -> super::Args {
         if env::var(NO_ESCAPE_ENV_NAME).is_ok()
-            && env::var("FLATPAK_ID").is_ok_and(|id| id.starts_with("me.farshed.Wu"))
+            && env::var("FLATPAK_ID").is_ok_and(|id| id.starts_with("me.aayush.Aayushi-Code"))
             && args.zed.is_none()
         {
             args.zed = Some("/app/libexec/wu-editor".into());
@@ -1100,7 +1100,7 @@ mod flatpak {
         }
 
         if let Ok(flatpak_id) = env::var("FLATPAK_ID") {
-            if !flatpak_id.starts_with("me.farshed.Wu") {
+            if !flatpak_id.starts_with("me.aayush.Aayushi-Code") {
                 return None;
             }
 
@@ -1206,7 +1206,7 @@ mod windows {
     impl InstalledApp for App {
         fn zed_version_string(&self) -> String {
             format!(
-                "Wu {}{}{} – {}",
+                "Aayushi Code {}{}{} – {}",
                 if *release_channel::RELEASE_CHANNEL_NAME == "stable" {
                     "".to_string()
                 } else {
@@ -1281,9 +1281,9 @@ mod windows {
                 let cli = std::env::current_exe()?;
                 let dir = cli.parent().context("no parent path for cli")?;
 
-                // ../Wu.exe is the standard, lib/wu is for MSYS2, ./wu.exe is for the target
+                // ../Aayushi Code.exe is the standard, lib/wu is for MSYS2, ./wu.exe is for the target
                 // directory in development builds.
-                let possible_locations = ["../Wu.exe", "../lib/wu/wu-editor.exe", "./wu.exe"];
+                let possible_locations = ["../aayushicode.exe", "../lib/wu/wu-editor.exe", "./wu.exe"];
                 possible_locations
                     .iter()
                     .find_map(|p| dir.join(p).canonicalize().ok().filter(|path| path != &cli))
@@ -1382,7 +1382,7 @@ mod mac_os {
 
     impl InstalledApp for Bundle {
         fn zed_version_string(&self) -> String {
-            format!("Wu {} – {}", self.version(), self.path().display(),)
+            format!("Aayushi Code {} – {}", self.version(), self.path().display(),)
         }
 
         fn launch(&self, url: String, user_data_dir: Option<&str>) -> anyhow::Result<()> {

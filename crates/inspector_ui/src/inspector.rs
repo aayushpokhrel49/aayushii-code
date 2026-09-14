@@ -140,7 +140,7 @@ fn render_inspector_id(inspector_id: &InspectorElementId, cx: &App) -> Div {
                 .font_buffer(cx)
                 .text_xs()
                 .child(source_location_string)
-                .tooltip(Tooltip::text("Click to open by running Wu CLI"))
+                .tooltip(Tooltip::text("Click to open by running Aayushi Code CLI"))
                 .on_click(move |_, _window, cx| {
                     cx.background_spawn(open_zed_source_location(source_location))
                         .detach_and_log_err(cx);

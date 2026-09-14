@@ -279,11 +279,11 @@ impl Render for Onboarding {
                                     .child(
                                         h_flex()
                                             .gap_4()
-                                            .child(img("images/wu_icon.png").size(rems(2.5)).flex_none())
+                                            .child(img("images/aayushicode_icon.png").size(rems(2.5)).flex_none())
                                             .child(
                                                 v_flex()
                                                     .child(
-                                                        Headline::new("Welcome to Wu")
+                                                        Headline::new("Welcome to Aayushi Code")
                                                             .size(HeadlineSize::Small),
                                                     )
                                                     .child(

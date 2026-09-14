@@ -235,7 +235,7 @@ fn render_base_keymap_section(tab_index: &mut isize, cx: &mut App) -> impl IntoE
         ToggleButtonGroup::two_rows(
             "base_keymap_selection",
             [
-                ToggleButtonWithIcon::new("Wu", IconName::Wu, |_, _, cx| {
+                ToggleButtonWithIcon::new("Aayushi Code", IconName::Wu, |_, _, cx| {
                     write_keymap_base(BaseKeymap::Zed, cx);
                 }),
                 ToggleButtonWithIcon::new("VS Code", IconName::EditorVsCode, |_, _, cx| {
@@ -288,12 +288,12 @@ fn render_worktree_auto_trust_switch(tab_index: &mut isize, cx: &mut App) -> imp
         ui::ToggleState::Unselected
     };
 
-    let tooltip_description = "Wu can only allow services like language servers, project settings, and MCP servers to run after you mark a new project as trusted.";
+    let tooltip_description = "Aayushi Code can only allow services like language servers, project settings, and MCP servers to run after you mark a new project as trusted.";
 
     SwitchField::new(
         "onboarding-auto-trust-worktrees",
         Some("Trust All Projects By Default"),
-        Some("Automatically mark all new projects as trusted to unlock all Wu's features".into()),
+        Some("Automatically mark all new projects as trusted to unlock all Aayushi Code's features".into()),
         toggle_state,
         {
             let fs = <dyn Fs>::global(cx);
@@ -393,7 +393,7 @@ fn render_install_cli_section(tab_index: &mut isize) -> impl IntoElement {
                 .max_w_5_6()
                 .child(Label::new("Terminal Command"))
                 .child(
-                    Label::new("Open files and folders from the terminal with the wu command")
+                    Label::new("Open files and folders from the terminal with the aayushicode command")
                         .color(Color::Muted),
                 ),
         )

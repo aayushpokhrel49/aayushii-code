@@ -99,7 +99,7 @@ use wu_actions::{
     OpenWuUrl, Quit,
 };
 
-const DOCS_URL: &str = "https://wu.farshed.me/docs";
+const DOCS_URL: &str = "https://aayushicode.app/docs";
 
 actions!(
     wu,
@@ -372,7 +372,7 @@ pub fn build_window_options(display_uuid: Option<Uuid>, cx: &mut App) -> WindowO
             height: px(240.0),
         }),
         tabbing_identifier: if use_system_window_tabs {
-            Some(String::from("wu"))
+            Some(String::from("aayushicode"))
         } else {
             None
         },
@@ -610,7 +610,7 @@ fn show_software_emulation_warning_if_needed(
         };
         let message = format!(
             db::indoc! {r#"
-            Wu uses {} for rendering and requires a compatible GPU.
+            Aayushi Code uses {} for rendering and requires a compatible GPU.
 
             Currently you are using a software emulated GPU ({}) which
             will result in awful performance.
@@ -976,17 +976,17 @@ fn register_actions(
                 }
             }
         })
-        .register_action(|_, _: &install_cli::RegisterWuScheme, window, cx| {
+        .register_action(|_, _: &install_cli::RegisterAayushicodeScheme, window, cx| {
             cx.spawn_in(window, async move |workspace, cx| {
-                install_cli::register_wu_scheme(cx).await?;
+                install_cli::register_aayushicode_scheme(cx).await?;
                 workspace.update_in(cx, |workspace, _, cx| {
-                    struct RegisterWuScheme;
+                    struct RegisterAayushicodeScheme;
 
                     workspace.show_toast(
                         Toast::new(
-                            NotificationId::unique::<RegisterWuScheme>(),
+                            NotificationId::unique::<RegisterAayushicodeScheme>(),
                             format!(
-                                "wu:// links will now open in {}.",
+                                "aayushicode:// links will now open in {}.",
                                 ReleaseChannel::global(cx).display_name()
                             ),
                         ),
@@ -996,7 +996,7 @@ fn register_actions(
                 Ok(())
             })
             .detach_and_prompt_err(
-                "Error registering wu:// scheme",
+                "Error registering aayushicode:// scheme",
                 window,
                 cx,
                 |_, _, _| None,
@@ -1412,7 +1412,7 @@ fn open_about_window(cx: &mut App) {
     cx.open_window(
         WindowOptions {
             titlebar: Some(TitlebarOptions {
-                title: Some("About Wu".into()),
+                title: Some("About Aayushi Code".into()),
                 appears_transparent: true,
                 traffic_light_position: Some(point(px(12.), px(12.))),
             }),

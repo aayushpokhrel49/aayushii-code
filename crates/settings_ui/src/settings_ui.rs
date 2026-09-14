@@ -802,7 +802,7 @@ fn open_settings_editor_with(
         cx.open_window(
             WindowOptions {
                 titlebar: Some(TitlebarOptions {
-                    title: Some("Wu — Settings".into()),
+                    title: Some("Aayushi Code — Settings".into()),
                     appears_transparent: true,
                     traffic_light_position: Some(point(px(12.0), px(12.0))),
                 }),
@@ -1426,7 +1426,7 @@ fn render_settings_item_link(
                 .tooltip(Tooltip::text("Copy Link"))
                 .when_some(json_path, |this, path| {
                     this.on_click(cx.listener(move |this, _, _, cx| {
-                        let link = format!("wu://settings/{}", path);
+                        let link = format!("aayushicode://settings/{}", path);
                         cx.write_to_clipboard(ClipboardItem::new_string(link));
                         this.last_copied_link_path = Some(path);
                         cx.notify();
@@ -1565,7 +1565,7 @@ fn all_language_names(cx: &App) -> Vec<SharedString> {
         .languages
         .language_names()
         .into_iter()
-        .filter(|name| name.as_ref() != "Wu Keybind Context")
+        .filter(|name| name.as_ref() != "Aayushi Code Keybind Context")
         .map(Into::into)
         .collect()
 }

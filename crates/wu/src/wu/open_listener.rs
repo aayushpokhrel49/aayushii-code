@@ -131,7 +131,7 @@ impl OpenRequest {
         }
 
         for url in request.urls {
-            if let Some(server_name) = url.strip_prefix("wu-cli://") {
+            if let Some(server_name) = url.strip_prefix("aayushicode-cli://") {
                 this.kind = Some(OpenRequestKind::CliConnection(connect_to_cli(server_name)?));
             } else if let Some(action_index) = url.strip_prefix("zed-dock-action://") {
                 this.kind = Some(OpenRequestKind::DockMenuAction {
@@ -139,28 +139,28 @@ impl OpenRequest {
                 });
             } else if let Some(file) = url.strip_prefix("file://") {
                 this.parse_file_path(file)
-            } else if let Some(file) = url.strip_prefix("wu://file") {
+            } else if let Some(file) = url.strip_prefix("aayushicode://file") {
                 this.parse_file_path(file)
-            } else if let Some(file) = url.strip_prefix("wu://ssh") {
+            } else if let Some(file) = url.strip_prefix("aayushicode://ssh") {
                 let ssh_url = "ssh:/".to_string() + file;
                 this.parse_ssh_file_path(&ssh_url, cx)?
-            } else if let Some(extension_id) = url.strip_prefix("wu://extension/") {
+            } else if let Some(extension_id) = url.strip_prefix("aayushicode://extension/") {
                 this.kind = Some(OpenRequestKind::Extension {
                     extension_id: extension_id.to_string(),
                 });
-            } else if url == "wu://" || url == "wu://open" || url == "wu://open/" {
+            } else if url == "aayushicode://" || url == "aayushicode://open" || url == "aayushicode://open/" {
                 this.kind = Some(OpenRequestKind::FocusApp);
-            } else if let Some(schema_path) = url.strip_prefix("wu://schemas/") {
+            } else if let Some(schema_path) = url.strip_prefix("aayushicode://schemas/") {
                 this.kind = Some(OpenRequestKind::BuiltinJsonSchema {
                     schema_path: schema_path.to_string(),
                 });
-            } else if url == "wu://settings" || url == "wu://settings/" {
+            } else if url == "aayushicode://settings" || url == "aayushicode://settings/" {
                 this.kind = Some(OpenRequestKind::Setting { setting_path: None });
-            } else if let Some(setting_path) = url.strip_prefix("wu://settings/") {
+            } else if let Some(setting_path) = url.strip_prefix("aayushicode://settings/") {
                 this.kind = Some(OpenRequestKind::Setting {
                     setting_path: Some(setting_path.to_string()),
                 });
-            } else if let Some(clone_path) = url.strip_prefix("wu://git/clone") {
+            } else if let Some(clone_path) = url.strip_prefix("aayushicode://git/clone") {
                 this.parse_git_clone_url(clone_path)?
             } else if let Some(commit_path) = url.strip_prefix("wu://git/commit/") {
                 this.parse_git_commit_url(commit_path)?
@@ -355,7 +355,7 @@ pub fn listen_for_cli_connections(opener: OpenListener) -> Result<()> {
     use release_channel::RELEASE_CHANNEL_NAME;
     use std::os::unix::net::UnixDatagram;
 
-    let sock_path = paths::data_dir().join(format!("wu-{}.sock", *RELEASE_CHANNEL_NAME));
+    let sock_path = paths::data_dir().join(format!("aayushicode-{}.sock", *RELEASE_CHANNEL_NAME));
     // remove the socket if the process listening on it has died
     if let Err(e) = UnixDatagram::unbound()?.connect(&sock_path)
         && e.kind() == std::io::ErrorKind::ConnectionRefused

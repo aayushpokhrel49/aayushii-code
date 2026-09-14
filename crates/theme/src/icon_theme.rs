@@ -421,7 +421,7 @@ fn icon_keys_by_association(
 }
 
 /// The name of the built-in icon theme that every other icon theme falls back to.
-pub const DEFAULT_ICON_THEME_NAME: &str = "Wu (Default)";
+pub const DEFAULT_ICON_THEME_NAME: &str = "Aayushi Code (Default)";
 
 /// The name of the bundled icon theme the default settings use in dark mode.
 pub const MATERIAL_ICON_THEME_NAME: &str = "Material Icon Theme";

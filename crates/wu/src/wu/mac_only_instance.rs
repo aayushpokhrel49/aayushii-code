@@ -61,8 +61,8 @@ fn address() -> SocketAddr {
 
 fn instance_handshake() -> String {
     let handshake = match *release_channel::RELEASE_CHANNEL {
-        ReleaseChannel::Dev => "Wu Editor Dev Instance Running",
-        ReleaseChannel::Stable => "Wu Editor Stable Instance Running",
+        ReleaseChannel::Dev => "Aayushi Code Editor Dev Instance Running",
+        ReleaseChannel::Stable => "Aayushi Code Editor Stable Instance Running",
     };
     match paths::custom_data_dir_instance_hash() {
         Some(hash) => format!("{handshake} {hash:x}"),

@@ -1,0 +1,43 @@
+name: build-deb
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: '0'
+
+jobs:
+  build_deb:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    env:
+      CC: clang
+      CXX: clang++
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Linux dependencies
+        run: ./script/linux
+      - name: Install Rust toolchain
+        run: rustup show
+      - name: Use the dev release channel
+        run: echo dev > crates/wu/RELEASE_CHANNEL
+      - name: Build .deb package
+        run: ./script/bundle-deb
+      - name: Verify package
+        run: |
+          deb_file=$(ls target/release/aayushicode*.deb)
+          echo "Package: $deb_file"
+          dpkg-deb --info "$deb_file"
+          dpkg-deb --contents "$deb_file" | head -40
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aayushicode-deb
+          path: target/release/aayushicode*.deb
+          if-no-files-found: error

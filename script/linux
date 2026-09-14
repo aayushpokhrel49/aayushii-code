@@ -43,6 +43,7 @@ if [[ -n $apt ]]; then
     curl
     gettext-base
     elfutils
+    fakeroot
     libsqlite3-dev
     musl-tools
     musl-dev

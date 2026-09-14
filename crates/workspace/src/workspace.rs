@@ -8489,9 +8489,9 @@ pub async fn apply_restored_multiworkspace_state(
 actions!(
     wu,
     [
-        /// Opens the Wu log file.
+        /// Opens the Aayushi Code log file.
         OpenLog,
-        /// Reveals the Wu log file in the system file manager.
+        /// Reveals the Aayushi Code log file in the system file manager.
         RevealLogInFileManager
     ]
 );
