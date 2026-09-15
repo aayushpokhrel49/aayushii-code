@@ -225,6 +225,7 @@ fn release_channel_name() -> String {
     let manifest_dir = std::env::var("CARGO_MANIFEST_DIR").unwrap();
     std::fs::read_to_string(std::path::Path::new(&manifest_dir).join("RELEASE_CHANNEL"))
         .map(|channel| channel.trim().to_string())
+        .ok()
         .filter(|channel| !channel.is_empty())
         .or_else(|| option_env!("RELEASE_CHANNEL").map(|channel| channel.to_string()))
         .unwrap_or_else(|| "dev".to_string())

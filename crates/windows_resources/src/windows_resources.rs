@@ -26,6 +26,7 @@ fn git_sha() -> Option<String> {
 fn release_channel() -> String {
     std::fs::read_to_string(concat!(env!("CARGO_MANIFEST_DIR"), "/../wu/RELEASE_CHANNEL"))
         .map(|channel| channel.trim().to_string())
+        .ok()
         .filter(|channel| !channel.is_empty())
         .or_else(|| option_env!("RELEASE_CHANNEL").map(|channel| channel.to_string()))
         .unwrap_or_else(|| "dev".to_string())
