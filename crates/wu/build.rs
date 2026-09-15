@@ -214,12 +214,27 @@ fn main() {
     prepare_app_icon_x11();
 }
 
+/// Returns the current release channel name.
+///
+/// The checked-in `crates/wu/RELEASE_CHANNEL` file is the source of truth: the
+/// `release_channel` crate bakes it into `RELEASE_CHANNEL_NAME` and the
+/// packaging workflows write the channel there. The `RELEASE_CHANNEL`
+/// environment variable is only used as a fallback when the file is missing.
+#[cfg(any(target_os = "linux", target_os = "freebsd"))]
+fn release_channel_name() -> String {
+    let manifest_dir = std::env::var("CARGO_MANIFEST_DIR").unwrap();
+    std::fs::read_to_string(std::path::Path::new(&manifest_dir).join("RELEASE_CHANNEL"))
+        .map(|channel| channel.trim().to_string())
+        .filter(|channel| !channel.is_empty())
+        .or_else(|| option_env!("RELEASE_CHANNEL").map(|channel| channel.to_string()))
+        .unwrap_or_else(|| "dev".to_string())
+}
+
 #[cfg(any(target_os = "linux", target_os = "freebsd"))]
 fn icon_path() -> std::path::PathBuf {
     use std::str::FromStr;
 
-    let release_channel = option_env!("RELEASE_CHANNEL").unwrap_or("dev");
-    let channel = match release_channel {
+    let channel = match release_channel_name().as_str() {
         "stable" => "",
         "preview" => "-preview",
         "nightly" => "-nightly",
@@ -243,16 +258,26 @@ fn prepare_app_icon_x11() {
 
     let out_dir = env::var("OUT_DIR").unwrap();
 
-    let resized_image = ImageReader::open(icon_path())
-        .unwrap()
-        .decode()
-        .unwrap()
-        .resize(256, 256, imageops::FilterType::Lanczos3);
+    // Normalize to 8-bit RGBA before saving: the source icons are 16-bit PNGs,
+    // and the resized copy must be decodable by every consumer (the runtime
+    // `APP_ICON` loader, window managers, icon theme caches), some of which
+    // reject 16-bit PNG data.
+    let resized_image = imageops::resize(
+        &ImageReader::open(icon_path())
+            .unwrap()
+            .decode()
+            .unwrap()
+            .to_rgba8(),
+        256,
+        256,
+        imageops::FilterType::Lanczos3,
+    );
 
     // name should match include_bytes! call in src/zed.rs
     let icon_out_path = Path::new(&out_dir).join("app_icon.png");
     resized_image.save(&icon_out_path).expect("saving app icon");
 
     println!("cargo:rerun-if-env-changed=RELEASE_CHANNEL");
+    println!("cargo:rerun-if-changed=RELEASE_CHANNEL");
     println!("cargo:rerun-if-changed={}", icon_path().to_string_lossy());
 }

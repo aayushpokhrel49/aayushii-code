@@ -19,10 +19,22 @@ fn git_sha() -> Option<String> {
         .map(|output| String::from_utf8_lossy(&output.stdout).trim().to_string())
 }
 
+/// The release channel, sourced from the checked-in `crates/wu/RELEASE_CHANNEL`
+/// file (what the packaging workflows write and what the app's
+/// `release_channel` crate reads). The `RELEASE_CHANNEL` environment variable
+/// is only used as a fallback when the file is missing.
+fn release_channel() -> String {
+    std::fs::read_to_string(concat!(env!("CARGO_MANIFEST_DIR"), "/../wu/RELEASE_CHANNEL"))
+        .map(|channel| channel.trim().to_string())
+        .filter(|channel| !channel.is_empty())
+        .or_else(|| option_env!("RELEASE_CHANNEL").map(|channel| channel.to_string()))
+        .unwrap_or_else(|| "dev".to_string())
+}
+
 fn product_version() -> String {
     let commit_sha = git_sha();
     let pkg_version = std::env::var("CARGO_PKG_VERSION").unwrap_or_default();
-    let channel = std::env::var("RELEASE_CHANNEL").unwrap_or_else(|_| "dev".into());
+    let channel = release_channel();
     let build_id = std::env::var("GITHUB_RUN_NUMBER").ok();
 
     let mut metadata = channel;
@@ -42,8 +54,8 @@ const ICON_DIR: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/../wu/resources/win
 const MANIFEST_PATH: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/resources/manifest.xml");
 
 pub fn compile(manifest: bool) -> Result<(), Box<dyn std::error::Error>> {
-    let channel = option_env!("RELEASE_CHANNEL").unwrap_or("dev");
-    let (icon_filename, product_name) = match channel {
+    let channel = release_channel();
+    let (icon_filename, product_name) = match channel.as_str() {
         "stable" => ("app-icon.ico", "Aayushi Code"),
         _ => ("app-icon-dev.ico", "Aayushi Code Dev"),
     };

@@ -337,10 +337,14 @@ pub fn build_window_options(display_uuid: Option<Uuid>, cx: &mut App) -> WindowO
             // this shouldn't fail since decode is checked in build.rs
             const BYTES: &[u8] = include_bytes!(concat!(env!("OUT_DIR"), "/app_icon.png"));
             util::maybe!({
-                let image = image::ImageReader::new(std::io::Cursor::new(BYTES))
-                    .with_guessed_format()?
-                    .decode()?
-                    .into();
+                // The build script always writes a PNG, so pass the format
+                // explicitly instead of sniffing it from the bytes.
+                let image: image::RgbaImage = image::ImageReader::with_format(
+                    std::io::Cursor::new(BYTES),
+                    image::ImageFormat::Png,
+                )
+                .decode()?
+                .into();
                 anyhow::Ok(Arc::new(image))
             })
             .log_err()
