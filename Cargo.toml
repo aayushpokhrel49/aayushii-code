@@ -878,6 +878,7 @@ ui_input = { codegen-units = 1 }
 wu_actions = { codegen-units = 1 }
 
 [profile.release]
+opt-level = 3
 debug = "line-tables-only"
 lto = "thin"
 codegen-units = 1

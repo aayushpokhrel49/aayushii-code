@@ -25,7 +25,17 @@ jobs:
 
   bundle_mac:
     needs: check_version
-    runs-on: macos-14
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: aarch64
+            runner: macos-14
+            target_triple: aarch64-apple-darwin
+          - arch: x86_64
+            runner: macos-13
+            target_triple: x86_64-apple-darwin
+    runs-on: ${{ matrix.runner }}
     timeout-minutes: 300
     steps:
       - uses: actions/checkout@v4
@@ -54,18 +64,18 @@ jobs:
           APPLE_NOTARIZATION_KEY_ID: ${{ secrets.APPLE_NOTARIZATION_KEY_ID }}
           APPLE_NOTARIZATION_ISSUER_ID: ${{ secrets.APPLE_NOTARIZATION_ISSUER_ID }}
           APPLE_NOTARIZATION_TEAM: ${{ secrets.APPLE_NOTARIZATION_TEAM }}
-        run: script/bundle-mac aarch64-apple-darwin
+        run: script/bundle-mac ${{ matrix.target_triple }}
       - uses: actions/upload-artifact@v4
         with:
-          name: macos-aarch64
+          name: macos-${{ matrix.arch }}
           path: |
-            target/aarch64-apple-darwin/release/AayushiCode-aarch64.dmg
-            target/aayushicode-remote-server-macos-aarch64.gz
+            target/${{ matrix.target_triple }}/release/AayushiCode-${{ matrix.arch }}.dmg
+            target/aayushicode-remote-server-macos-${{ matrix.arch }}.gz
           if-no-files-found: error
       - uses: actions/upload-artifact@v4
         with:
-          name: macos-aarch64-dsym
-          path: target/aarch64-apple-darwin/release/Wu.dSYM.zip
+          name: macos-${{ matrix.arch }}-dsym
+          path: target/${{ matrix.target_triple }}/release/Wu.dSYM.zip
           if-no-files-found: error
 
   bundle_linux:
@@ -101,6 +111,39 @@ jobs:
             target/aayushicode-remote-server-linux-${{ matrix.arch }}.gz
           if-no-files-found: error
 
+  bundle_arch_linux:
+    needs: check_version
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x86_64
+            runner: ubuntu-22.04
+          - arch: aarch64
+            runner: ubuntu-22.04-arm
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 300
+    env:
+      CC: clang
+      CXX: clang++
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Linux dependencies
+        run: ./script/linux
+      - name: Install zstd for .pkg.tar.zst packaging
+        run: sudo apt-get update && sudo apt-get install -y zstd
+      - name: Install Rust toolchain
+        run: rustup show
+      - name: Use the stable release channel
+        run: echo stable > crates/wu/RELEASE_CHANNEL
+      - name: Build Arch Linux package
+        run: ./script/bundle-arch
+      - uses: actions/upload-artifact@v4
+        with:
+          name: arch-linux-${{ matrix.arch }}
+          path: target/release/aayushicode-*.pkg.tar.zst
+          if-no-files-found: error
+
   bundle_windows:
     needs: check_version
     runs-on: windows-2022
@@ -124,7 +167,7 @@ jobs:
           if-no-files-found: error
 
   release:
-    needs: [bundle_mac, bundle_linux, bundle_windows]
+    needs: [bundle_mac, bundle_linux, bundle_arch_linux, bundle_windows]
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
