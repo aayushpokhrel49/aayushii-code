@@ -84,10 +84,10 @@ main() {
 
 linux() {
     if [ -n "${ZED_BUNDLE_PATH:-}" ]; then
-        cp "$ZED_BUNDLE_PATH" "$temp/wu-linux-$arch.tar.gz"
+        cp "$ZED_BUNDLE_PATH" "$temp/aayushicode-linux-$arch.tar.gz"
     else
         echo "Downloading Wu version: $ZED_VERSION"
-        curl "$download_base/wu-linux-$arch.tar.gz" > "$temp/wu-linux-$arch.tar.gz"
+        curl "$download_base/aayushicode-linux-$arch.tar.gz" > "$temp/aayushicode-linux-$arch.tar.gz"
     fi
 
     suffix=""
@@ -112,7 +112,7 @@ linux() {
     # Unpack
     rm -rf "$HOME/.local/wu$suffix.app"
     mkdir -p "$HOME/.local/wu$suffix.app"
-    tar -xzf "$temp/wu-linux-$arch.tar.gz" -C "$HOME/.local/"
+    tar -xzf "$temp/aayushicode-linux-$arch.tar.gz" -C "$HOME/.local/"
 
     zed_editor="$HOME/.local/wu$suffix.app/libexec/wu-editor"
     if [ -f "$zed_editor" ] && command -v ldd >/dev/null 2>&1; then
@@ -130,18 +130,35 @@ linux() {
     # Link the binary
     ln -sf "$HOME/.local/wu$suffix.app/bin/wu" "$HOME/.local/bin/wu"
 
-    # Copy .desktop file
+    # Install icons into the standard local icon theme paths. The desktop entry
+    # references `Icon=aayushicode`; a copy named after $appid is installed
+    # too, because Wayland compositors look up the window/taskbar icon by the
+    # window's app ID.
+    icon_src_dir="$HOME/.local/wu$suffix.app/share/icons/hicolor"
+    mkdir -p "$HOME/.local/share/icons/hicolor/512x512/apps" "$HOME/.local/share/icons/hicolor/1024x1024/apps"
+    cp "$icon_src_dir/512x512/apps/aayushicode.png" "$HOME/.local/share/icons/hicolor/512x512/apps/aayushicode.png"
+    cp "$icon_src_dir/512x512/apps/aayushicode.png" "$HOME/.local/share/icons/hicolor/512x512/apps/${appid}.png"
+    cp "$icon_src_dir/1024x1024/apps/aayushicode.png" "$HOME/.local/share/icons/hicolor/1024x1024/apps/aayushicode.png"
+    cp "$icon_src_dir/1024x1024/apps/aayushicode.png" "$HOME/.local/share/icons/hicolor/1024x1024/apps/${appid}.png"
+
+    # Copy the .desktop file. The bundled entry uses the on-PATH `aayushicode`
+    # command and `aayushicode` icon name; point both at the installed paths.
     desktop_file_path="$HOME/.local/share/applications/${appid}.desktop"
     src_dir="$HOME/.local/wu$suffix.app/share/applications"
     cp "$src_dir/${appid}.desktop" "${desktop_file_path}"
-    sed -i "s|Icon=wu|Icon=$HOME/.local/wu$suffix.app/share/icons/hicolor/512x512/apps/wu.png|g" "${desktop_file_path}"
-    sed -i "s|Exec=wu|Exec=$HOME/.local/wu$suffix.app/bin/wu|g" "${desktop_file_path}"
+    sed -i "s|^Exec=aayushicode|Exec=$HOME/.local/bin/wu|g" "${desktop_file_path}"
+    sed -i "s|^Icon=aayushicode|Icon=$HOME/.local/wu$suffix.app/share/icons/hicolor/512x512/apps/aayushicode.png|g" "${desktop_file_path}"
+
+    # Refresh the icon cache so the icon theme picks up the new entries.
+    if command -v gtk-update-icon-cache >/dev/null 2>&1; then
+        gtk-update-icon-cache -q -f -t "$HOME/.local/share/icons/hicolor" >/dev/null 2>&1 || true
+    fi
 }
 
 macos() {
     echo "Downloading Wu version: $ZED_VERSION"
-    curl "$download_base/Wu-$arch.dmg" > "$temp/Wu-$arch.dmg"
-    hdiutil attach -quiet "$temp/Wu-$arch.dmg" -mountpoint "$temp/mount"
+    curl "$download_base/AayushiCode-$arch.dmg" > "$temp/AayushiCode-$arch.dmg"
+    hdiutil attach -quiet "$temp/AayushiCode-$arch.dmg" -mountpoint "$temp/mount"
     app="$(cd "$temp/mount/"; echo *.app)"
     echo "Installing $app"
     if [ -d "/Applications/$app" ]; then

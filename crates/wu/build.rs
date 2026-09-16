@@ -233,22 +233,26 @@ fn release_channel_name() -> String {
 
 #[cfg(any(target_os = "linux", target_os = "freebsd"))]
 fn icon_path() -> std::path::PathBuf {
-    use std::str::FromStr;
+    use std::path::Path;
 
-    let channel = match release_channel_name().as_str() {
-        "stable" => "",
-        "preview" => "-preview",
-        "nightly" => "-nightly",
-        "dev" => "-dev",
-        _ => "-dev",
+    let channel = release_channel_name();
+    let manifest_dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
+
+    // Prefer the channel-specific icon, but fall back to the dev (then stable)
+    // icon when the file is absent, so preview/nightly channels don't fail the
+    // build with a missing file.
+    let candidates: &[&str] = match channel.as_str() {
+        "stable" => &["app-icon.png", "app-icon-dev.png"],
+        "preview" => &["app-icon-preview.png", "app-icon-dev.png", "app-icon.png"],
+        "nightly" => &["app-icon-nightly.png", "app-icon-dev.png", "app-icon.png"],
+        _ => &["app-icon-dev.png", "app-icon.png"],
     };
 
-    #[cfg(windows)]
-    let icon = format!("resources/windows/app-icon{}.ico", channel);
-    #[cfg(not(windows))]
-    let icon = format!("resources/app-icon{}.png", channel);
-
-    std::path::PathBuf::from_str(&icon).unwrap()
+    candidates
+        .iter()
+        .map(|file_name| manifest_dir.join("resources").join(file_name))
+        .find(|path| path.exists())
+        .unwrap_or_else(|| manifest_dir.join("resources").join("app-icon.png"))
 }
 
 #[cfg(any(target_os = "linux", target_os = "freebsd"))]

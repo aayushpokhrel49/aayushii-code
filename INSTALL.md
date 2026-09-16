@@ -1,10 +1,10 @@
 ## Install
 
-Download the installer for your platform [here](https://github.com/farshed/wu/releases/latest). Then follow the steps below.
+Download the installer for your platform [here](https://github.com/aayushpokhrel49/aayushii-code/releases/latest). Then follow the steps below.
 
 ### macOS (Apple Silicon)
 
-1. Download `Wu-aarch64.dmg`, open it, and drag Wu into your Applications folder. Wu is not signed with an Apple Developer certificate yet, so macOS will block it the first time you open it.
+1. Download `AayushiCode-aarch64.dmg`, open it, and drag Wu into your Applications folder. Wu is not signed with an Apple Developer certificate yet, so macOS will block it the first time you open it.
 2. Open Terminal and run:
 
    ```sh
@@ -17,10 +17,10 @@ If you'd rather not use Terminal: open Wu once (you'll see a "Wu can't be opened
 
 ### Linux (x86_64 and aarch64)
 
-Download `wu-linux-<arch>.tar.gz` and unpack it into `~/.local`:
+Download `aayushicode-linux-<arch>.tar.gz` and unpack it into `~/.local`:
 
 ```sh
-tar -xzf wu-linux-$(uname -m).tar.gz -C ~/.local
+tar -xzf aayushicode-linux-$(uname -m).tar.gz -C ~/.local
 ln -sf ~/.local/wu.app/bin/wu ~/.local/bin/wu
 ```
 
@@ -28,4 +28,4 @@ Make sure `~/.local/bin` is on your `PATH`, then run `wu`.
 
 ### Windows (x86_64)
 
-Download and run `Wu-x86_64.exe`. The installer isn't code-signed, so Windows SmartScreen may warn you. Click **More info**, then **Run anyway**.
+Download and run `AayushiCode-x86_64.exe`. The installer isn't code-signed, so Windows SmartScreen may warn you. Click **More info**, then **Run anyway**.

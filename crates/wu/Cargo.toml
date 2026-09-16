@@ -5,6 +5,8 @@ name = "wu"
 version = "1.0.8"
 publish.workspace = true
 license = "GPL-3.0-or-later"
+repository = "https://github.com/aayushpokhrel49/aayushii-code"
+homepage = "https://aayushhpokhrel.com.np"
 default-run = "wu"
 
 [lints]

@@ -59,7 +59,7 @@ jobs:
         with:
           name: macos-aarch64
           path: |
-            target/aarch64-apple-darwin/release/Wu-aarch64.dmg
+            target/aarch64-apple-darwin/release/AayushiCode-aarch64.dmg
             target/aayushicode-remote-server-macos-aarch64.gz
           if-no-files-found: error
       - uses: actions/upload-artifact@v4
@@ -97,7 +97,7 @@ jobs:
         with:
           name: linux-${{ matrix.arch }}
           path: |
-            target/release/wu-linux-${{ matrix.arch }}.tar.gz
+            target/release/aayushicode-linux-${{ matrix.arch }}.tar.gz
             target/aayushicode-remote-server-linux-${{ matrix.arch }}.gz
           if-no-files-found: error
 
