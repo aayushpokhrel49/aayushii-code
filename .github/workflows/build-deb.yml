@@ -5,11 +5,13 @@ on:
   push:
     branches:
       - main
-    tags:
-      - 'v*'
 
 permissions:
-  contents: write
+  contents: read
+
+concurrency:
+  group: build-deb-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   CARGO_TERM_COLOR: always
@@ -29,11 +31,7 @@ jobs:
       - name: Install Rust toolchain
         run: rustup show
       - name: Use the dev release channel
-        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
         run: echo dev > crates/wu/RELEASE_CHANNEL
-      - name: Use the stable release channel
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-        run: echo stable > crates/wu/RELEASE_CHANNEL
       - name: Build .deb package
         run: ./script/bundle-deb
       - name: Verify package
@@ -47,8 +45,3 @@ jobs:
           name: aayushicode-deb
           path: target/release/aayushicode*.deb
           if-no-files-found: error
-      - name: Publish .deb to GitHub release
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-        uses: softprops/action-gh-release@v2
-        with:
-          files: target/release/aayushicode*.deb

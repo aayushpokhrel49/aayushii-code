@@ -111,6 +111,37 @@ jobs:
             target/aayushicode-remote-server-linux-${{ matrix.arch }}.gz
           if-no-files-found: error
 
+  bundle_deb:
+    needs: check_version
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x86_64
+            runner: ubuntu-24.04
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 300
+    env:
+      CC: clang
+      CXX: clang++
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Linux dependencies
+        run: ./script/linux
+      - name: Install Rust toolchain
+        run: rustup show
+      - name: Use the stable release channel
+        run: echo stable > crates/wu/RELEASE_CHANNEL
+      - name: Build .deb package
+        run: ./script/bundle-deb
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-deb-${{ matrix.arch }}
+          path: target/release/aayushicode*.deb
+          if-no-files-found: error
+
   bundle_arch_linux:
     needs: check_version
     strategy:
@@ -167,7 +198,8 @@ jobs:
           if-no-files-found: error
 
   release:
-    needs: [bundle_mac, bundle_linux, bundle_arch_linux, bundle_windows]
+    needs: [bundle_mac, bundle_linux, bundle_deb, bundle_arch_linux, bundle_windows]
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4

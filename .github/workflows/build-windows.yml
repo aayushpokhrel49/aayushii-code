@@ -5,11 +5,13 @@ on:
   push:
     branches:
       - main
-    tags:
-      - 'v*'
 
 permissions:
-  contents: write
+  contents: read
+
+concurrency:
+  group: build-windows-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   CARGO_TERM_COLOR: always
@@ -24,12 +26,7 @@ jobs:
       - name: Install Rust toolchain
         run: rustup show
       - name: Use the dev release channel
-        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
         run: Set-Content -Path crates/wu/RELEASE_CHANNEL -Value dev -NoNewline
-        shell: pwsh
-      - name: Use the stable release channel
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-        run: Set-Content -Path crates/wu/RELEASE_CHANNEL -Value stable -NoNewline
         shell: pwsh
       - name: Build .exe installer
         run: ./script/bundle-windows.ps1 -Architecture x86_64
@@ -43,8 +40,3 @@ jobs:
           name: aayushicode-exe
           path: target/AayushiCode-*.exe
           if-no-files-found: error
-      - name: Publish .exe to GitHub release
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-        uses: softprops/action-gh-release@v2
-        with:
-          files: target/AayushiCode-*.exe

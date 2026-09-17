@@ -216,6 +216,7 @@ chmod 755 "${install_dir}/libexec/aayushicode-editor" \
          "${install_dir}/bin/cli" \
          "${package_root}/usr/share/applications/${APP_ID}.desktop"
 
+project_root="$(pwd)"
 pushd "$package_root" > /dev/null
 build_mtree . .MTREE
 
@@ -240,7 +241,7 @@ build_mtree . .MTREE
 } > .BUILDINFO
 
 # .PKGINFO must be the first entry in the archive.
-pkg_file="${target_dir}/release/${package_name}-${version}-${pkgrel}-${pkg_arch}.pkg.tar.zst"
+pkg_file="${project_root}/${target_dir}/release/${package_name}-${version}-${pkgrel}-${pkg_arch}.pkg.tar.zst"
 tar --zstd -cf "${pkg_file}" .PKGINFO .BUILDINFO .MTREE .INSTALL opt usr
 popd > /dev/null
 

@@ -102,4 +102,5 @@ Distributed under the GPL-3.0-or-later and Apache-2.0 licenses. See
 
 ## Credits
 
-This project is built on top of the work of the Zed and Wu teams.
+Aayushi Code is built on top of high-quality open source work from the Rust
+ecosystem and the broader editor community.
