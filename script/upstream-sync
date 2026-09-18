@@ -34,11 +34,11 @@ DROPPED_PREFIXES=(
   livekit.yaml lychee.toml renovate.json REVIEWERS.conl
   GEMINI.md CONTRIBUTING.md CODE_OF_CONDUCT.md .mailmap .git-blame-ignore-revs
 )
-# crates/zed became crates/wu. Rename detection maps most edits across, but
+# crates/zed became crates/aayushicode. Rename detection maps most edits across, but
 # files Wu rewrote fall through here and need a human to port or discard them.
 REVIEW_PREFIXES=(crates/zed/)
 # Always keep Wu's version of these.
-PINNED_FILES=(crates/wu/RELEASE_CHANNEL)
+PINNED_FILES=(crates/aayushicode/RELEASE_CHANNEL)
 
 git_version=$(git version | sed -E 's/git version ([0-9]+\.[0-9]+).*/\1/')
 if [[ "$(printf '%s\n2.38\n' "$git_version" | sort -V | head -1)" != "2.38" ]]; then

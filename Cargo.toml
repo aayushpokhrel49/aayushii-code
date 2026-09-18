@@ -159,7 +159,7 @@ members = [
     "crates/workspace",
     "crates/worktree",
     "crates/worktree_benchmarks",
-    "crates/wu",
+    "crates/aayushicode",
     "crates/wu_actions",
     "crates/wu_env_vars",
     "crates/zlog",
@@ -183,7 +183,7 @@ members = [
     "tooling/perf",
     "tooling/xtask",
 ]
-default-members = ["crates/wu"]
+default-members = ["crates/aayushicode"]
 
 [workspace.package]
 publish = false

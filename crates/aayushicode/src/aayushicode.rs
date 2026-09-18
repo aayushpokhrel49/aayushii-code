@@ -5490,7 +5490,7 @@ mod tests {
                 "window",
                 "workspace",
                 "worktree_picker",
-                "wu",
+                "aayushicode",
                 "wu_actions",
             ];
             assert_eq!(

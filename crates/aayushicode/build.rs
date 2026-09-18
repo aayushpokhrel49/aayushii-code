@@ -216,7 +216,7 @@ fn main() {
 
 /// Returns the current release channel name.
 ///
-/// The checked-in `crates/wu/RELEASE_CHANNEL` file is the source of truth: the
+/// The checked-in `crates/aayushicode/RELEASE_CHANNEL` file is the source of truth: the
 /// `release_channel` crate bakes it into `RELEASE_CHANNEL_NAME` and the
 /// packaging workflows write the channel there. The `RELEASE_CHANNEL`
 /// environment variable is only used as a fallback when the file is missing.

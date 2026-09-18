@@ -1,7 +1,7 @@
 [package]
 description = "The fast, native VSCode alternative."
 edition.workspace = true
-name = "wu"
+name = "aayushicode"
 version = "1.0.9"
 publish.workspace = true
 license = "GPL-3.0-or-later"
@@ -54,7 +54,7 @@ name = "aayushicode"
 path = "src/main.rs"
 
 [[bin]]
-name = "wu_visual_test_runner"
+name = "aayushicode_visual_test_runner"
 path = "src/visual_test_runner.rs"
 required-features = ["visual-tests"]
 

@@ -25,10 +25,10 @@
 //! ## Usage
 //!
 //! Run the visual tests:
-//!   cargo run -p wu --bin wu_visual_test_runner --features visual-tests
+//!   cargo run -p aayushicode --bin aayushicode_visual_test_runner --features visual-tests
 //!
 //! Update baseline images (when UI intentionally changes):
-//!   UPDATE_BASELINE=1 cargo run -p wu --bin wu_visual_test_runner --features visual-tests
+//!   UPDATE_BASELINE=1 cargo run -p aayushicode --bin aayushicode_visual_test_runner --features visual-tests
 //!
 //! ## Environment Variables
 //!
@@ -119,7 +119,7 @@ mod constants {
     use std::time::Duration;
 
     /// Baseline images are stored relative to this file
-    pub const BASELINE_DIR: &str = "crates/wu/test_fixtures/visual_tests";
+    pub const BASELINE_DIR: &str = "crates/aayushicode/test_fixtures/visual_tests";
 
     /// Threshold for image comparison (0.0 to 1.0)
     /// Images must match at least this percentage to pass

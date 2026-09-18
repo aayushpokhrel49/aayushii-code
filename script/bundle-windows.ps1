@@ -58,14 +58,14 @@ if ($vsDevShell) {
 $workspace = (Resolve-Path "$PSScriptRoot\..").Path
 $env:ZED_WORKSPACE = $workspace
 
-Push-Location -Path "$workspace\crates\wu"
+Push-Location -Path "$workspace\crates\aayushicode"
 $channel = Get-Content "RELEASE_CHANNEL"
 $env:ZED_RELEASE_CHANNEL = $channel
 $env:RELEASE_CHANNEL = $channel
 Pop-Location
 
 if ([string]::IsNullOrWhiteSpace($env:RELEASE_VERSION)) {
-    $cargoToml = Get-Content "$workspace\crates\wu\Cargo.toml"
+    $cargoToml = Get-Content "$workspace\crates\aayushicode\Cargo.toml"
     $env:RELEASE_VERSION = ($cargoToml | Select-String -Pattern '^version = "(.*)"' | Select-Object -First 1).Matches.Groups[1].Value
 }
 
@@ -76,7 +76,7 @@ function PrepareForBundle {
         Remove-Item -Path "$innoDir" -Recurse -Force
     }
     New-Item -Path "$innoDir" -ItemType Directory -Force
-    Copy-Item -Path "$workspace\crates\wu\resources\windows\*" -Destination "$innoDir" -Recurse -Force
+    Copy-Item -Path "$workspace\crates\aayushicode\resources\windows\*" -Destination "$innoDir" -Recurse -Force
     New-Item -Path "$innoDir\make_appx" -ItemType Directory -Force
     New-Item -Path "$innoDir\appx" -ItemType Directory -Force
     New-Item -Path "$innoDir\bin" -ItemType Directory -Force
@@ -91,7 +91,7 @@ function GenerateLicenses {
 
 function BuildWuAndItsFriends {
     Write-Output "Building Aayushi Code and its friends, for channel: $channel"
-    cargo build --release --package wu --package cli --package auto_update_helper --target $target
+    cargo build --release --package aayushicode --package cli --package auto_update_helper --target $target
     Copy-Item -Path ".\$CargoOutDir\aayushicode.exe" -Destination "$innoDir\Aayushi Code.exe" -Force
     Copy-Item -Path ".\$CargoOutDir\cli.exe" -Destination "$innoDir\cli.exe" -Force
     Copy-Item -Path ".\$CargoOutDir\auto_update_helper.exe" -Destination "$innoDir\auto_update_helper.exe" -Force
@@ -181,7 +181,7 @@ function BuildInstaller {
             $appName = "Aayushi Code"
             $appDisplayName = "Aayushi Code"
             $appSetupName = "AayushiCode-$Architecture"
-            # Must match the mutex created in crates/wu/src/wu/windows_only_instance.rs:
+            # Must match the mutex created in crates/aayushicode/src/aayushicode/windows_only_instance.rs:
             # `{app_identifier()}-Instance-Mutex`.
             $appMutex = "AayushiCode-Editor-Stable-Instance-Mutex"
             $appExeName = "Aayushi Code"

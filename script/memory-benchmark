@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Measures the base physical memory footprint (what Activity Monitor's "Memory"
-# column shows) of Wu and Zed on macOS.
+# column shows) of Aayushi Code and Zed on macOS.
 #
 # Each run launches the app with a fresh, throwaway --user-data-dir so nothing
 # is restored and no user state is touched, waits for it to settle on its empty
@@ -11,7 +11,7 @@
 #
 # Usage: script/memory-benchmark
 #   RUNS=5 SETTLE_SECONDS=30 script/memory-benchmark   # override defaults
-#   WU_BIN=... ZED_BIN=... script/memory-benchmark     # override app paths
+#   AAYUSHICODE_BIN=... ZED_BIN=... script/memory-benchmark     # override app paths
 
 set -euo pipefail
 
@@ -22,10 +22,10 @@ fi
 
 RUNS=${RUNS:-3}
 SETTLE_SECONDS=${SETTLE_SECONDS:-20}
-WU_BIN=${WU_BIN:-/Applications/Aayushi Code.app/Contents/MacOS/aayushicode}
+AAYUSHICODE_BIN=${AAYUSHICODE_BIN:-/Applications/Aayushi Code.app/Contents/MacOS/aayushicode}
 ZED_BIN=${ZED_BIN:-/Applications/Zed.app/Contents/MacOS/zed}
 
-for binary in "$WU_BIN" "$ZED_BIN"; do
+for binary in "$AAYUSHICODE_BIN" "$ZED_BIN"; do
   if [[ ! -x "$binary" ]]; then
     echo "Not found or not executable: $binary" >&2
     exit 1
@@ -89,16 +89,16 @@ median() {
   }'
 }
 
-wu_samples=()
+aayushicode_samples=()
 zed_samples=()
 for ((run = 1; run <= RUNS; run++)); do
-  echo "Run $run/$RUNS: Wu..." >&2
-  wu_samples+=("$(measure_once "$WU_BIN")")
+  echo "Run $run/$RUNS: Aayushi Code..." >&2
+  aayushicode_samples+=("$(measure_once "$AAYUSHICODE_BIN")")
   echo "Run $run/$RUNS: Zed..." >&2
   zed_samples+=("$(measure_once "$ZED_BIN")")
 done
 
-wu_median=$(median "${wu_samples[@]}")
+aayushicode_median=$(median "${aayushicode_samples[@]}")
 zed_median=$(median "${zed_samples[@]}")
 
 to_mb() {
@@ -107,15 +107,15 @@ to_mb() {
 
 echo
 echo "Samples (KB):"
-echo "  Wu:  ${wu_samples[*]}"
+echo "  Aayushi Code:  ${aayushicode_samples[*]}"
 echo "  Zed: ${zed_samples[*]}"
 echo
 echo "Median base memory footprint:"
-echo "  Wu:  $(to_mb "$wu_median") MB"
+echo "  Aayushi Code:  $(to_mb "$aayushicode_median") MB"
 echo "  Zed: $(to_mb "$zed_median") MB"
 
 if [[ "$zed_median" -gt 0 ]]; then
-  awk -v wu="$wu_median" -v zed="$zed_median" 'BEGIN {
-    printf "  Wu uses %.0f%% less memory than Zed\n", (1 - wu / zed) * 100
+  awk -v aayushicode="$aayushicode_median" -v zed="$zed_median" 'BEGIN {
+    printf "  Aayushi Code uses %.0f%% less memory than Zed\n", (1 - aayushicode / zed) * 100
   }'
 fi

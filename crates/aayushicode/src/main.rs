@@ -2,7 +2,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod reliability;
-mod wu;
+mod aayushicode;
 
 use anyhow::{Context as _, Result};
 use clap::Parser;
@@ -51,13 +51,13 @@ use workspace::{
     AppState, MultiWorkspace, SerializedWorkspaceLocation, SessionWorkspace, Toast, WorkspaceDb,
     WorkspaceSettings, WorkspaceStore, notifications::NotificationId, restore_multiworkspace,
 };
-use wu::{
+use aayushicode::{
     OpenListener, OpenRequest, RawOpenRequest, app_menus, build_window_options,
     derive_paths_with_position, handle_cli_connection, handle_keymap_file_changes,
     initialize_workspace, open_paths_with_positions,
 };
 
-use crate::wu::{OpenRequestKind, eager_load_active_theme_and_icon_theme};
+use crate::aayushicode::{OpenRequestKind, eager_load_active_theme_and_icon_theme};
 
 #[cfg(feature = "mimalloc")]
 #[global_allocator]
@@ -357,17 +357,17 @@ fn main() {
     } else {
         #[cfg(any(target_os = "linux", target_os = "freebsd"))]
         {
-            crate::wu::listen_for_cli_connections(open_listener.clone()).is_err()
+            crate::aayushicode::listen_for_cli_connections(open_listener.clone()).is_err()
         }
 
         #[cfg(target_os = "windows")]
         {
-            !crate::wu::windows_only_instance::handle_single_instance(open_listener.clone(), &args)
+            !crate::aayushicode::windows_only_instance::handle_single_instance(open_listener.clone(), &args)
         }
 
         #[cfg(target_os = "macos")]
         {
-            use wu::mac_only_instance::*;
+            use aayushicode::mac_only_instance::*;
             ensure_only_instance(open_listener.clone(), open_request_from_args(&args))
                 != IsOnlyInstance::Yes
         }
@@ -469,7 +469,7 @@ fn main() {
         }
         settings::init(cx);
         zlog_settings::init(cx);
-        wu::watch_settings_files(fs.clone(), cx);
+        crate::aayushicode::watch_settings_files(fs.clone(), cx);
         handle_keymap_file_changes(user_keymap_file_rx, user_keymap_watcher, cx);
 
         let user_agent = format!(
@@ -557,9 +557,9 @@ fn main() {
 
         Client::set_global(client.clone(), cx);
 
-        wu::init(cx);
+        crate::aayushicode::init(cx);
         #[cfg(target_os = "macos")]
-        wu::move_to_applications::init(cx);
+        crate::aayushicode::move_to_applications::init(cx);
         project::Project::init(&client, cx);
         debugger_ui::init(cx);
         debugger_tools::init(cx);
@@ -599,7 +599,7 @@ fn main() {
             cx.background_executor().clone(),
         );
         command_palette::init(cx);
-        wu::remote_debug::init(cx);
+        crate::aayushicode::remote_debug::init(cx);
         snippet_provider::init(cx);
 
         recent_projects::init(cx);
@@ -999,7 +999,7 @@ fn handle_open_request(request: OpenRequest, app_state: Arc<AppState>, cx: &mut 
                 });
             }
             OpenRequestKind::GitCommit { sha } => {
-                let base_open_options = wu::open_options_for_request(
+                let base_open_options = crate::aayushicode::open_options_for_request(
                     request.open_behavior,
                     &workspace::SerializedWorkspaceLocation::Local,
                     cx,
@@ -1056,7 +1056,7 @@ fn handle_open_request(request: OpenRequest, app_state: Arc<AppState>, cx: &mut 
     if let Some(connection_options) = request.remote_connection {
         let open_behavior = request.open_behavior;
         let location = workspace::SerializedWorkspaceLocation::Remote(connection_options.clone());
-        let base_open_options = wu::open_options_for_request(open_behavior, &location, cx);
+        let base_open_options = crate::aayushicode::open_options_for_request(open_behavior, &location, cx);
         cx.spawn(async move |cx| {
             let paths: Vec<PathBuf> = request.open_paths.into_iter().map(PathBuf::from).collect();
             open_remote_project(connection_options, paths, app_state, base_open_options, cx).await
@@ -1068,7 +1068,7 @@ fn handle_open_request(request: OpenRequest, app_state: Arc<AppState>, cx: &mut 
     let mut task = None;
     if !request.open_paths.is_empty() || !request.diff_paths.is_empty() {
         let app_state = app_state.clone();
-        let base_open_options = wu::open_options_for_request(
+        let base_open_options = crate::aayushicode::open_options_for_request(
             request.open_behavior,
             &workspace::SerializedWorkspaceLocation::Local,
             cx,
