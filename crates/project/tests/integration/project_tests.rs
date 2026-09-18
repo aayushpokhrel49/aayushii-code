@@ -1357,7 +1357,7 @@ async fn test_wu_tasks_take_precedence_over_zed_tasks(cx: &mut gpui::TestAppCont
     init_test(cx);
     TaskStore::init(None);
 
-    let wu_tasks = r#"[{ "label": "wu task", "command": "echo" }]"#;
+    let wu_tasks = r#"[{ "label": "aayushicode task", "command": "echo" }]"#;
     let fs = FakeFs::new(cx.executor());
     fs.insert_tree(
         path!("/dir"),

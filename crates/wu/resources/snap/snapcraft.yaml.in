@@ -16,9 +16,9 @@ issues: https://github.com/aayushpokhrel49/aayushii-code/issues
 contact: mailto:info@aayushhpokhrel.com.np
 
 parts:
-  wu:
+  aayushicode:
     plugin: dump
-    source: "https://github.com/aayushpokhrel49/aayushii-code/releases/download/v$RELEASE_VERSION/aayushi-linux-x86_64.tar.gz"
+    source: "https://github.com/aayushpokhrel49/aayushii-code/releases/download/v$RELEASE_VERSION/aayushicode-linux-x86_64.tar.gz"
 
     organize:
       # These renames seem to not be necessary, but it's tidier.

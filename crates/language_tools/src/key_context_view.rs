@@ -82,7 +82,7 @@ impl KeyContextView {
                         "".to_string()
                     };
                     let mut name = binding.action().name();
-                    if name == "wu::NoAction" {
+                    if name == "aayushicode::NoAction" {
                         name = "(null)"
                     }
 
@@ -135,7 +135,7 @@ impl KeyContextView {
         if let Some(last_action) = a {
             last_action.partial_eq(b)
         } else {
-            b.name() == "wu::NoAction"
+            b.name() == "aayushicode::NoAction"
         }
     }
 }
@@ -197,7 +197,7 @@ impl Render for KeyContextView {
                 }),
             )
             .child(Label::new("Keyboard Context").size(LabelSize::Large))
-            .child(Label::new("This view lets you determine the current context stack for creating custom key bindings in Wu. When a keyboard shortcut is triggered, it also shows all the possible contexts it could have triggered in, and which one matched."))
+            .child(Label::new("This view lets you determine the current context stack for creating custom key bindings in Aayushi Code. When a keyboard shortcut is triggered, it also shows all the possible contexts it could have triggered in, and which one matched."))
             .child(
                 h_flex()
                     .mt_4()

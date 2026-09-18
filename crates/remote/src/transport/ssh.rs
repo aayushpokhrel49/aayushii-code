@@ -641,7 +641,7 @@ impl SshRemoteConnection {
         let destination = connection_options.ssh_destination();
 
         let temp_dir = tempfile::Builder::new()
-            .prefix("wu-ssh-session")
+            .prefix("aayushicode-ssh-session")
             .tempdir()?;
 
         // On non-Windows, check if the user already has an active ControlMaster

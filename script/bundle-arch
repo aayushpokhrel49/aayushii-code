@@ -45,6 +45,12 @@ export RELEASE_VERSION="${version}"
 
 export CC="${CC:-$(command -v clang)}"
 
+# Baked in at compile time so the self-updater is disabled for package-managed
+# installs: the files are owned by pacman and live outside `wu.app`, so the
+# updater can't update them (it would silently install a parallel copy under
+# ~/.local). A manual "Check for updates" shows `check()`'s prompt instead.
+export ZED_UPDATE_EXPLANATION="Please use your package manager to update"
+
 script/generate-licenses || true
 
 arch=$(uname -m)
@@ -59,7 +65,7 @@ fi
 
 cargo build --release --package wu --package cli
 
-llvm-objcopy --strip-debug "${target_dir}/release/wu"
+llvm-objcopy --strip-debug "${target_dir}/release/aayushicode"
 llvm-objcopy --strip-debug "${target_dir}/release/cli"
 
 suffix=""
@@ -74,13 +80,13 @@ package_root="$(mktemp -d)"
 install_dir="${package_root}/opt/aayushicode"
 
 mkdir -p "${install_dir}/bin" "${install_dir}/libexec" "${install_dir}/lib" "${package_root}/usr/bin"
-cp "${target_dir}/release/wu" "${install_dir}/libexec/aayushicode-editor"
+cp "${target_dir}/release/aayushicode" "${install_dir}/libexec/aayushicode-editor"
 cp "${target_dir}/release/cli" "${install_dir}/bin/cli"
 ln -s "/opt/aayushicode/libexec/aayushicode-editor" "${package_root}/usr/bin/aayushicode"
 ln -s "/opt/aayushicode/bin/cli" "${package_root}/usr/bin/aayushicode-cli"
 
 find_libs() {
-    ldd "${target_dir}/release/wu" |\
+    ldd "${target_dir}/release/aayushicode" |\
         cut -d' ' -f3 |\
         grep -v '\<\(libc.so\|libgcc_s.so\|libm.so\|libpthread.so\|libdl.so\|libasound.so\)' |\
         grep -v '\<\(libglib-2.0.so\|libgobject-2.0.so\|libgio-2.0.so\|libgmodule-2.0.so\|libpcre.so\|libpcre2-8.so\|libmount.so\|libblkid.so\|libselinux.so\|libffi.so\|libresolv.so\|libz.so\)'

@@ -220,7 +220,7 @@ fn main() {
 
     let args = Args::parse();
 
-    // `wu --askpass` Makes zed operate in nc/netcat mode for use with askpass
+    // `aayushicode --askpass` Makes zed operate in nc/netcat mode for use with askpass
     #[cfg(not(target_os = "windows"))]
     if let Some(socket) = &args.askpass {
         askpass::main(socket);
@@ -250,7 +250,7 @@ fn main() {
         }
     }
 
-    // `wu --printenv` Outputs environment variables as JSON to stdout
+    // `aayushicode --printenv` Outputs environment variables as JSON to stdout
     if args.printenv {
         util::shell_env::print_env();
         return;
@@ -825,7 +825,7 @@ fn main() {
 
 // macOS ties the Dock's recent-items list to the app's code signature. Ad-hoc signed
 // builds get a new signature on every update, which empties that list, so rebuild it
-// from Wu's own project history. Oldest first so the newest ends up on top.
+// from Aayushi Code's own project history. Oldest first so the newest ends up on top.
 async fn restore_dock_recent_projects(
     db: &WorkspaceDb,
     fs: &dyn Fs,
@@ -893,7 +893,7 @@ fn handle_open_request(request: OpenRequest, app_state: Arc<AppState>, cx: &mut 
                                     .project()
                                     .update(cx, |project, _| project.lsp_store())
                             })?;
-                            let uri = format!("wu://schemas/{}", schema_path);
+                            let uri = format!("aayushicode://schemas/{}", schema_path);
                             let json_schema_content =
                                 json_schema_store::handle_schema_request(lsp_store, uri, cx)
                                     .await?;
@@ -942,8 +942,8 @@ fn handle_open_request(request: OpenRequest, app_state: Arc<AppState>, cx: &mut 
                 });
             }
             OpenRequestKind::Setting { setting_path } => {
-                // wu://settings/languages/$(language)/tab_size  - DONT SUPPORT
-                // wu://settings/languages/Rust/tab_size  - SUPPORT
+                // aayushicode://settings/languages/$(language)/tab_size  - DONT SUPPORT
+                // aayushicode://settings/languages/Rust/tab_size  - SUPPORT
                 // languages.$(language).tab_size
                 // [ languages $(language) tab_size]
                 cx.spawn(async move |cx| {
@@ -1217,7 +1217,7 @@ pub(crate) async fn restore_or_create_workspace(
         // If the user cancelled a failed remote connection at startup,
         // open_remote_project returns Ok but removes the window, so error_count
         // stays 0 and the toast fallback above does not trigger. Without this
-        // check, Wu would exit silently.
+        // check, Aayushi Code would exit silently.
         if cx.update(|cx| cx.windows().is_empty()) {
             cx.update(|cx| {
                 workspace::open_new(

@@ -14,7 +14,7 @@ use workspace::notifications::{NotificationId, show_app_notification};
 use wprcontrol::*;
 
 actions!(
-    wu,
+    aayushicode,
     [
         /// Starts recording an ETW (Event Tracing for Windows) trace.
         RecordEtwTrace,
@@ -237,7 +237,7 @@ fn start_etw_recording(cx: &mut App, heap_pid: Option<u32>) {
     .detach();
 }
 
-const INSTANCE_NAME: &str = "Wu";
+const INSTANCE_NAME: &str = "Aayushi Code";
 
 const BUILTIN_PROFILES: &[&str] = &[
     "CPU.Verbose.Memory",
@@ -272,7 +272,7 @@ fn heap_tracing_profile(heap_pid: Option<u32>) -> String {
 
     format!(
         r#"<?xml version="1.0" encoding="utf-8"?>
-<WindowsPerformanceRecorder Version="1.0" Author="Wu">
+<WindowsPerformanceRecorder Version="1.0" Author="Aayushi Code">
   <Profiles>
     {heap_provider}
 

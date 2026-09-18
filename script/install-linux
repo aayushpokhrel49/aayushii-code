@@ -5,14 +5,14 @@ set -euxo pipefail
 if [[ $# -gt 0 ]]; then
   echo "
   Usage: ${0##*/}
-  Builds and installs wu onto your system into ~/.local, making it available as ~/.local/bin/wu.
+  Builds and installs Aayushi Code onto your system into ~/.local, making it available as ~/.local/bin/aayushicode.
 
   Before running this you should ensure you have all the build dependencies installed with `./script/linux`.
   "
   exit 1
 fi
 export ZED_CHANNEL=$(<crates/wu/RELEASE_CHANNEL)
-export ZED_UPDATE_EXPLANATION="You need to fetch and rebuild wu in $(pwd)"
+export ZED_UPDATE_EXPLANATION="You need to fetch and rebuild Aayushi Code in $(pwd)"
 script/bundle-linux
 
 arch="$(uname -m)"

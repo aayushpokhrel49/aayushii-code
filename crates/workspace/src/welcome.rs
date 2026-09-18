@@ -27,7 +27,7 @@ pub struct OpenRecentProject {
 }
 
 actions!(
-    wu,
+    aayushicode,
     [
         /// Show the Aayushi Code welcome screen
         ShowWelcome

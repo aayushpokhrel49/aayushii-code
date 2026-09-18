@@ -96,7 +96,7 @@ cargo build --release --target "${remote_server_triple}" --package remote_server
 # Strip debug symbols and save them for upload to DigitalOcean.
 # We use llvm-objcopy because GNU objcopy on older distros (e.g. Ubuntu 20.04)
 # doesn't understand CREL sections produced by newer LLVM.
-llvm-objcopy --strip-debug "${target_dir}/${target_triple}/release/wu"
+llvm-objcopy --strip-debug "${target_dir}/${target_triple}/release/aayushicode"
 llvm-objcopy --strip-debug "${target_dir}/${target_triple}/release/cli"
 llvm-objcopy --strip-debug "${target_dir}/${remote_server_triple}/release/remote_server"
 
@@ -117,12 +117,12 @@ fi
 # Move everything that should end up in the final package
 # into a temp directory.
 temp_dir=$(mktemp -d)
-wu_dir="${temp_dir}/wu$suffix.app"
+wu_dir="${temp_dir}/aayushicode$suffix.app"
 
 # Binary
 mkdir -p "${wu_dir}/bin" "${wu_dir}/libexec"
-cp "${target_dir}/${target_triple}/release/wu" "${wu_dir}/libexec/wu-editor"
-cp "${target_dir}/${target_triple}/release/cli" "${wu_dir}/bin/wu"
+cp "${target_dir}/${target_triple}/release/aayushicode" "${wu_dir}/libexec/aayushicode-editor"
+cp "${target_dir}/${target_triple}/release/cli" "${wu_dir}/bin/aayushicode"
 
 # Libs
 # Bundle libstdc++ so older supported systems can run binaries built with our
@@ -132,7 +132,7 @@ cp "${target_dir}/${target_triple}/release/cli" "${wu_dir}/bin/wu"
 # get dlopen'd are built against the system GLib, and resolving them against an
 # older bundled copy fails with missing symbols.
 find_libs() {
-    ldd ${target_dir}/${target_triple}/release/wu |\
+    ldd ${target_dir}/${target_triple}/release/aayushicode |\
         cut -d' ' -f3 |\
         grep -v '\<\(libc.so\|libgcc_s.so\|libm.so\|libpthread.so\|libdl.so\|libasound.so\)' |\
         grep -v '\<\(libglib-2.0.so\|libgobject-2.0.so\|libgio-2.0.so\|libgmodule-2.0.so\|libpcre.so\|libpcre2-8.so\|libmount.so\|libblkid.so\|libselinux.so\|libffi.so\|libresolv.so\|libz.so\)'
@@ -182,6 +182,6 @@ archive="aayushicode-linux-${arch}.tar.gz"
 rm -rf "${archive}"
 remove_match="aayushicode(-[a-zA-Z0-9]+)?-linux-$(uname -m)\.tar\.gz"
 ls "${target_dir}/release" | grep -E ${remove_match} | xargs -d "\n" -I {} rm -f "${target_dir}/release/{}" || true
-tar -czvf "${target_dir}/release/$archive" -C ${temp_dir} "wu$suffix.app"
+tar -czvf "${target_dir}/release/$archive" -C ${temp_dir} "aayushicode$suffix.app"
 
 gzip -f --stdout --best "${target_dir}/${remote_server_triple}/release/remote_server" > "${target_dir}/aayushicode-remote-server-linux-${arch}.gz"

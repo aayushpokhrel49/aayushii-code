@@ -8,7 +8,7 @@ mod updater;
 #[cfg(target_os = "windows")]
 fn main() {
     if let Err(e) = windows_impl::run() {
-        log::error!("Error: Wu update failed, {:?}", e);
+        log::error!("Error: Aayushi Code update failed, {:?}", e);
         windows_impl::show_error(format!("Error: {:?}", e));
     }
 }
@@ -57,7 +57,7 @@ mod windows_impl {
             .context("No parent directory")?
             .to_path_buf();
 
-        log::info!("======= Starting Wu update =======");
+        log::info!("======= Starting Aayushi Code update =======");
         let (tx, rx) = std::sync::mpsc::channel();
         let hwnd = create_dialog_window(rx)?.0 as isize;
         let args = parse_args(std::env::args_os().skip(1));
@@ -123,7 +123,7 @@ mod windows_impl {
             MessageBoxW(
                 None,
                 &HSTRING::from(content),
-                windows::core::w!("Error: Wu update failed."),
+                windows::core::w!("Error: Aayushi Code update failed."),
                 MB_ICONERROR | MB_SYSTEMMODAL,
             )
         };
@@ -158,7 +158,7 @@ mod windows_impl {
         fn test_parse_args_preserves_launch_arguments() {
             let launch_arguments = vec![
                 OsString::from("--user-data-dir"),
-                OsString::from(r"C:\Wu Data"),
+                OsString::from(r"C:\Aayushi Code Data"),
             ];
             assert_eq!(
                 parse_args(launch_arguments.clone()).launch_arguments,

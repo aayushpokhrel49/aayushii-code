@@ -92,7 +92,7 @@ function GenerateLicenses {
 function BuildWuAndItsFriends {
     Write-Output "Building Aayushi Code and its friends, for channel: $channel"
     cargo build --release --package wu --package cli --package auto_update_helper --target $target
-    Copy-Item -Path ".\$CargoOutDir\wu.exe" -Destination "$innoDir\Aayushi Code.exe" -Force
+    Copy-Item -Path ".\$CargoOutDir\aayushicode.exe" -Destination "$innoDir\Aayushi Code.exe" -Force
     Copy-Item -Path ".\$CargoOutDir\cli.exe" -Destination "$innoDir\cli.exe" -Force
     Copy-Item -Path ".\$CargoOutDir\auto_update_helper.exe" -Destination "$innoDir\auto_update_helper.exe" -Force
     switch ($channel) {

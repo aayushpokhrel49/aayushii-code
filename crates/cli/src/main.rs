@@ -902,9 +902,8 @@ mod linux {
                 let cli = env::current_exe()?;
                 let dir = cli.parent().context("no parent path for cli")?;
 
-                // libexec is the standard, lib/wu is for Arch (and other non-libexec distros),
-                // ./wu is for the target directory in development builds.
-                let possible_locations = ["../libexec/wu-editor", "../lib/wu/wu-editor", "./wu"];
+                // libexec is the standard, ./aayushicode is for the target directory in development builds.
+                let possible_locations = ["../libexec/aayushicode-editor", "./aayushicode"];
                 possible_locations
                     .iter()
                     .find_map(|p| dir.join(p).canonicalize().ok().filter(|path| path != &cli))
@@ -1037,7 +1036,7 @@ mod flatpak {
         if !invocation_args.iter().any(|arg| arg == "--zed") {
             // Positional paths consume all following arguments, so launcher options must precede them.
             args.push("--zed".into());
-            args.push(flatpak_dir.join("libexec").join("wu-editor").into());
+            args.push(flatpak_dir.join("libexec").join("aayushicode-editor").into());
         }
 
         args.extend_from_slice(invocation_args);
@@ -1072,7 +1071,7 @@ mod flatpak {
                 )
                 .into(),
             );
-            args.push(flatpak_dir.join("bin").join("wu").into());
+            args.push(flatpak_dir.join("bin").join("aayushicode").into());
 
             let invocation_args = env::args_os().skip(1).collect::<Vec<_>>();
             args.extend(restart_cli_args(&flatpak_dir, &invocation_args));
@@ -1088,7 +1087,7 @@ mod flatpak {
             && env::var("FLATPAK_ID").is_ok_and(|id| id.starts_with("me.aayush.Aayushi-Code"))
             && args.zed.is_none()
         {
-            args.zed = Some("/app/libexec/wu-editor".into());
+            args.zed = Some("/app/libexec/aayushicode-editor".into());
             unsafe { env::set_var("ZED_UPDATE_EXPLANATION", "Please use flatpak to update zed") };
         }
         args
@@ -1143,10 +1142,10 @@ mod flatpak {
             let flatpak_dir = Path::new("/flatpak");
             let args = restart_cli_args(flatpak_dir, &["project".into()]);
             let parsed =
-                crate::Args::try_parse_from(std::iter::once(OsString::from("wu")).chain(args))
+                crate::Args::try_parse_from(std::iter::once(OsString::from("aayushicode")).chain(args))
                     .unwrap();
 
-            assert_eq!(parsed.zed, Some(flatpak_dir.join("libexec/wu-editor")));
+            assert_eq!(parsed.zed, Some(flatpak_dir.join("libexec/aayushicode-editor")));
             assert_eq!(parsed.paths_with_position, ["project"]);
 
             let invocation_args = ["--zed".into(), "/custom/zed-editor".into()];
@@ -1281,9 +1280,9 @@ mod windows {
                 let cli = std::env::current_exe()?;
                 let dir = cli.parent().context("no parent path for cli")?;
 
-                // ../Aayushi Code.exe is the standard, lib/wu is for MSYS2, ./wu.exe is for the target
+                // ../Aayushi Code.exe is the standard, ./aayushicode.exe is for the target
                 // directory in development builds.
-                let possible_locations = ["../aayushicode.exe", "../lib/wu/wu-editor.exe", "./wu.exe"];
+                let possible_locations = ["../Aayushi Code.exe", "./aayushicode.exe"];
                 possible_locations
                     .iter()
                     .find_map(|p| dir.join(p).canonicalize().ok().filter(|path| path != &cli))
@@ -1459,7 +1458,7 @@ mod mac_os {
             user_data_dir: Option<&str>,
         ) -> io::Result<ExitStatus> {
             let path = match self {
-                Bundle::App { app_bundle, .. } => app_bundle.join("Contents/MacOS/wu"),
+                Bundle::App { app_bundle, .. } => app_bundle.join("Contents/MacOS/aayushicode"),
                 Bundle::LocalPath { executable, .. } => executable.clone(),
             };
 
@@ -1473,7 +1472,7 @@ mod mac_os {
 
         fn path(&self) -> PathBuf {
             match self {
-                Bundle::App { app_bundle, .. } => app_bundle.join("Contents/MacOS/wu"),
+                Bundle::App { app_bundle, .. } => app_bundle.join("Contents/MacOS/aayushicode"),
                 Bundle::LocalPath { executable, .. } => executable.clone(),
             }
         }

@@ -139,9 +139,15 @@ impl OpenRequest {
                 });
             } else if let Some(file) = url.strip_prefix("file://") {
                 this.parse_file_path(file)
-            } else if let Some(file) = url.strip_prefix("aayushicode://file") {
+            } else if let Some(file) = url
+                .strip_prefix("aayushicode://file")
+                .filter(|f| f.is_empty() || f.starts_with('/'))
+            {
                 this.parse_file_path(file)
-            } else if let Some(file) = url.strip_prefix("aayushicode://ssh") {
+            } else if let Some(file) = url
+                .strip_prefix("aayushicode://ssh")
+                .filter(|f| f.is_empty() || f.starts_with('/'))
+            {
                 let ssh_url = "ssh:/".to_string() + file;
                 this.parse_ssh_file_path(&ssh_url, cx)?
             } else if let Some(extension_id) = url.strip_prefix("aayushicode://extension/") {
@@ -160,9 +166,12 @@ impl OpenRequest {
                 this.kind = Some(OpenRequestKind::Setting {
                     setting_path: Some(setting_path.to_string()),
                 });
-            } else if let Some(clone_path) = url.strip_prefix("aayushicode://git/clone") {
+            } else if let Some(clone_path) = url
+                .strip_prefix("aayushicode://git/clone")
+                .filter(|c| c.is_empty() || c.starts_with('/') || c.starts_with('?'))
+            {
                 this.parse_git_clone_url(clone_path)?
-            } else if let Some(commit_path) = url.strip_prefix("wu://git/commit/") {
+            } else if let Some(commit_path) = url.strip_prefix("aayushicode://git/commit/") {
                 this.parse_git_commit_url(commit_path)?
             } else if url.starts_with("ssh://") {
                 this.parse_ssh_file_path(&url, cx)?
@@ -1408,7 +1417,7 @@ mod tests {
     fn test_parse_focus_app_url(cx: &mut TestAppContext) {
         let _app_state = init_test(cx);
 
-        for url in ["wu://", "wu://open", "wu://open/"] {
+        for url in ["aayushicode://", "aayushicode://open", "aayushicode://open/"] {
             let request = cx.update(|cx| {
                 OpenRequest::parse(
                     RawOpenRequest {
@@ -1439,7 +1448,7 @@ mod tests {
         let request = cx.update(|cx| {
             OpenRequest::parse(
                 RawOpenRequest {
-                    urls: vec!["wu://git/commit/abc123?repo=path/to/repo".into()],
+                    urls: vec!["aayushicode://git/commit/abc123?repo=path/to/repo".into()],
                     ..Default::default()
                 },
                 cx,
@@ -1460,7 +1469,7 @@ mod tests {
         let request = cx.update(|cx| {
             OpenRequest::parse(
                 RawOpenRequest {
-                    urls: vec!["wu://git/commit/def456?repo=path%20with%20spaces".into()],
+                    urls: vec!["aayushicode://git/commit/def456?repo=path%20with%20spaces".into()],
                     ..Default::default()
                 },
                 cx,
@@ -1481,7 +1490,7 @@ mod tests {
             assert!(
                 OpenRequest::parse(
                     RawOpenRequest {
-                        urls: vec!["wu://git/commit/abc123?repo=".into()],
+                        urls: vec!["aayushicode://git/commit/abc123?repo=".into()],
                         ..Default::default()
                     },
                     cx,
@@ -1496,7 +1505,7 @@ mod tests {
         let result = cx.update(|cx| {
             OpenRequest::parse(
                 RawOpenRequest {
-                    urls: vec!["wu://git/commit/abc123?foo=bar".into()],
+                    urls: vec!["aayushicode://git/commit/abc123?foo=bar".into()],
                     ..Default::default()
                 },
                 cx,
@@ -1858,7 +1867,7 @@ mod tests {
             OpenRequest::parse(
                 RawOpenRequest {
                     urls: vec![
-                        "wu://git/clone/?repo=https://github.com/zed-industries/zed.git".into(),
+                        "aayushicode://git/clone/?repo=https://github.com/zed-industries/zed.git".into(),
                     ],
                     ..Default::default()
                 },
@@ -1883,7 +1892,7 @@ mod tests {
             OpenRequest::parse(
                 RawOpenRequest {
                     urls: vec![
-                        "wu://git/clone?repo=https://github.com/zed-industries/zed.git".into(),
+                        "aayushicode://git/clone?repo=https://github.com/zed-industries/zed.git".into(),
                     ],
                     ..Default::default()
                 },
@@ -1908,7 +1917,7 @@ mod tests {
             OpenRequest::parse(
                 RawOpenRequest {
                     urls: vec![
-                        "wu://git/clone/?repo=https%3A%2F%2Fgithub.com%2Fzed-industries%2Fzed.git"
+                        "aayushicode://git/clone/?repo=https%3A%2F%2Fgithub.com%2Fzed-industries%2Fzed.git"
                             .into(),
                     ],
                     ..Default::default()

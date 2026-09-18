@@ -4017,12 +4017,12 @@ mod tests {
         let keymap_content = r#"[
     {
         "bindings": {
-            "alt-cmd-shift-c": "wu::OpenKeymap"
+            "alt-cmd-shift-c": "aayushicode::OpenKeymap"
         }
     },
     {
         "bindings": {
-            "alt-cmd-shift-c": "wu::OpenKeymap"
+            "alt-cmd-shift-c": "aayushicode::OpenKeymap"
         }
     }
 ]"#;
@@ -4030,7 +4030,7 @@ mod tests {
         let cx = &mut cx;
 
         let rows = keymap_editor.read_with(cx, |editor, _| {
-            visible_rows_for_action(editor, "wu::OpenKeymap")
+            visible_rows_for_action(editor, "aayushicode::OpenKeymap")
         });
         assert_eq!(
             rows.len(),
@@ -4056,7 +4056,7 @@ mod tests {
         cx.run_until_parked();
 
         let rows = keymap_editor.read_with(cx, |editor, _| {
-            visible_rows_for_action(editor, "wu::OpenKeymap")
+            visible_rows_for_action(editor, "aayushicode::OpenKeymap")
         });
         assert_eq!(rows.len(), 1, "expected one row remaining after deletion");
     }

@@ -8487,7 +8487,7 @@ pub async fn apply_restored_multiworkspace_state(
 }
 
 actions!(
-    wu,
+    aayushicode,
     [
         /// Opens the Aayushi Code log file.
         OpenLog,

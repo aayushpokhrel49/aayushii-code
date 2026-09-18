@@ -212,7 +212,7 @@ function sign_app_binaries() {
         # sequence of codesign commands modeled after this example: https://developer.apple.com/forums/thread/701514
         /usr/bin/codesign --deep --force --timestamp --options runtime --sign "$IDENTITY" "${app_path}/Contents/MacOS/cli" -v
         /usr/bin/codesign --deep --force --timestamp --options runtime --sign "$IDENTITY" "${app_path}/Contents/MacOS/git" -v
-        /usr/bin/codesign --deep --force --timestamp --options runtime --entitlements crates/wu/resources/zed.entitlements --sign "$IDENTITY" "${app_path}/Contents/MacOS/wu" -v
+        /usr/bin/codesign --deep --force --timestamp --options runtime --entitlements crates/wu/resources/zed.entitlements --sign "$IDENTITY" "${app_path}/Contents/MacOS/aayushicode" -v
         /usr/bin/codesign --force --timestamp --options runtime --entitlements crates/wu/resources/zed.entitlements --sign "$IDENTITY" "${app_path}" -v
     else
         echo "One or more of the following variables are missing: MACOS_CERTIFICATE, MACOS_CERTIFICATE_PASSWORD, APPLE_NOTARIZATION_KEY, APPLE_NOTARIZATION_KEY_ID, APPLE_NOTARIZATION_ISSUER_ID"
@@ -297,17 +297,17 @@ function sign_binary() {
 }
 
 
-cp target/${target_triple}/${target_dir}/wu "${app_path}/Contents/MacOS/wu"
+cp target/${target_triple}/${target_dir}/aayushicode "${app_path}/Contents/MacOS/aayushicode"
 cp target/${target_triple}/${target_dir}/cli "${app_path}/Contents/MacOS/cli"
 
 if [[ "$target_dir" = "release" && -n "${CI:-}${BUNDLE_DSYM:-}" ]]; then
-    dsym_path="target/${target_triple}/${target_dir}/Wu.dSYM"
+    dsym_path="target/${target_triple}/${target_dir}/AayushiCode.dSYM"
     rm -rf "$dsym_path" "${dsym_path}.zip"
     # Use rustc's dSYM when split-debuginfo produced one, otherwise build it.
-    if [[ -d "target/${target_triple}/${target_dir}/wu.dSYM" ]]; then
-        cp -R "target/${target_triple}/${target_dir}/wu.dSYM" "$dsym_path"
+    if [[ -d "target/${target_triple}/${target_dir}/aayushicode.dSYM" ]]; then
+        cp -R "target/${target_triple}/${target_dir}/aayushicode.dSYM" "$dsym_path"
     else
-        dsymutil "target/${target_triple}/${target_dir}/wu" -o "$dsym_path"
+        dsymutil "target/${target_triple}/${target_dir}/aayushicode" -o "$dsym_path"
     fi
     ditto -c -k --keepParent "$dsym_path" "${dsym_path}.zip"
     echo "Created debug symbols at ${dsym_path}.zip"

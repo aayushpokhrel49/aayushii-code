@@ -11,7 +11,7 @@ check_remaining_installations() {
         [ "$remaining" -eq 0 ]
     else
         # Check for any Aayushi Code variants in ~/.local
-        remaining=$(ls -d "$HOME/.local/wu"*.app 2>/dev/null | wc -l)
+        remaining=$(ls -d "$HOME/.local/aayushicode"*.app 2>/dev/null | wc -l)
         [ "$remaining" -eq 0 ]
     fi
 }
@@ -73,10 +73,10 @@ linux() {
     esac
 
     # Remove the app directory
-    rm -rf "$HOME/.local/wu$suffix.app"
+    rm -rf "$HOME/.local/aayushicode$suffix.app"
 
     # Remove the binary symlink
-    rm -f "$HOME/.local/bin/wu"
+    rm -f "$HOME/.local/bin/aayushicode"
 
     # Remove the .desktop file
     rm -f "$HOME/.local/share/applications/${appid}.desktop"
@@ -85,7 +85,7 @@ linux() {
     rm -rf "$HOME/.local/share/aayushi code/db/0-$db_suffix"
 
     # Remove socket file
-    rm -f "$HOME/.local/share/aayushi code/wu-$db_suffix.sock"
+    rm -f "$HOME/.local/share/aayushi code/aayushicode-$db_suffix.sock"
 
     # Remove the entire Aayushi Code data directory if no installations remain
     if check_remaining_installations; then
@@ -114,7 +114,7 @@ macos() {
     fi
 
     # Remove the binary symlink
-    rm -f "$HOME/.local/bin/wu"
+    rm -f "$HOME/.local/bin/aayushicode"
 
     # Remove the database directory for this channel
     rm -rf "$HOME/Library/Application Support/Aayushi Code/db/0-$db_suffix"

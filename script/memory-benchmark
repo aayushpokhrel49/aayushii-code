@@ -22,7 +22,7 @@ fi
 
 RUNS=${RUNS:-3}
 SETTLE_SECONDS=${SETTLE_SECONDS:-20}
-WU_BIN=${WU_BIN:-/Applications/Wu.app/Contents/MacOS/wu}
+WU_BIN=${WU_BIN:-/Applications/Aayushi Code.app/Contents/MacOS/aayushicode}
 ZED_BIN=${ZED_BIN:-/Applications/Zed.app/Contents/MacOS/zed}
 
 for binary in "$WU_BIN" "$ZED_BIN"; do

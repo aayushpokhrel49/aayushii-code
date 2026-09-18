@@ -30,8 +30,8 @@ jobs:
         run: ./script/linux
       - name: Install Rust toolchain
         run: rustup show
-      - name: Use the dev release channel
-        run: echo dev > crates/wu/RELEASE_CHANNEL
+      - name: Use the stable release channel
+        run: echo stable > crates/wu/RELEASE_CHANNEL
       - name: Build .deb package
         run: ./script/bundle-deb
       - name: Verify package

@@ -57,9 +57,9 @@ struct UpdateLock {
 impl UpdateLock {
     fn path() -> PathBuf {
         #[cfg(test)]
-        let file_name = format!("wu-auto-update-{}.lock", std::process::id());
+        let file_name = format!("aayushicode-auto-update-{}.lock", std::process::id());
         #[cfg(not(test))]
-        let file_name = "wu-auto-update.lock".to_string();
+        let file_name = "aayushicode-auto-update.lock".to_string();
         paths::temp_dir().join(file_name)
     }
 
@@ -74,7 +74,7 @@ impl UpdateLock {
         match file.try_lock() {
             Ok(()) => Ok(Self { _file: file }),
             Err(std::fs::TryLockError::WouldBlock) => {
-                anyhow::bail!("another Wu instance is already checking for updates")
+                anyhow::bail!("another Aayushi Code instance is already checking for updates")
             }
             Err(std::fs::TryLockError::Error(error)) => {
                 Err(error).with_context(|| format!("locking update lock at {path:?}"))
@@ -426,7 +426,7 @@ pub fn view_release_notes(_: &ViewReleaseNotes, cx: &mut App) -> Option<()> {
 }
 
 #[cfg(not(target_os = "windows"))]
-const INSTALLER_DIR_PREFIX: &str = "wu-auto-update";
+const INSTALLER_DIR_PREFIX: &str = "aayushicode-auto-update";
 
 #[cfg(not(target_os = "windows"))]
 struct InstallerDir(tempfile::TempDir);
@@ -454,7 +454,7 @@ impl InstallerDir {
     async fn new() -> Result<Self> {
         let installer_dir = std::env::current_exe()?
             .parent()
-            .context("No parent dir for Wu.exe")?
+            .context("No parent dir for Aayushi Code.exe")?
             .join("updates");
         if smol::fs::metadata(&installer_dir).await.is_ok() {
             smol::fs::remove_dir_all(&installer_dir).await?;
@@ -1209,7 +1209,7 @@ async fn install_release_linux(
 ) -> Result<Option<PathBuf>> {
     let home_dir = PathBuf::from(env::var("HOME").context("no HOME env var set")?);
 
-    let extracted = temp_dir.path().join("wu");
+    let extracted = temp_dir.path().join("aayushicode");
     fs::create_dir_all(&extracted)
         .await
         .context("failed to create directory into which to extract update")?;
@@ -1237,12 +1237,12 @@ async fn install_release_linux(
     } else {
         String::default()
     };
-    let app_folder_name = format!("wu{}.app", suffix);
+    let app_folder_name = format!("aayushicode{}.app", suffix);
 
     let from = extracted.join(&app_folder_name);
     let mut to = home_dir.join(".local");
 
-    let expected_suffix = format!("{}/libexec/wu-editor", app_folder_name);
+    let expected_suffix = format!("{}/libexec/aayushicode-editor", app_folder_name);
 
     if let Some(prefix) = running_app_path
         .to_str()
@@ -1260,7 +1260,7 @@ async fn install_release_linux(
 
     anyhow::ensure!(
         output.status.success(),
-        "failed to copy Wu update from {:?} to {:?}: {:?}",
+        "failed to copy Aayushi Code update from {:?} to {:?}: {:?}",
         from,
         to,
         String::from_utf8_lossy(&output.stderr)
@@ -1279,7 +1279,7 @@ async fn install_release_macos(
         .file_name()
         .with_context(|| format!("invalid running app path {running_app_path:?}"))?;
 
-    let mount_path = temp_dir.path().join("Wu");
+    let mount_path = temp_dir.path().join("AayushiCode");
     let mut mounted_app_path: OsString = mount_path.join(running_app_filename).into();
 
     mounted_app_path.push("/");
@@ -1374,7 +1374,7 @@ async fn cleanup_stale_installer_dirs() {
 async fn cleanup_windows() -> Result<()> {
     let parent = std::env::current_exe()?
         .parent()
-        .context("No parent dir for Wu.exe")?
+        .context("No parent dir for Aayushi Code.exe")?
         .to_owned();
 
     // keep in sync with crates/auto_update_helper/src/updater.rs. `updates` and
@@ -1417,7 +1417,7 @@ async fn install_release_windows(downloaded_installer: &Path) -> Result<Option<P
     // deleting the old one, and launching the new binary.
     let helper_path = std::env::current_exe()?
         .parent()
-        .context("No parent dir for Wu.exe")?
+        .context("No parent dir for Aayushi Code.exe")?
         .join("tools")
         .join("auto_update_helper.exe");
     Ok(Some(helper_path))

@@ -104,7 +104,7 @@ use wu_actions::{
 const DOCS_URL: &str = "https://aayushhpokhrel.com.np";
 
 actions!(
-    wu,
+    aayushicode,
     [
         /// Opens the element inspector for debugging UI.
         DebugElements,
@@ -182,7 +182,7 @@ pub fn init(cx: &mut App) {
 
     cx.on_action(|_: &RestoreBanner, cx| title_bar::restore_banner(cx));
 
-    // When Wu logs to stdout rather than the log file, avoid registering
+    // When Aayushi Code logs to stdout rather than the log file, avoid registering
     // handlers for both `OpenLog` and `RevealLogInFileManager`, as the log file
     // does not exist in that scenario and these actions would error.
     if !crate::stdout_is_a_pty() {
@@ -361,7 +361,7 @@ pub fn build_window_options(display_uuid: Option<Uuid>, cx: &mut App) -> WindowO
         show: false,
         kind: WindowKind::Normal,
         is_movable: true,
-        // Wu draws its own titlebar and moves the window via [`Window::start_window_move`],
+        // Aayushi Code draws its own titlebar and moves the window via [`Window::start_window_move`],
         // so on macOS AppKit should not own titlebar dragging. This avoids the titlebar
         // click delay from AppKit's drag disambiguation (first observed on macOS 27) while
         // keeping the window movable and the Window-menu tiling items enabled. No-op on
@@ -2087,7 +2087,7 @@ fn open_worktree_setup_tasks_file(
     // Kept harmless on purpose: tasks with the `create_worktree` hook run automatically
     // when a worktree is created, so the example must be safe to save unedited.
     const WORKTREE_SETUP_TASK_EXAMPLE: &str = r#"  {
-    // Runs automatically after Wu creates a new git worktree.
+    // Runs automatically after Aayushi Code creates a new git worktree.
     // $ZED_WORKTREE_ROOT is the new worktree's root directory, and
     // $ZED_MAIN_GIT_WORKTREE is the original repository's working directory.
     "label": "Set up new worktree",

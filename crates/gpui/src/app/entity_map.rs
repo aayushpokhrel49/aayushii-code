@@ -1165,7 +1165,7 @@ impl fmt::Debug for BacktraceFormatter {
                         strip = false;
                         continue;
                     }
-                    "wu::main" => {
+                    "aayushicode::main" => {
                         strip = true;
                         f.frame().backtrace_frame(frame)?;
                     }

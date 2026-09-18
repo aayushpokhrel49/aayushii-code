@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-# Downloads a Wu release from GitHub and unpacks it into ~/.local/.
+# Downloads an Aayushi Code release from GitHub and unpacks it into ~/.local/.
 
 main() {
     platform="$(uname -s)"
@@ -16,9 +16,9 @@ main() {
     fi
     # Use TMPDIR if available (for environments with non-standard temp directories)
     if [ -n "${TMPDIR:-}" ] && [ -d "${TMPDIR}" ]; then
-        temp="$(mktemp -d "$TMPDIR/wu-XXXXXX")"
+        temp="$(mktemp -d "$TMPDIR/aayushicode-XXXXXX")"
     else
-        temp="$(mktemp -d "/tmp/wu-XXXXXX")"
+        temp="$(mktemp -d "/tmp/aayushicode-XXXXXX")"
     fi
 
     if [ "$platform" = "Darwin" ]; then
@@ -58,10 +58,10 @@ main() {
 
     "$platform" "$@"
 
-    if [ "$(command -v wu)" = "$HOME/.local/bin/wu" ]; then
-        echo "Wu has been installed. Run with 'wu'"
+    if [ "$(command -v aayushicode)" = "$HOME/.local/bin/aayushicode" ]; then
+        echo "Aayushi Code has been installed. Run with 'aayushicode'"
     else
-        echo "To run Wu from your terminal, you must add ~/.local/bin to your PATH"
+        echo "To run Aayushi Code from your terminal, you must add ~/.local/bin to your PATH"
         echo "Run:"
 
         case "$SHELL" in
@@ -78,7 +78,7 @@ main() {
                 ;;
         esac
 
-        echo "To run Wu now, '~/.local/bin/wu'"
+        echo "To run Aayushi Code now, '~/.local/bin/aayushicode'"
     fi
 }
 
@@ -86,7 +86,7 @@ linux() {
     if [ -n "${ZED_BUNDLE_PATH:-}" ]; then
         cp "$ZED_BUNDLE_PATH" "$temp/aayushicode-linux-$arch.tar.gz"
     else
-        echo "Downloading Wu version: $ZED_VERSION"
+        echo "Downloading Aayushi Code version: $ZED_VERSION"
         curl "$download_base/aayushicode-linux-$arch.tar.gz" > "$temp/aayushicode-linux-$arch.tar.gz"
     fi
 
@@ -110,17 +110,17 @@ linux() {
     esac
 
     # Unpack
-    rm -rf "$HOME/.local/wu$suffix.app"
-    mkdir -p "$HOME/.local/wu$suffix.app"
+    rm -rf "$HOME/.local/aayushicode$suffix.app"
+    mkdir -p "$HOME/.local/aayushicode$suffix.app"
     tar -xzf "$temp/aayushicode-linux-$arch.tar.gz" -C "$HOME/.local/"
 
-    zed_editor="$HOME/.local/wu$suffix.app/libexec/wu-editor"
-    if [ -f "$zed_editor" ] && command -v ldd >/dev/null 2>&1; then
-        missing="$(ldd "$zed_editor" 2>/dev/null | sed -n 's/^[[:space:]]*\(.*\) => not found$/\1/p')"
+    aayushicode_editor="$HOME/.local/aayushicode$suffix.app/libexec/aayushicode-editor"
+    if [ -f "$aayushicode_editor" ] && command -v ldd >/dev/null 2>&1; then
+        missing="$(ldd "$aayushicode_editor" 2>/dev/null | sed -n 's/^[[:space:]]*\(.*\) => not found$/\1/p')"
         if [ -n "$missing" ]; then
-            echo "Warning: your system is missing libraries that Wu needs:"
+            echo "Warning: your system is missing libraries that Aayushi Code needs:"
             echo "$missing" | sed 's/^/    /'
-            echo "Install them with your package manager, or Wu will fail to start."
+            echo "Install them with your package manager, or Aayushi Code will fail to start."
         fi
     fi
 
@@ -128,13 +128,13 @@ linux() {
     mkdir -p "$HOME/.local/bin" "$HOME/.local/share/applications"
 
     # Link the binary
-    ln -sf "$HOME/.local/wu$suffix.app/bin/wu" "$HOME/.local/bin/wu"
+    ln -sf "$HOME/.local/aayushicode$suffix.app/bin/aayushicode" "$HOME/.local/bin/aayushicode"
 
     # Install icons into the standard local icon theme paths. The desktop entry
     # references `Icon=aayushicode`; a copy named after $appid is installed
     # too, because Wayland compositors look up the window/taskbar icon by the
     # window's app ID.
-    icon_src_dir="$HOME/.local/wu$suffix.app/share/icons/hicolor"
+    icon_src_dir="$HOME/.local/aayushicode$suffix.app/share/icons/hicolor"
     mkdir -p "$HOME/.local/share/icons/hicolor/512x512/apps" "$HOME/.local/share/icons/hicolor/1024x1024/apps"
     cp "$icon_src_dir/512x512/apps/aayushicode.png" "$HOME/.local/share/icons/hicolor/512x512/apps/aayushicode.png"
     cp "$icon_src_dir/512x512/apps/aayushicode.png" "$HOME/.local/share/icons/hicolor/512x512/apps/${appid}.png"
@@ -144,10 +144,10 @@ linux() {
     # Copy the .desktop file. The bundled entry uses the on-PATH `aayushicode`
     # command and `aayushicode` icon name; point both at the installed paths.
     desktop_file_path="$HOME/.local/share/applications/${appid}.desktop"
-    src_dir="$HOME/.local/wu$suffix.app/share/applications"
+    src_dir="$HOME/.local/aayushicode$suffix.app/share/applications"
     cp "$src_dir/${appid}.desktop" "${desktop_file_path}"
-    sed -i "s|^Exec=aayushicode|Exec=$HOME/.local/bin/wu|g" "${desktop_file_path}"
-    sed -i "s|^Icon=aayushicode|Icon=$HOME/.local/wu$suffix.app/share/icons/hicolor/512x512/apps/aayushicode.png|g" "${desktop_file_path}"
+    sed -i "s|^Exec=aayushicode|Exec=$HOME/.local/bin/aayushicode|g" "${desktop_file_path}"
+    sed -i "s|^Icon=aayushicode|Icon=$HOME/.local/aayushicode$suffix.app/share/icons/hicolor/512x512/apps/aayushicode.png|g" "${desktop_file_path}"
 
     # Refresh the icon cache so the icon theme picks up the new entries.
     if command -v gtk-update-icon-cache >/dev/null 2>&1; then
@@ -156,7 +156,7 @@ linux() {
 }
 
 macos() {
-    echo "Downloading Wu version: $ZED_VERSION"
+    echo "Downloading Aayushi Code version: $ZED_VERSION"
     curl "$download_base/AayushiCode-$arch.dmg" > "$temp/AayushiCode-$arch.dmg"
     hdiutil attach -quiet "$temp/AayushiCode-$arch.dmg" -mountpoint "$temp/mount"
     app="$(cd "$temp/mount/"; echo *.app)"
@@ -170,7 +170,7 @@ macos() {
 
     mkdir -p "$HOME/.local/bin"
     # Link the binary
-    ln -sf "/Applications/$app/Contents/MacOS/cli" "$HOME/.local/bin/wu"
+    ln -sf "/Applications/$app/Contents/MacOS/cli" "$HOME/.local/bin/aayushicode"
 }
 
 main "$@"
