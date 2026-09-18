@@ -7,6 +7,10 @@ release body.
 
 ## Unreleased
 
+## 1.0.10 - 2026-09-18
+
+- Added proper credit to Zed Industries in the README, acknowledging that Aayushi Code is a fork of Zed and is built on top of its code.
+
 ## 1.0.9 - 2026-09-18
 
 - Renamed the product, binary, and installer to Aayushi Code / aayushicode. New install paths, app names, and data directories (existing Aayushi Code data is reused; no re-setup needed).

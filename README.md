@@ -102,5 +102,12 @@ Distributed under the GPL-3.0-or-later and Apache-2.0 licenses. See
 
 ## Credits
 
-Aayushi Code is built on top of high-quality open source work from the Rust
-ecosystem and the broader editor community.
+Aayushi Code is a fork of [Zed](https://zed.dev), and would not exist without
+the incredible editor built by [Zed Industries](https://github.com/zed-industries).
+Most of this codebase originates from
+[`zed-industries/zed`](https://github.com/zed-industries/zed) and is used under
+its license terms, combined with other high-quality open source work from the
+Rust ecosystem and the broader editor community. Thank you, Zed.
+
+- Zed: <https://github.com/zed-industries/zed>
+- License: <https://github.com/zed-industries/zed/blob/main/LICENSE>
