@@ -57,7 +57,7 @@ const config = {
   ],
 
   themeConfig: {
-    image: 'img/screenshot-dark.png',
+    image: 'img/editor-dark.png',
     colorMode: {
       defaultMode: 'dark',
       respectPrefersColorScheme: true,
@@ -71,11 +71,17 @@ const config = {
       minHeadingLevel: 2,
       maxHeadingLevel: 3,
     },
+    metadata: [
+      { name: 'keywords', content: 'Aayushi Code, code editor, Rust, GPU, fast editor, native editor' },
+      { name: 'description', content: 'Aayushi Code - The fast, native code editor that stays out of your way. Built in Rust with GPU-accelerated rendering.' },
+    ],
     navbar: {
       title: 'Aayushi Code',
       logo: {
         alt: 'Aayushi Code',
         src: 'img/aayushicode_icon.png',
+        width: 32,
+        height: 32,
       },
       items: [
         { type: 'docSidebar', sidebarId: 'docs', position: 'left', label: 'Documentation' },

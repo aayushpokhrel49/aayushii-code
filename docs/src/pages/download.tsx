@@ -2,7 +2,6 @@ import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import Heading from '@theme/Heading';
 import styles from './download.module.css';
-import Icon, { type IconName } from '../components/Icon';
 
 const REPO = 'https://github.com/aayushpokhrel49/aayushii-code';
 const LATEST = `${REPO}/releases/latest/download`;
@@ -11,7 +10,7 @@ type Download = {
   os: string;
   arch: string;
   href: string;
-  icon: IconName;
+  icon: string;
   note?: string;
 };
 
@@ -20,31 +19,31 @@ const Downloads: Download[] = [
     os: 'macOS',
     arch: 'Apple Silicon',
     href: `${LATEST}/AayushiCode-aarch64.dmg`,
-    icon: 'apple',
+    icon: '🍎',
   },
   {
     os: 'macOS',
     arch: 'Intel',
     href: `${LATEST}/AayushiCode-x86_64.dmg`,
-    icon: 'apple',
+    icon: '🍎',
   },
   {
     os: 'Linux',
     arch: 'x86_64',
     href: `${LATEST}/aayushicode-linux-x86_64.tar.gz`,
-    icon: 'linux',
+    icon: '🐧',
   },
   {
     os: 'Linux',
     arch: 'aarch64',
     href: `${LATEST}/aayushicode-linux-aarch64.tar.gz`,
-    icon: 'linux',
+    icon: '🐧',
   },
   {
     os: 'Windows',
     arch: 'x86_64',
     href: `${LATEST}/AayushiCode-x86_64.exe`,
-    icon: 'windows',
+    icon: '🪟',
   },
 ];
 
@@ -64,12 +63,18 @@ export default function Download(): JSX.Element {
           </p>
         </div>
 
+        <div className={styles.screenshotPreview}>
+          <img
+            src="img/editor-dark.png"
+            alt="Aayushi Code Editor Preview"
+            className={styles.previewImage}
+          />
+        </div>
+
         <ul className="downloads__grid">
           {Downloads.map((d) => (
             <li key={`${d.os}-${d.arch}`} className="download-card">
-              <div className={styles.cardIcon}>
-                <Icon name={d.icon} size={36} label={d.os} />
-              </div>
+              <div className={styles.cardIcon}>{d.icon}</div>
               <p className="download-card__os">{d.os}</p>
               <p className="download-card__arch">{d.arch}</p>
               <Link className="button button--primary button--sm" href={d.href}>

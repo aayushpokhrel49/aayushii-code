@@ -50,6 +50,21 @@ export default function Home(): JSX.Element {
       <HomepageHeader />
       <main>
         <HomepageFeatures />
+        <section className={styles.screenshotSection}>
+          <div className="container">
+            <div className={styles.screenshotContainer}>
+              <img
+                src="img/editor-dark.png"
+                alt="Aayushi Code Dark Mode"
+                className={styles.screenshot}
+              />
+              <div className={styles.screenshotOverlay}>
+                <Heading as="h3">Experience the speed</Heading>
+                <p>Native performance with GPU-accelerated rendering</p>
+              </div>
+            </div>
+          </div>
+        </section>
         <section className={styles.ctaSection}>
           <div className="container">
             <Heading as="h2">Get started in a minute</Heading>

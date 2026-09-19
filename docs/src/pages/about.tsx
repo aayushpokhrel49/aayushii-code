@@ -8,6 +8,19 @@ export default function About(): JSX.Element {
       <main className="container" style={{ padding: '3rem 0 5rem' }}>
         <Heading as="h1">About Aayushi Code</Heading>
 
+        <div style={{ marginBottom: '3rem' }}>
+          <img
+            src="img/editor-dark.png"
+            alt="Aayushi Code Editor"
+            style={{
+              width: '100%',
+              borderRadius: '16px',
+              boxShadow: '0 20px 60px rgba(109, 139, 255, 0.3)',
+              marginBottom: '2rem'
+            }}
+          />
+        </div>
+
         <p>
           Aayushi Code is a fast, native code editor built in Rust with a
           GPU-accelerated renderer. It pairs the speed of a native application

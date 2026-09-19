@@ -11,24 +11,33 @@
   line-height: 1.6;
 }
 
-.cardIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 72px;
-  height: 72px;
-  margin-bottom: 1rem;
+.screenshotPreview {
+  margin: 3rem 0;
   border-radius: 16px;
-  background: var(--ifm-color-emphasis-100);
-  color: var(--ifm-color-emphasis-700);
-  transition: color 0.3s ease;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(109, 139, 255, 0.3);
+  transition: all 0.3s ease;
 }
 
-.downloadCard:hover .cardIcon {
-  color: var(--ifm-color-primary);
+.screenshotPreview:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 80px rgba(109, 139, 255, 0.4);
 }
 
-.downloadCard {
+.previewImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 16px;
+}
+
+.cardIcon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.download-card {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -41,7 +50,7 @@
   background: linear-gradient(135deg, var(--ifm-background-color) 0%, rgba(109, 139, 255, 0.02) 100%);
 }
 
-.downloadCard:hover {
+.download-card:hover {
   border-color: var(--ifm-color-primary);
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(109, 139, 255, 0.15);
