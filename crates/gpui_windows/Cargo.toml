@@ -37,8 +37,15 @@ smallvec.workspace = true
 uuid.workspace = true
 windows.workspace = true
 windows-core.workspace = true
-windows-numerics = "0.2"
-windows-registry = "0.5"
+windows-numerics = "0.3"
+windows-registry.workspace = true
 
 [target.'cfg(target_os = "windows")'.build-dependencies]
+<<<<<<< d48b881f10545978d992714220f951d277a3f0c2
 windows-registry = "0.5"
+=======
+windows-registry.workspace = true
+
+[package.metadata.cargo-shear]
+ignored = ["scap"]
+>>>>>>> fe89ea9a53835796521bd28e15462578b844d10e

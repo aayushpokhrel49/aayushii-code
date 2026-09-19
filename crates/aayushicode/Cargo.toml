@@ -1,8 +1,13 @@
 [package]
 description = "The fast, native VSCode alternative."
 edition.workspace = true
+<<<<<<< d48b881f10545978d992714220f951d277a3f0c2:crates/aayushicode/Cargo.toml
 name = "aayushicode"
 version = "1.0.10"
+=======
+name = "zed"
+version = "1.20.2"
+>>>>>>> fe89ea9a53835796521bd28e15462578b844d10e:crates/zed/Cargo.toml
 publish.workspace = true
 license = "GPL-3.0-or-later"
 repository = "https://github.com/aayushpokhrel49/aayushii-code"
