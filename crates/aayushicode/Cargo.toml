@@ -2,7 +2,7 @@
 description = "The fast, native VSCode alternative."
 edition.workspace = true
 name = "aayushicode"
-version = "1.0.10"
+version = "1.0.20"
 publish.workspace = true
 license = "GPL-3.0-or-later"
 repository = "https://github.com/aayushpokhrel49/aayushii-code"

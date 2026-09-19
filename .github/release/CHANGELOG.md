@@ -7,6 +7,12 @@ release body.
 
 ## Unreleased
 
+## 1.0.20 - 2026-09-19
+
+- Fixed automatic update downloads failing with "operation timed out"; downloads and update checks now retry and time out gracefully.
+- Improved update notifications: once an update is downloaded, Aayushi Code shows an "Update Now" prompt on every launch until you apply it.
+- Cleaned up the About window to show only the app version and links to the website, GitHub, X, and email.
+
 ## 1.0.10 - 2026-09-18
 
 - Added proper credit to Zed Industries in the README, acknowledging that Aayushi Code is a fork of Zed and is built on top of its code.

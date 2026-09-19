@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use auto_update::{AutoUpdater, release_notes_url};
+use auto_update::{AutoUpdateStatus, AutoUpdater, release_notes_url};
 use gpui::{
     App, DismissEvent, EventEmitter, FocusHandle, Focusable, TaskExt, Window, actions,
     prelude::*,
@@ -27,6 +27,7 @@ actions!(
 
 pub fn init(cx: &mut App) {
     notify_if_app_was_updated(cx);
+    observe_update_availability(cx);
     cx.observe_new(|workspace: &mut Workspace, _window, cx| {
         workspace.register_action(|workspace, _: &ViewReleaseNotesLocally, window, cx| {
             view_release_notes_locally(workspace, window, cx);
@@ -140,6 +141,60 @@ impl Render for AnnouncementToastNotification {
 }
 
 struct UpdateNotification;
+
+/// Prompts the user to apply a staged update. It can be dismissed within a
+/// session, but it is re-shown on the next poll and on every app launch until
+/// the update is actually applied, so it keeps appearing until the user
+/// updates.
+struct UpdateAvailableNotification;
+
+fn show_update_available_notification(version: Version, cx: &mut App) {
+    let app_name = ReleaseChannel::global(cx).display_name();
+    show_app_notification(
+        NotificationId::unique::<UpdateAvailableNotification>(),
+        cx,
+        move |cx| {
+            let version = version.clone();
+            cx.new(|cx| {
+                MessageNotification::new(format!("{app_name} {version} is ready to update"), cx)
+                    .primary_message("Update Now")
+                    .primary_on_click(move |_window, cx| {
+                        workspace::reload(cx);
+                        cx.emit(DismissEvent);
+                    })
+            })
+        },
+    );
+}
+
+/// Returns the version of an update that has been staged but not yet applied,
+/// if one is pending. `None` when there is nothing waiting to be updated.
+fn pending_update(auto_updater: &AutoUpdater) -> Option<Version> {
+    let current_version = auto_updater.current_version();
+    let AutoUpdateStatus::Updated { version } = auto_updater.status() else {
+        return None;
+    };
+    (version > current_version).then_some(version)
+}
+
+fn observe_update_availability(cx: &mut App) {
+    let Some(auto_updater) = AutoUpdater::get(cx) else {
+        return;
+    };
+
+    // If a previous session staged an update that has not been applied yet,
+    // remind the user on launch rather than waiting for the next poll.
+    if let Some(version) = pending_update(&auto_updater.read(cx)) {
+        show_update_available_notification(version, cx);
+    }
+
+    cx.observe(&auto_updater, |auto_updater, cx| {
+        if let Some(version) = pending_update(&auto_updater.read(cx)) {
+            show_update_available_notification(version, cx);
+        }
+    })
+    .detach();
+}
 
 fn show_update_notification(cx: &mut App) {
     let Some(updater) = AutoUpdater::get(cx) else {

@@ -58,7 +58,7 @@ use project::{
 use project_panel::ProjectPanel;
 use quick_action_bar::QuickActionBar;
 use recent_projects::open_remote_project;
-use release_channel::{AppCommitSha, AppVersion, ReleaseChannel};
+use release_channel::{AppVersion, ReleaseChannel};
 use rope::Rope;
 use search::project_search::ProjectSearchBar;
 use search::search_panel::SearchPanel;
@@ -1248,7 +1248,6 @@ fn open_about_window(cx: &mut App) {
         copy_entry: NavigableEntry,
         app_icon: Arc<Image>,
         message: SharedString,
-        commit: Option<SharedString>,
         full_version: SharedString,
     }
 
@@ -1265,10 +1264,6 @@ fn open_about_window(cx: &mut App) {
                 ""
             };
             let message: SharedString = format!("{release_channel_name} {version} {debug}").into();
-            let commit = AppCommitSha::try_global(cx)
-                .map(|sha| sha.full())
-                .filter(|commit| !commit.is_empty())
-                .map(SharedString::from);
 
             Self {
                 focus_handle: cx.focus_handle(),
@@ -1276,21 +1271,12 @@ fn open_about_window(cx: &mut App) {
                 copy_entry: NavigableEntry::focusable(cx),
                 app_icon: about_window_icon(release_channel),
                 message,
-                commit,
                 full_version,
             }
         }
 
         fn copy_details(&self, window: &mut Window, cx: &mut Context<Self>) {
-            let content = match self.commit.as_ref() {
-                Some(commit) => {
-                    format!(
-                        "{}\nCommit: {}\nVersion: {}",
-                        self.message, commit, self.full_version
-                    )
-                }
-                None => format!("{}\nVersion: {}", self.message, self.full_version),
-            };
+            let content = format!("{}\nVersion: {}", self.message, self.full_version);
             cx.write_to_clipboard(ClipboardItem::new_string(content));
             window.remove_window();
         }
@@ -1312,7 +1298,7 @@ fn open_about_window(cx: &mut App) {
                     .size_full()
                     .bg(cx.theme().colors().editor_background)
                     .text_color(cx.theme().colors().text)
-                    .p_4()
+                    .p_5()
                     .when(cfg!(target_os = "macos"), |this| this.pt_10())
                     .gap_4()
                     .text_center()
@@ -1320,18 +1306,10 @@ fn open_about_window(cx: &mut App) {
                     .child(
                         v_flex()
                             .w_full()
-                            .gap_2()
+                            .gap_3()
                             .items_center()
                             .child(img(self.app_icon.clone()).size_16().flex_none())
                             .child(Headline::new(self.message.clone()))
-                            .when_some(self.commit.clone(), |this, commit| {
-                                this.child(
-                                    Label::new("Commit")
-                                        .color(Color::Muted)
-                                        .size(LabelSize::XSmall),
-                                )
-                                .child(Label::new(commit).size(LabelSize::Small))
-                            })
                             .child(
                                 Label::new("Version")
                                     .color(Color::Muted)
@@ -1339,48 +1317,49 @@ fn open_about_window(cx: &mut App) {
                             )
                             .child(Label::new(self.full_version.clone()).size(LabelSize::Small))
                             .child(
-                                v_flex()
-                                    .w_full()
-                                    .gap_1p5()
+                                div()
                                     .mt_1()
-                                    .child(
-                                        Label::new("Developed by Aayush Pokhrel")
-                                            .color(Color::Muted)
-                                            .size(LabelSize::XSmall),
-                                    )
+                                    .w_full()
+                                    .h_px()
+                                    .bg(cx.theme().colors().border_variant),
+                            )
+                            .child(
+                                Label::new("Developed by Aayush Pokhrel")
+                                    .color(Color::Muted)
+                                    .size(LabelSize::XSmall),
+                            )
+                            .child(
+                                ButtonLink::new(
+                                    "info@aayushhpokhrel.com.np",
+                                    "mailto:info@aayushhpokhrel.com.np",
+                                )
+                                .label_size(LabelSize::Small),
+                            )
+                            .child(
+                                h_flex()
+                                    .w_full()
+                                    .justify_center()
+                                    .gap_3()
                                     .child(
                                         ButtonLink::new(
-                                            "info@aayushhpokhrel.com.np",
-                                            "mailto:info@aayushhpokhrel.com.np",
+                                            "Website",
+                                            "https://aayushhpokhrel.com.np",
                                         )
                                         .label_size(LabelSize::Small),
                                     )
                                     .child(
-                                        h_flex()
-                                            .w_full()
-                                            .justify_center()
-                                            .gap_3()
-                                            .child(
-                                                ButtonLink::new(
-                                                    "Website",
-                                                    "https://aayushhpokhrel.com.np",
-                                                )
-                                                .label_size(LabelSize::Small),
-                                            )
-                                            .child(
-                                                ButtonLink::new(
-                                                    "GitHub",
-                                                    "https://github.com/aayushpokhrel49",
-                                                )
-                                                .label_size(LabelSize::Small),
-                                            )
-                                            .child(
-                                                ButtonLink::new(
-                                                    "X",
-                                                    "https://x.com/aayushpokhrel49",
-                                                )
-                                                .label_size(LabelSize::Small),
-                                            ),
+                                        ButtonLink::new(
+                                            "GitHub",
+                                            "https://github.com/aayushpokhrel49",
+                                        )
+                                        .label_size(LabelSize::Small),
+                                    )
+                                    .child(
+                                        ButtonLink::new(
+                                            "X",
+                                            "https://x.com/aayushpokhrel49",
+                                        )
+                                        .label_size(LabelSize::Small),
                                     ),
                             ),
                     )

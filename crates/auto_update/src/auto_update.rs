@@ -6,7 +6,7 @@ use gpui::{
     App, AppContext as _, AsyncApp, BackgroundExecutor, Context, Entity, Global, Task, TaskExt,
     Window, actions,
 };
-use http_client::{HttpClient, HttpClientWithUrl};
+use http_client::{HttpClient, HttpClientWithUrl, HttpRequestExt};
 use paths::remote_servers_dir;
 use release_channel::ReleaseChannel;
 use semver::Version;
@@ -16,7 +16,7 @@ use sha2::{Digest, Sha256};
 use smol::fs::File;
 use smol::{
     fs,
-    io::{AsyncReadExt, AsyncWriteExt},
+    io::{AsyncRead, AsyncReadExt, AsyncWriteExt},
 };
 use std::mem;
 use std::{
@@ -27,7 +27,9 @@ use std::{
     ffi::OsStr,
     ffi::OsString,
     path::{Path, PathBuf},
+    pin::Pin,
     sync::Arc,
+    task::Poll,
     time::{Duration, SystemTime},
 };
 use util::command::new_command;
@@ -47,6 +49,23 @@ impl std::fmt::Display for MissingDependencyError {
 impl std::error::Error for MissingDependencyError {}
 const POLL_INTERVAL: Duration = Duration::from_secs(12 * 60 * 60);
 const REMOTE_SERVER_CACHE_LIMIT: usize = 5;
+/// Retries for the update download, which frequently hits transient
+/// connection failures on flaky networks. If a connect attempt times out but
+/// the release exists, a later attempt succeeds.
+const MAX_DOWNLOAD_ATTEMPTS: usize = 3;
+const DOWNLOAD_RETRY_DELAYS: [Duration; MAX_DOWNLOAD_ATTEMPTS - 1] =
+    [Duration::from_secs(2), Duration::from_secs(4)];
+/// A connection that opens but then goes silent for this long has died on a
+/// flaky path; abort the attempt so it can be retried instead of hanging.
+const DOWNLOAD_READ_TIMEOUT: Duration = Duration::from_secs(60);
+/// Total deadline for the release metadata request, so a stuck check can never
+/// block the poll loop forever.
+const RELEASE_FETCH_TIMEOUT: Duration = Duration::from_secs(15);
+/// Retries for the release metadata request, which hits the same flaky network
+/// path as the download itself.
+const MAX_RELEASE_FETCH_ATTEMPTS: usize = 3;
+const RELEASE_FETCH_RETRY_DELAYS: [Duration; MAX_RELEASE_FETCH_ATTEMPTS - 1] =
+    [Duration::from_secs(2), Duration::from_secs(4)];
 /// Cross-process guard so that two running instances (for example with
 /// different `--user-data-dir`s) never download or install an update at the
 /// same time. The OS releases the lock when the process exits, however it exits.
@@ -230,7 +249,8 @@ pub struct ReleaseAsset {
     pub digest: Option<String>,
 }
 
-const GITHUB_RELEASES_API_URL: &str = "https://api.github.com/repos/aayushpokhrel49/aayushii-code/releases";
+const GITHUB_RELEASES_API_URL: &str =
+    "https://api.github.com/repos/aayushpokhrel49/aayushii-code/releases";
 
 #[derive(Deserialize)]
 struct GitHubRelease {
@@ -412,9 +432,13 @@ pub fn release_notes_url(cx: &mut App) -> Option<String> {
             let mut current_version = auto_updater.current_version.clone();
             current_version.pre = semver::Prerelease::EMPTY;
             current_version.build = semver::BuildMetadata::EMPTY;
-            format!("https://github.com/aayushpokhrel49/aayushii-code/releases/tag/v{current_version}")
+            format!(
+                "https://github.com/aayushpokhrel49/aayushii-code/releases/tag/v{current_version}"
+            )
         }
-        ReleaseChannel::Dev => "https://github.com/aayushpokhrel49/aayushii-code/commits/main/".to_string(),
+        ReleaseChannel::Dev => {
+            "https://github.com/aayushpokhrel49/aayushii-code/commits/main/".to_string()
+        }
     };
     Some(url)
 }
@@ -426,7 +450,7 @@ pub fn view_release_notes(_: &ViewReleaseNotes, cx: &mut App) -> Option<()> {
 }
 
 #[cfg(not(target_os = "windows"))]
-const INSTALLER_DIR_PREFIX: &str = "aayushicode-auto-update";
+const INSTALLER_DIR_PREFIX: &str = "aayushi-auto-update";
 
 #[cfg(not(target_os = "windows"))]
 struct InstallerDir(tempfile::TempDir);
@@ -717,22 +741,25 @@ impl AutoUpdater {
                 .context("auto-update not initialized")
         })?;
 
-        let release =
-            Self::get_release_asset(&this, channel, version, "aayushicode-remote-server", os, arch, cx)
-                .await?;
+        let release = Self::get_release_asset(
+            &this,
+            channel,
+            version,
+            "aayushicode-remote-server",
+            os,
+            arch,
+            cx,
+        )
+        .await?;
 
         Ok(Some(release.url))
     }
 
-    async fn get_release_asset(
+    async fn fetch_release_once(
         this: &Entity<Self>,
-        _release_channel: ReleaseChannel,
         version: Option<Version>,
-        asset: &str,
-        os: &str,
-        arch: &str,
         cx: &mut AsyncApp,
-    ) -> Result<ReleaseAsset> {
+    ) -> Result<(Version, Vec<GitHubReleaseAsset>)> {
         let client = this.read_with(cx, |this, _| this.client.clone());
         let http_client = client.http_client();
 
@@ -745,9 +772,13 @@ impl AutoUpdater {
             None => format!("{GITHUB_RELEASES_API_URL}/latest"),
         };
 
-        let mut response = http_client
-            .get(url.as_str(), Default::default(), true)
-            .await?;
+        let request = http_client::http::request::Builder::new()
+            .uri(url.as_str())
+            .follow_redirects(http_client::RedirectPolicy::FollowAll)
+            .timeout(RELEASE_FETCH_TIMEOUT)
+            .body(http_client::AsyncBody::default())
+            .context("failed to build release fetch request")?;
+        let mut response = http_client.send(request).await?;
         let mut body = Vec::new();
         response.body_mut().read_to_end(&mut body).await?;
 
@@ -765,44 +796,85 @@ impl AutoUpdater {
                 )
             })?;
 
-        let asset_name = github_asset_name(asset, os, arch)?;
-        let asset = release
+        let version = release
+            .tag_name
+            .strip_prefix('v')
+            .unwrap_or(&release.tag_name)
+            .parse::<Version>()?;
+
+        let assets = release
             .assets
             .into_iter()
+            .map(|mut asset| {
+                if let Some(digest) = &asset.digest
+                    && let Some(stripped) = digest.strip_prefix("sha256:")
+                {
+                    asset.digest = Some(stripped.to_owned());
+                }
+                asset
+            })
+            .collect::<Vec<_>>();
+
+        Ok((version, assets))
+    }
+
+    /// Fetches the latest release metadata, retrying transient failures with a
+    /// short backoff so a flaky network path (the same one the download uses)
+    /// doesn't fail a single, unrecoverable request.
+    async fn fetch_release(
+        this: &Entity<Self>,
+        version: Option<Version>,
+        cx: &mut AsyncApp,
+    ) -> Result<(Version, Vec<GitHubReleaseAsset>)> {
+        let mut attempt = 0;
+        loop {
+            attempt += 1;
+            match Self::fetch_release_once(this, version.clone(), cx).await {
+                Ok(release) => return Ok(release),
+                Err(error) if attempt < MAX_RELEASE_FETCH_ATTEMPTS => {
+                    let retry_delay = RELEASE_FETCH_RETRY_DELAYS[attempt - 1];
+                    log::warn!(
+                        "auto-update release fetch attempt {attempt} failed; retrying in {:?}: error:{error:#}",
+                        retry_delay
+                    );
+                    cx.background_executor().timer(retry_delay).await;
+                }
+                Err(error) => return Err(error),
+            }
+        }
+    }
+
+    async fn get_release_asset(
+        this: &Entity<Self>,
+        _release_channel: ReleaseChannel,
+        version: Option<Version>,
+        asset: &str,
+        os: &str,
+        arch: &str,
+        cx: &mut AsyncApp,
+    ) -> Result<ReleaseAsset> {
+        let (version, assets) = Self::fetch_release(this, version, cx).await?;
+        let asset_name = github_asset_name(asset, os, arch)?;
+        let asset = assets
+            .into_iter()
             .find(|release_asset| release_asset.name == asset_name)
-            .with_context(|| {
-                format!(
-                    "release {} has no asset named {asset_name}",
-                    release.tag_name
-                )
-            })?;
+            .with_context(|| format!("release v{version} has no asset named {asset_name}"))?;
 
         Ok(ReleaseAsset {
-            version: release
-                .tag_name
-                .strip_prefix('v')
-                .unwrap_or(&release.tag_name)
-                .to_string(),
+            version: version.to_string(),
             url: asset.browser_download_url,
-            digest: asset.digest.map(|digest| {
-                digest
-                    .strip_prefix("sha256:")
-                    .map(str::to_owned)
-                    .unwrap_or(digest)
-            }),
+            digest: asset.digest,
         })
     }
 
     async fn update(this: Entity<Self>, cx: &mut AsyncApp) -> Result<()> {
-        let (client, installed_version, previous_status, release_channel) =
-            this.read_with(cx, |this, cx| {
-                (
-                    this.client.http_client(),
-                    this.current_version.clone(),
-                    this.status.clone(),
-                    ReleaseChannel::try_global(cx).unwrap_or(ReleaseChannel::Stable),
-                )
-            });
+        let (client, installed_version, previous_status) = this.read_with(cx, |this, _| {
+            (
+                this.client.http_client(),
+                this.current_version.clone(),
+                this.status.clone(),
+            )
+        });
 
         Self::check_dependencies()?;
 
@@ -814,12 +886,10 @@ impl AutoUpdater {
             cx.notify();
         });
 
-        let fetched_release_data =
-            Self::get_release_asset(&this, release_channel, None, "zed", OS, ARCH, cx).await?;
-        let fetched_version = fetched_release_data.clone().version;
+        let (fetched_version, release_assets) = Self::fetch_release(&this, None, cx).await?;
         let newer_version = Self::check_if_fetched_version_is_newer(
             installed_version,
-            fetched_version,
+            fetched_version.to_string(),
             previous_status.clone(),
         )?;
 
@@ -833,6 +903,22 @@ impl AutoUpdater {
                 cx.notify();
             });
             return Ok(());
+        };
+
+        // Only resolve the platform asset once we know there is an update to
+        // install, so that a release which is missing the asset for this
+        // platform does not break the "already up to date" check.
+        let asset_name = github_asset_name("zed", OS, ARCH)?;
+        let asset = release_assets
+            .into_iter()
+            .find(|release_asset| release_asset.name == asset_name)
+            .with_context(|| {
+                format!("release v{fetched_version} has no asset named {asset_name}")
+            })?;
+        let fetched_release_data = ReleaseAsset {
+            version: fetched_version.to_string(),
+            url: asset.browser_download_url,
+            digest: asset.digest,
         };
 
         this.update(cx, |this, cx| {
@@ -853,6 +939,7 @@ impl AutoUpdater {
             &target_path,
             fetched_release_data,
             client,
+            cx.background_executor().clone(),
             move |progress| {
                 progress_entity.update(&mut progress_cx, |this, cx| {
                     if let AutoUpdateStatus::Downloading {
@@ -959,7 +1046,6 @@ impl AutoUpdater {
             "windows" => Ok("AayushiCode.exe"),
             unsupported_os => anyhow::bail!("not supported: {unsupported_os}"),
         }?;
-
         Ok(installer_dir.path().join(filename))
     }
 
@@ -1149,7 +1235,35 @@ async fn download_release(
     target_path: &Path,
     release: ReleaseAsset,
     client: Arc<HttpClientWithUrl>,
+    executor: BackgroundExecutor,
     mut on_progress: impl FnMut(Option<f32>),
+) -> Result<()> {
+    let mut attempt = 0;
+    loop {
+        attempt += 1;
+        match download_release_once(target_path, &release, &client, &executor, &mut on_progress)
+            .await
+        {
+            Ok(()) => return Ok(()),
+            Err(error) if attempt < MAX_DOWNLOAD_ATTEMPTS => {
+                let retry_delay = DOWNLOAD_RETRY_DELAYS[attempt - 1];
+                log::warn!(
+                    "auto-update download attempt {attempt} failed; retrying in {:?}: error:{error:#}",
+                    retry_delay
+                );
+                executor.timer(retry_delay).await;
+            }
+            Err(error) => return Err(error),
+        }
+    }
+}
+
+async fn download_release_once(
+    target_path: &Path,
+    release: &ReleaseAsset,
+    client: &HttpClientWithUrl,
+    executor: &BackgroundExecutor,
+    on_progress: &mut impl FnMut(Option<f32>),
 ) -> Result<()> {
     let mut target_file = File::create(&target_path).await?;
 
@@ -1173,7 +1287,7 @@ async fn download_release(
     let mut hasher = Sha256::new();
     let body = response.body_mut();
     loop {
-        let bytes_read = body.read(&mut buffer).await?;
+        let bytes_read = read_body_chunk(body, &mut buffer, executor).await?;
         if bytes_read == 0 {
             break;
         }
@@ -1199,6 +1313,32 @@ async fn download_release(
     log::info!("downloaded update. path:{:?}", target_path);
 
     Ok(())
+}
+
+/// Reads the next chunk of the response body, aborting the attempt if no data
+/// arrives within [`DOWNLOAD_READ_TIMEOUT`]. A connection that opens but then
+/// goes silent (a common failure on flaky networks) used to make the download
+/// hang forever instead of triggering the retry loop above.
+async fn read_body_chunk(
+    body: &mut (impl AsyncRead + Unpin),
+    buffer: &mut [u8],
+    executor: &BackgroundExecutor,
+) -> Result<usize> {
+    let mut read = body.read(buffer);
+    let mut idle = executor.timer(DOWNLOAD_READ_TIMEOUT);
+    let result = smol::future::poll_fn(|cx| {
+        if let Poll::Ready(result) = Pin::new(&mut read).poll(cx) {
+            return Poll::Ready(result.map_err(Into::into));
+        }
+        if let Poll::Ready(_) = Pin::new(&mut idle).poll(cx) {
+            return Poll::Ready(Err(anyhow::anyhow!(
+                "download stalled: no data received within the idle timeout"
+            )));
+        }
+        Poll::Pending
+    })
+    .await;
+    result
 }
 
 async fn install_release_linux(
@@ -1508,16 +1648,16 @@ mod tests {
                 let release_available = release_available.load(atomic::Ordering::Relaxed);
                 let dmg_rx = dmg_rx.clone();
                 async move {
-                if req.uri().path() == "/releases/stable/latest/asset" {
-                    if release_available {
-                        return Ok(Response::builder().status(200).body(
-                            r#"{"version":"0.100.1","url":"https://test.example/new-download"}"#.into()
-                        ).unwrap());
-                    } else {
-                        return Ok(Response::builder().status(200).body(
-                            r#"{"version":"0.100.0","url":"https://test.example/old-download"}"#.into()
-                        ).unwrap());
-                    }
+                if req.uri().path() == "/repos/aayushpokhrel49/aayushii-code/releases/latest" {
+                    let tag = if release_available { "v0.100.1" } else { "v0.100.0" };
+                    let asset_name = github_asset_name("zed", OS, ARCH).unwrap();
+                    return Ok(Response::builder().status(200).body(
+                        format!(
+                            r#"{{"tag_name":"{tag}","assets":[{{"name":"{asset_name}","browser_download_url":"http://test.example/new-download","digest":null}}]}}"#
+                        )
+                        .into(),
+                    )
+                    .unwrap());
                 } else if req.uri().path() == "/new-download" {
                     return Ok(Response::builder().status(200).body({
                         let dmg_rx = dmg_rx.lock().take().unwrap();
@@ -1600,6 +1740,66 @@ mod tests {
     }
 
     #[gpui::test]
+    async fn test_auto_update_does_not_error_when_latest_release_misses_platform_asset(
+        cx: &mut TestAppContext,
+    ) {
+        cx.background_executor.allow_parking();
+        zlog::init_test();
+
+        cx.update(|cx| {
+            let mut store = SettingsStore::new(cx, &settings::default_settings());
+            store
+                .set_default_settings(&settings::default_settings(), cx)
+                .expect("Unable to set default settings");
+            store
+                .set_user_settings(r#"{"auto_update": false}"#, cx)
+                .expect("Unable to set user settings");
+            cx.set_global(store);
+
+            let current_version = semver::Version::new(1, 0, 0);
+            release_channel::init_test(current_version, ReleaseChannel::Stable, cx);
+
+            // The latest release matches the installed version but carries no
+            // asset for this platform. The check must settle quietly on Idle
+            // instead of surfacing the missing-asset error for a release we
+            // are already running.
+            let fake_client_http = FakeHttpClient::create(|_req| async move {
+                Ok(Response::builder()
+                    .status(200)
+                    .body(
+                        r#"{"tag_name":"v1.0.0","assets":[{"name":"AayushiCode-x86_64.exe","browser_download_url":"http://test.example/win.exe","digest":null}]}"#
+                            .into(),
+                    )
+                    .unwrap())
+            });
+            let client = Client::new(fake_client_http);
+            crate::init(client, cx);
+        });
+
+        let auto_updater = cx.update(|cx| AutoUpdater::get(cx).expect("auto updater should exist"));
+
+        auto_updater.update(cx, |updater, cx| {
+            updater.poll(UpdateCheckType::Manual, cx);
+        });
+        wait_until_poll_finished(cx, &auto_updater).await;
+
+        let status = auto_updater.read_with(cx, |updater, _| updater.status());
+        assert_eq!(status, AutoUpdateStatus::Idle);
+    }
+
+    async fn wait_until_poll_finished(cx: &mut TestAppContext, auto_updater: &Entity<AutoUpdater>) {
+        loop {
+            cx.background_executor.timer(Duration::from_millis(0)).await;
+            cx.run_until_parked();
+            let poll_pending =
+                auto_updater.read_with(cx, |updater, _| updater.pending_poll.is_some());
+            if !poll_pending {
+                return;
+            }
+        }
+    }
+
+    #[gpui::test]
     async fn test_download_release_reports_progress(cx: &mut TestAppContext) {
         cx.background_executor.allow_parking();
 
@@ -1629,14 +1829,20 @@ mod tests {
         };
 
         let reported = Rc::new(std::cell::RefCell::new(Vec::<f32>::new()));
-        download_release(&target_path, release, client, {
-            let reported = reported.clone();
-            move |fraction| {
-                if let Some(fraction) = fraction {
-                    reported.borrow_mut().push(fraction);
+        download_release(
+            &target_path,
+            release,
+            client,
+            cx.background_executor.clone(),
+            {
+                let reported = reported.clone();
+                move |fraction| {
+                    if let Some(fraction) = fraction {
+                        reported.borrow_mut().push(fraction);
+                    }
                 }
-            }
-        })
+            },
+        )
         .await
         .unwrap();
 
@@ -1690,12 +1896,18 @@ mod tests {
         };
 
         let reported = Rc::new(std::cell::RefCell::new(Vec::<Option<f32>>::new()));
-        download_release(&target_path, release, client, {
-            let reported = reported.clone();
-            move |fraction| {
-                reported.borrow_mut().push(fraction);
-            }
-        })
+        download_release(
+            &target_path,
+            release,
+            client,
+            cx.background_executor.clone(),
+            {
+                let reported = reported.clone();
+                move |fraction| {
+                    reported.borrow_mut().push(fraction);
+                }
+            },
+        )
         .await
         .unwrap();
 
