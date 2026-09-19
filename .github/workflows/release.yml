@@ -215,7 +215,7 @@ jobs:
           if-no-files-found: error
 
   release:
-    needs: [bundle_mac, bundle_linux, bundle_deb, bundle_arch_linux, bundle_windows]
+    needs: [check_version, bundle_mac, bundle_linux, bundle_deb, bundle_arch_linux, bundle_windows]
     if: ${{ always() && !cancelled() }}
     runs-on: ubuntu-24.04
     steps:
