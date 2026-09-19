@@ -96,9 +96,9 @@ use workspace::{
 };
 use workspace::{CloseProject, CloseWindow, RestoreBanner, with_active_or_new_workspace};
 use workspace::{Pane, notifications::DetachAndPromptErr};
-use wu_actions::{
+use aayushicode_actions::{
     About, OpenBrowser, OpenDocs, OpenProjectTasks, OpenServerSettings, OpenSettingsFile,
-    OpenWuUrl, Quit,
+    OpenAayushicodeUrl, Quit,
 };
 
 const DOCS_URL: &str = "https://aayushhpokhrel.com.np";
@@ -196,7 +196,7 @@ pub fn init(cx: &mut App) {
         });
     }
 
-    cx.on_action(|_: &wu_actions::OpenLicenses, cx| {
+    cx.on_action(|_: &aayushicode_actions::OpenLicenses, cx| {
         with_active_or_new_workspace(cx, |workspace, window, cx| {
             open_bundled_file(
                 workspace,
@@ -208,7 +208,7 @@ pub fn init(cx: &mut App) {
             );
         });
     })
-    .on_action(|&wu_actions::OpenKeymapFile, cx| {
+    .on_action(|&aayushicode_actions::OpenKeymapFile, cx| {
         with_active_or_new_workspace(cx, |_, window, cx| {
             open_settings_file(
                 paths::keymap_file(),
@@ -272,7 +272,7 @@ pub fn init(cx: &mut App) {
             );
         });
     })
-    .on_action(|_: &wu_actions::OpenDefaultKeymap, cx| {
+    .on_action(|_: &aayushicode_actions::OpenDefaultKeymap, cx| {
         with_active_or_new_workspace(cx, |workspace, window, cx| {
             open_bundled_file(
                 workspace,
@@ -766,7 +766,7 @@ fn register_actions(
                 window.toggle_fullscreen();
             }
         })
-        .register_action(|_, action: &OpenWuUrl, _, cx| {
+        .register_action(|_, action: &OpenAayushicodeUrl, _, cx| {
             OpenListener::global(cx).open(RawOpenRequest {
                 urls: vec![String::from(&*action.url)],
                 ..Default::default()
@@ -831,7 +831,7 @@ fn register_actions(
                 cx,
             );
         })
-        .register_action(|workspace, action: &wu_actions::OpenRemote, window, cx| {
+        .register_action(|workspace, action: &aayushicode_actions::OpenRemote, window, cx| {
             if !action.from_existing_connection {
                 cx.propagate();
                 return;
@@ -880,7 +880,7 @@ fn register_actions(
         })
         .register_action({
             let fs = app_state.fs.clone();
-            move |_, action: &wu_actions::IncreaseUiFontSize, _window, cx| {
+            move |_, action: &aayushicode_actions::IncreaseUiFontSize, _window, cx| {
                 if action.persist {
                     update_settings_file(fs.clone(), cx, move |settings, cx| {
                         let ui_font_size = ThemeSettings::get_global(cx).ui_font_size(cx) + px(1.0);
@@ -896,7 +896,7 @@ fn register_actions(
         })
         .register_action({
             let fs = app_state.fs.clone();
-            move |_, action: &wu_actions::DecreaseUiFontSize, _window, cx| {
+            move |_, action: &aayushicode_actions::DecreaseUiFontSize, _window, cx| {
                 if action.persist {
                     update_settings_file(fs.clone(), cx, move |settings, cx| {
                         let ui_font_size = ThemeSettings::get_global(cx).ui_font_size(cx) - px(1.0);
@@ -912,7 +912,7 @@ fn register_actions(
         })
         .register_action({
             let fs = app_state.fs.clone();
-            move |_, action: &wu_actions::ResetUiFontSize, _window, cx| {
+            move |_, action: &aayushicode_actions::ResetUiFontSize, _window, cx| {
                 if action.persist {
                     update_settings_file(fs.clone(), cx, move |settings, _| {
                         settings.theme.ui_font_size = None;
@@ -924,7 +924,7 @@ fn register_actions(
         })
         .register_action({
             let fs = app_state.fs.clone();
-            move |_, action: &wu_actions::IncreaseBufferFontSize, _window, cx| {
+            move |_, action: &aayushicode_actions::IncreaseBufferFontSize, _window, cx| {
                 if action.persist {
                     update_settings_file(fs.clone(), cx, move |settings, cx| {
                         let buffer_font_size =
@@ -941,7 +941,7 @@ fn register_actions(
         })
         .register_action({
             let fs = app_state.fs.clone();
-            move |_, action: &wu_actions::DecreaseBufferFontSize, _window, cx| {
+            move |_, action: &aayushicode_actions::DecreaseBufferFontSize, _window, cx| {
                 if action.persist {
                     update_settings_file(fs.clone(), cx, move |settings, cx| {
                         let buffer_font_size =
@@ -958,7 +958,7 @@ fn register_actions(
         })
         .register_action({
             let fs = app_state.fs.clone();
-            move |_, action: &wu_actions::ResetBufferFontSize, _window, cx| {
+            move |_, action: &aayushicode_actions::ResetBufferFontSize, _window, cx| {
                 if action.persist {
                     update_settings_file(fs.clone(), cx, move |settings, _| {
                         settings.theme.buffer_font_size = None;
@@ -970,7 +970,7 @@ fn register_actions(
         })
         .register_action({
             let fs = app_state.fs.clone();
-            move |_, action: &wu_actions::ResetAllZoom, _window, cx| {
+            move |_, action: &aayushicode_actions::ResetAllZoom, _window, cx| {
                 if action.persist {
                     update_settings_file(fs.clone(), cx, move |settings, _| {
                         settings.theme.ui_font_size = None;
@@ -1014,7 +1014,7 @@ fn register_actions(
         .register_action(open_project_debug_tasks_file)
         .register_action(
             |workspace: &mut Workspace,
-             _: &wu_actions::project_panel::ToggleFocus,
+             _: &aayushicode_actions::project_panel::ToggleFocus,
              window: &mut Window,
              cx: &mut Context<Workspace>| {
                 workspace.toggle_panel_focus::<ProjectPanel>(window, cx);
@@ -1686,7 +1686,7 @@ fn notify_settings_errors(result: settings::SettingsParseResult, is_user: bool, 
                             .primary_icon(IconName::Settings)
                             .primary_on_click(|window, cx| {
                                 window.dispatch_action(
-                                    wu_actions::OpenSettingsFile.boxed_clone(),
+                                    aayushicode_actions::OpenSettingsFile.boxed_clone(),
                                     cx,
                                 );
                                 cx.emit(DismissEvent);
@@ -1906,7 +1906,7 @@ fn show_keymap_file_json_error(
                 .primary_message("Open Keymap File")
                 .primary_icon(IconName::Settings)
                 .primary_on_click(|window, cx| {
-                    window.dispatch_action(wu_actions::OpenKeymapFile.boxed_clone(), cx);
+                    window.dispatch_action(aayushicode_actions::OpenKeymapFile.boxed_clone(), cx);
                     cx.emit(DismissEvent);
                 })
         })
@@ -1923,7 +1923,7 @@ fn show_keymap_file_load_error(
         error_message,
         "Open Keymap File".into(),
         |window, cx| {
-            window.dispatch_action(wu_actions::OpenKeymapFile.boxed_clone(), cx);
+            window.dispatch_action(aayushicode_actions::OpenKeymapFile.boxed_clone(), cx);
             cx.emit(DismissEvent);
         },
         cx,
@@ -2080,7 +2080,7 @@ fn open_project_tasks_file(
 
 fn open_worktree_setup_tasks_file(
     workspace: &mut Workspace,
-    _: &wu_actions::OpenWorktreeSetupTasks,
+    _: &aayushicode_actions::OpenWorktreeSetupTasks,
     window: &mut Window,
     cx: &mut Context<Workspace>,
 ) {
@@ -2130,7 +2130,7 @@ fn open_worktree_setup_tasks_file(
 
 fn open_project_debug_tasks_file(
     workspace: &mut Workspace,
-    _: &wu_actions::OpenProjectDebugTasks,
+    _: &aayushicode_actions::OpenProjectDebugTasks,
     window: &mut Window,
     cx: &mut Context<Workspace>,
 ) {
@@ -2712,7 +2712,7 @@ mod tests {
                     }));
                 });
                 window.dispatch_action(
-                    Box::new(wu_actions::OpenRemote {
+                    Box::new(aayushicode_actions::OpenRemote {
                         from_existing_connection: true,
                         create_new_window: Some(false),
                     }),
@@ -5491,7 +5491,7 @@ mod tests {
                 "workspace",
                 "worktree_picker",
                 "aayushicode",
-                "wu_actions",
+                "aayushicode_actions",
             ];
             assert_eq!(
                 all_namespaces,

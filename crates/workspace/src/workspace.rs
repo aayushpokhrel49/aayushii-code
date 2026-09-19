@@ -155,7 +155,7 @@ pub use workspace_settings::{
     FocusFollowsMouse, RestoreOnStartupBehavior, StatusBarSettings, TabBarSettings,
     WorkspaceSettings, closing_last_window_quits_app, observe_accessible_mode,
 };
-use wu_actions::{Spawn, theme::ToggleMode};
+use aayushicode_actions::{Spawn, theme::ToggleMode};
 
 use crate::{dock::PanelSizeState, item::ItemBufferKind, notifications::NotificationId};
 use crate::{
@@ -16348,7 +16348,7 @@ mod tests {
     async fn test_toggle_theme_mode_persists_and_updates_active_theme(cx: &mut TestAppContext) {
         use settings::{ThemeName, ThemeSelection};
         use theme::SystemAppearance;
-        use wu_actions::theme::ToggleMode;
+        use aayushicode_actions::theme::ToggleMode;
 
         init_test(cx);
 

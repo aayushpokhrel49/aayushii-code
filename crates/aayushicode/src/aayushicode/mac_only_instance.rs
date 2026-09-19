@@ -34,7 +34,7 @@ fn address() -> SocketAddr {
     // on a Mac with ID 501 running a dev channel build will use port 46238, and the
     // second user with ID 502 will use port 46239, and so on. The stable channel
     // uses the next block of ports (46438 for user 501, 46439 for user 502, ...).
-    // Wu uses a different port range than Zed so both apps can run side by side
+    // Aayushi Code uses a different port range than Zed so both apps can run side by side
     // without answering each other's single-instance handshake.
     //
     // A custom `--user-data-dir` is a separate instance, so it gets its own port

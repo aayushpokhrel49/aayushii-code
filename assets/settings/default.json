@@ -1489,8 +1489,8 @@
     // When the resolved directory is outside the project root, the
     // project's directory name is automatically appended so that
     // sibling repos don't collide. For example, with the default
-    // "../worktrees" and a project at ~/code/wu, worktrees are
-    // created under ~/code/worktrees/wu/.
+    // "../worktrees" and a project at ~/code/aayushicode, worktrees are
+    // created under ~/code/worktrees/aayushicode/.
     //
     // When the resolved directory is inside the project root, no
     // extra component is added (it's already project-scoped).
@@ -1589,7 +1589,7 @@
     //    this platform's home directory  (if we can find it)
     //      "working_directory": {
     //        "always": {
-    //          "directory": "~/wu/projects/"
+    //          "directory": "~/aayushicode/projects/"
     //        }
     //      }
     "working_directory": "current_project_directory",
@@ -2263,7 +2263,7 @@
     //   }
     // ]
     //
-    // Default rules are viewable via the "wu: show default semantic token rules" action.
+    // Default rules are viewable via the "aayushicode: show default semantic token rules" action.
     "semantic_token_rules": [],
   },
   // The server to connect to. If the environment variable
@@ -2334,7 +2334,7 @@
   //     // "port": 22, "username": "test", "args": ["-i", "/home/user/.ssh/id_rsa"]
   //     "projects": [
   //       {
-  //         "paths": ["/home/user/code/wu"]
+  //         "paths": ["/home/user/code/aayushicode"]
   //       }
   //     ]
   //   }
@@ -2390,7 +2390,7 @@
   // Configuration for developer-oriented instrumentation tools that can be
   // toggled at runtime.
   "instrumentation": {
-    // Performance profiler, accessed via the `wu: open performance profiler`
+    // Performance profiler, accessed via the `aayushicode: open performance profiler`
     // action. Collects timing data for foreground and background executor
     // tasks. Enabling this may lead to increased memory usage, hence it's
     // disabled by default for regular builds.

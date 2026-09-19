@@ -350,7 +350,7 @@ fn main() {
 
     let (open_listener, mut open_rx) = OpenListener::new();
 
-    let failed_single_instance_check = if *wu_env_vars::ZED_STATELESS
+    let failed_single_instance_check = if *aayushicode_env_vars::ZED_STATELESS
         || *release_channel::RELEASE_CHANNEL == ReleaseChannel::Dev
     {
         false
@@ -460,7 +460,7 @@ fn main() {
         };
         trusted_worktrees::init(db_trusted_paths, cx);
         menu::init();
-        wu_actions::init();
+        aayushicode_actions::init();
 
         release_channel::init(app_version, cx);
         gpui_tokio::init(cx);
@@ -870,7 +870,7 @@ fn handle_open_request(request: OpenRequest, app_state: Arc<AppState>, cx: &mut 
                         workspace::get_any_active_multi_workspace(app_state, cx.clone()).await?;
                     workspace.update(cx, |_, window, cx| {
                         window.dispatch_action(
-                            Box::new(wu_actions::Extensions {
+                            Box::new(aayushicode_actions::Extensions {
                                 category_filter: None,
                                 id: Some(extension_id),
                             }),
@@ -951,9 +951,9 @@ fn handle_open_request(request: OpenRequest, app_state: Arc<AppState>, cx: &mut 
                         workspace::get_any_active_multi_workspace(app_state, cx.clone()).await?;
 
                     workspace.update(cx, |_, window, cx| match setting_path {
-                        None => window.dispatch_action(Box::new(wu_actions::OpenSettings), cx),
+                        None => window.dispatch_action(Box::new(aayushicode_actions::OpenSettings), cx),
                         Some(setting_path) => window.dispatch_action(
-                            Box::new(wu_actions::OpenSettingsAt {
+                            Box::new(aayushicode_actions::OpenSettingsAt {
                                 path: setting_path,
                                 target: None,
                             }),

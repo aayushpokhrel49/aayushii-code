@@ -1,25 +1,25 @@
 use gpui::{App, Menu, MenuItem, OsAction};
 use release_channel::ReleaseChannel;
 use terminal_view::terminal_panel;
-use wu_actions::{Quit, debug_panel, dev, git_panel, project_panel};
+use aayushicode_actions::{Quit, debug_panel, dev, git_panel, project_panel};
 
 pub fn app_menus(cx: &mut App) -> Vec<Menu> {
     let mut view_items = vec![
         MenuItem::action(
             "Zoom In",
-            wu_actions::IncreaseBufferFontSize { persist: false },
+            aayushicode_actions::IncreaseBufferFontSize { persist: false },
         ),
         MenuItem::action(
             "Zoom Out",
-            wu_actions::DecreaseBufferFontSize { persist: false },
+            aayushicode_actions::DecreaseBufferFontSize { persist: false },
         ),
         MenuItem::action(
             "Reset Zoom",
-            wu_actions::ResetBufferFontSize { persist: false },
+            aayushicode_actions::ResetBufferFontSize { persist: false },
         ),
         MenuItem::action(
             "Reset All Zoom",
-            wu_actions::ResetAllZoom { persist: false },
+            aayushicode_actions::ResetAllZoom { persist: false },
         ),
         MenuItem::separator(),
         MenuItem::action("Toggle Left Dock", workspace::ToggleLeftDock),
@@ -60,34 +60,34 @@ pub fn app_menus(cx: &mut App) -> Vec<Menu> {
             name: "Aayushi Code".into(),
             disabled: false,
             items: vec![
-                MenuItem::action("About Aayushi Code", wu_actions::About),
+                MenuItem::action("About Aayushi Code", aayushicode_actions::About),
                 MenuItem::action("Check for Updates", auto_update::Check),
                 MenuItem::separator(),
                 MenuItem::submenu(Menu::new("Settings").items([
-                    MenuItem::action("Open Settings", wu_actions::OpenSettings),
+                    MenuItem::action("Open Settings", aayushicode_actions::OpenSettings),
                     MenuItem::action("Open Settings File", super::OpenSettingsFile),
-                    MenuItem::action("Open Project Settings", wu_actions::OpenProjectSettings),
+                    MenuItem::action("Open Project Settings", aayushicode_actions::OpenProjectSettings),
                     MenuItem::action("Open Project Settings File", super::OpenProjectSettingsFile),
                     MenuItem::action("Open Default Settings", super::OpenDefaultSettings),
                     MenuItem::separator(),
-                    MenuItem::action("Open Keymap", wu_actions::OpenKeymap),
-                    MenuItem::action("Open Keymap File", wu_actions::OpenKeymapFile),
-                    MenuItem::action("Open Default Key Bindings", wu_actions::OpenDefaultKeymap),
+                    MenuItem::action("Open Keymap", aayushicode_actions::OpenKeymap),
+                    MenuItem::action("Open Keymap File", aayushicode_actions::OpenKeymapFile),
+                    MenuItem::action("Open Default Key Bindings", aayushicode_actions::OpenDefaultKeymap),
                     MenuItem::separator(),
                     MenuItem::action(
                         "Select Theme...",
-                        wu_actions::theme_selector::Toggle::default(),
+                        aayushicode_actions::theme_selector::Toggle::default(),
                     ),
                     MenuItem::action(
                         "Select Icon Theme...",
-                        wu_actions::icon_theme_selector::Toggle::default(),
+                        aayushicode_actions::icon_theme_selector::Toggle::default(),
                     ),
                 ])),
                 MenuItem::separator(),
                 #[cfg(target_os = "macos")]
                 MenuItem::os_submenu("Services", gpui::SystemMenuType::Services),
                 MenuItem::separator(),
-                MenuItem::action("Extensions", wu_actions::Extensions::default()),
+                MenuItem::action("Extensions", aayushicode_actions::Extensions::default()),
                 #[cfg(not(target_os = "windows"))]
                 MenuItem::action("Install CLI", install_cli::InstallCliBinary),
                 MenuItem::separator(),
@@ -118,8 +118,8 @@ pub fn app_menus(cx: &mut App) -> Vec<Menu> {
                     },
                     workspace::Open::default(),
                 ),
-                MenuItem::action("Open Recent…", wu_actions::OpenRecent::default()),
-                MenuItem::action("Open Remote…", wu_actions::OpenRemote::default()),
+                MenuItem::action("Open Recent…", aayushicode_actions::OpenRecent::default()),
+                MenuItem::action("Open Remote…", aayushicode_actions::OpenRemote::default()),
                 MenuItem::separator(),
                 MenuItem::action("Add Folder to Project…", workspace::AddFolderToProject),
                 MenuItem::separator(),
@@ -219,13 +219,13 @@ pub fn app_menus(cx: &mut App) -> Vec<Menu> {
                 MenuItem::action("Back", workspace::GoBack),
                 MenuItem::action("Forward", workspace::GoForward),
                 MenuItem::separator(),
-                MenuItem::action("Command Palette...", wu_actions::command_palette::Toggle),
+                MenuItem::action("Command Palette...", aayushicode_actions::command_palette::Toggle),
                 MenuItem::separator(),
                 MenuItem::action("Go to File...", workspace::ToggleFileFinder::default()),
                 // MenuItem::action("Go to Symbol in Project", project_symbols::Toggle),
                 MenuItem::action(
                     "Go to Symbol in Editor...",
-                    wu_actions::outline::ToggleOutline,
+                    aayushicode_actions::outline::ToggleOutline,
                 ),
                 MenuItem::action("Go to Line/Column...", editor::actions::ToggleGoToLine),
                 MenuItem::separator(),
@@ -261,14 +261,14 @@ pub fn app_menus(cx: &mut App) -> Vec<Menu> {
             items: vec![
                 MenuItem::action(
                     "Spawn Task",
-                    wu_actions::Spawn::ViaModal {
+                    aayushicode_actions::Spawn::ViaModal {
                         reveal_target: None,
                     },
                 ),
                 MenuItem::action("Start Debugger", debugger_ui::Start),
                 MenuItem::separator(),
-                MenuItem::action("Edit tasks.json…", wu_actions::OpenProjectTasks),
-                MenuItem::action("Edit debug.json…", wu_actions::OpenProjectDebugTasks),
+                MenuItem::action("Edit tasks.json…", aayushicode_actions::OpenProjectTasks),
+                MenuItem::action("Edit debug.json…", aayushicode_actions::OpenProjectDebugTasks),
                 MenuItem::separator(),
                 MenuItem::action("Continue", debugger_ui::Continue),
                 MenuItem::action("Step Over", debugger_ui::StepOver),
@@ -297,7 +297,7 @@ pub fn app_menus(cx: &mut App) -> Vec<Menu> {
                     "View Release Notes Locally",
                     auto_update_ui::ViewReleaseNotesLocally,
                 ),
-                MenuItem::action("View Dependency Licenses", wu_actions::OpenLicenses),
+                MenuItem::action("View Dependency Licenses", aayushicode_actions::OpenLicenses),
                 MenuItem::action("Show Welcome", onboarding::ShowWelcome),
                 MenuItem::separator(),
                 MenuItem::action(

@@ -1,5 +1,5 @@
 [package]
-name = "wu_actions"
+name = "aayushicode_actions"
 version = "0.1.0"
 edition.workspace = true
 publish.workspace = true

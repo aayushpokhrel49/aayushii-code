@@ -24,7 +24,7 @@ pub struct OpenBrowser {
 #[derive(Clone, PartialEq, Deserialize, JsonSchema, Action)]
 #[action(namespace = aayushicode)]
 #[serde(deny_unknown_fields)]
-pub struct OpenWuUrl {
+pub struct OpenAayushicodeUrl {
     pub url: Arc<str>,
 }
 
@@ -63,7 +63,7 @@ actions!(
         OpenServerSettings,
         /// Quits the application.
         Quit,
-        /// Shows information about Wu.
+        /// Shows information about Aayushi Code.
         About,
         /// Opens the documentation website.
         OpenDocs,

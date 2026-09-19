@@ -45,7 +45,7 @@ use workspace::{
     Item, Pane, Workspace,
     dock::{DockPosition, Panel, PanelEvent},
 };
-use wu_actions::debug_panel::ToggleFocus;
+use aayushicode_actions::debug_panel::ToggleFocus;
 
 const DEBUG_PANEL_KEY: &str = "DebugPanel";
 
@@ -637,7 +637,7 @@ impl DebugPanel {
             IconButton::new("debug-edit-debug-json", IconName::Code)
                 .icon_size(IconSize::Small)
                 .on_click(|_, window, cx| {
-                    window.dispatch_action(wu_actions::OpenProjectDebugTasks.boxed_clone(), cx);
+                    window.dispatch_action(aayushicode_actions::OpenProjectDebugTasks.boxed_clone(), cx);
                 })
                 .tooltip(Tooltip::text("Edit debug.json"))
         };
@@ -1801,7 +1801,7 @@ impl Render for DebugPanel {
                                 )
                                 .on_click(|_, window, cx| {
                                     window.dispatch_action(
-                                        wu_actions::OpenProjectDebugTasks.boxed_clone(),
+                                        aayushicode_actions::OpenProjectDebugTasks.boxed_clone(),
                                         cx,
                                     );
                                 }),
@@ -1827,9 +1827,9 @@ impl Render for DebugPanel {
                             )
                             .on_click(|_, window, cx| {
                                 window.dispatch_action(
-                                    wu_actions::Extensions {
+                                    aayushicode_actions::Extensions {
                                         category_filter: Some(
-                                            wu_actions::ExtensionCategoryFilter::DebugAdapters,
+                                            aayushicode_actions::ExtensionCategoryFilter::DebugAdapters,
                                         ),
                                         id: None,
                                     }

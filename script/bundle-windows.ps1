@@ -89,7 +89,7 @@ function GenerateLicenses {
     . $PSScriptRoot/generate-licenses.ps1
 }
 
-function BuildWuAndItsFriends {
+function BuildAayushicodeAndItsFriends {
     Write-Output "Building Aayushi Code and its friends, for channel: $channel"
     cargo build --release --package aayushicode --package cli --package auto_update_helper --target $target
     Copy-Item -Path ".\$CargoOutDir\aayushicode.exe" -Destination "$innoDir\Aayushi Code.exe" -Force
@@ -256,7 +256,7 @@ function BuildInstaller {
 Push-Location $workspace
 PrepareForBundle
 GenerateLicenses
-BuildWuAndItsFriends
+BuildAayushicodeAndItsFriends
 BuildRemoteServer
 MakeAppx
 DownloadAMDGpuServices

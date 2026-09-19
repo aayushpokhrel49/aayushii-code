@@ -24,7 +24,7 @@ use workspace::{
     item::{Item, ItemEvent},
     open_new, register_serializable_item, with_active_or_new_workspace,
 };
-use wu_actions::OpenOnboarding;
+use aayushicode_actions::OpenOnboarding;
 
 mod base_keymap_picker;
 mod basics_page;

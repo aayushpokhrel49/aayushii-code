@@ -211,19 +211,19 @@ impl Render for KeyContextView {
                         Button::new("view_default_keymap", "View Default Keymap")
                             .style(ButtonStyle::Filled)
                             .key_binding(ui::KeyBinding::for_action(
-                                &wu_actions::OpenDefaultKeymap,
+                                &aayushicode_actions::OpenDefaultKeymap,
                                 cx
                             ))
                             .on_click(|_, window, cx| {
-                                window.dispatch_action(wu_actions::OpenDefaultKeymap.boxed_clone(), cx);
+                                window.dispatch_action(aayushicode_actions::OpenDefaultKeymap.boxed_clone(), cx);
                             }),
                     )
                     .child(
                         Button::new("edit_your_keymap", "Edit Keymap File")
                             .style(ButtonStyle::Filled)
-                            .key_binding(ui::KeyBinding::for_action(&wu_actions::OpenKeymapFile, cx))
+                            .key_binding(ui::KeyBinding::for_action(&aayushicode_actions::OpenKeymapFile, cx))
                             .on_click(|_, window, cx| {
-                                window.dispatch_action(wu_actions::OpenKeymapFile.boxed_clone(), cx);
+                                window.dispatch_action(aayushicode_actions::OpenKeymapFile.boxed_clone(), cx);
                             }),
                     ),
             )

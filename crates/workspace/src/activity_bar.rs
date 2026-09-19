@@ -360,19 +360,19 @@ impl ActivityBar {
             )
             .menu(|window, cx| {
                 ContextMenu::build(window, cx, |menu, _, _| {
-                    menu.action("Settings", wu_actions::OpenSettings.boxed_clone())
-                        .action("Keymap", Box::new(wu_actions::OpenKeymap))
+                    menu.action("Settings", aayushicode_actions::OpenSettings.boxed_clone())
+                        .action("Keymap", Box::new(aayushicode_actions::OpenKeymap))
                         .action(
                             "Themes…",
-                            wu_actions::theme_selector::Toggle::default().boxed_clone(),
+                            aayushicode_actions::theme_selector::Toggle::default().boxed_clone(),
                         )
                         .action(
                             "Icon Themes…",
-                            wu_actions::icon_theme_selector::Toggle::default().boxed_clone(),
+                            aayushicode_actions::icon_theme_selector::Toggle::default().boxed_clone(),
                         )
                         .action(
                             "Extensions",
-                            wu_actions::Extensions::default().boxed_clone(),
+                            aayushicode_actions::Extensions::default().boxed_clone(),
                         )
                 })
                 .into()

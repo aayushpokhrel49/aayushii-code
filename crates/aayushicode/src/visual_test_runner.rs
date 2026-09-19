@@ -45,7 +45,7 @@ fn main() {
 #[cfg(target_os = "macos")]
 fn main() {
     // Set ZED_STATELESS early to prevent file system access to real config directories
-    // This must be done before any code accesses wu_env_vars::ZED_STATELESS
+    // This must be done before any code accesses aayushicode_env_vars::ZED_STATELESS
     // SAFETY: We're at the start of main(), before any threads are spawned
     unsafe {
         std::env::set_var("ZED_STATELESS", "1");
@@ -110,7 +110,7 @@ use {
     },
     util::ResultExt as _,
     workspace::{AppState, MultiWorkspace, Workspace},
-    wu_actions::OpenSettingsAt,
+    aayushicode_actions::OpenSettingsAt,
 };
 
 // All macOS-specific constants grouped together
@@ -770,7 +770,7 @@ edition = "2021"
     // Create README.md
     let readme = r#"# Test Project
 
-This is a test project for visual testing of Wu.
+This is a test project for visual testing of Aayushi Code.
 
 ## Features
 

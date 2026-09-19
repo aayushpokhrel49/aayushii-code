@@ -16,7 +16,7 @@ use settings::{
     MinimumContrast, PixelSetting,
 };
 use ui::prelude::*;
-use wu_actions::editor::{MoveDown, MoveUp};
+use aayushicode_actions::editor::{MoveDown, MoveUp};
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum NumberFieldMode {

@@ -3,7 +3,7 @@ use std::rc::Rc;
 use gpui::{DismissEvent, Entity, EventEmitter, FocusHandle, Focusable, IntoElement};
 use ui::{Tooltip, prelude::*};
 use workspace::{ToastAction, ToastView};
-use wu_actions::toast;
+use aayushicode_actions::toast;
 
 #[derive(RegisterComponent)]
 pub struct StatusToast {

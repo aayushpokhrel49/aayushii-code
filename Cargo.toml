@@ -160,8 +160,8 @@ members = [
     "crates/worktree",
     "crates/worktree_benchmarks",
     "crates/aayushicode",
-    "crates/wu_actions",
-    "crates/wu_env_vars",
+    "crates/aayushicode_actions",
+    "crates/aayushicode_env_vars",
     "crates/zlog",
     "crates/zlog_settings",
     "crates/ztracing",
@@ -343,8 +343,8 @@ util_macros = { path = "crates/util_macros" }
 watch = { path = "crates/watch" }
 workspace = { path = "crates/workspace" }
 worktree = { path = "crates/worktree" }
-wu_actions = { path = "crates/wu_actions" }
-wu_env_vars = { path = "crates/wu_env_vars" }
+aayushicode_actions = { path = "crates/aayushicode_actions" }
+aayushicode_env_vars = { path = "crates/aayushicode_env_vars" }
 zlog = { path = "crates/zlog" }
 zlog_settings = { path = "crates/zlog_settings" }
 ztracing = { path = "crates/ztracing" }
@@ -875,7 +875,7 @@ snippets_ui = { codegen-units = 1 }
 theme_selector = { codegen-units = 1 }
 time_format = { codegen-units = 1 }
 ui_input = { codegen-units = 1 }
-wu_actions = { codegen-units = 1 }
+aayushicode_actions = { codegen-units = 1 }
 
 [profile.release]
 opt-level = 3
