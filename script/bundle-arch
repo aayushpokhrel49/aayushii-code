@@ -45,11 +45,12 @@ export RELEASE_VERSION="${version}"
 
 export CC="${CC:-$(command -v clang)}"
 
-# Baked in at compile time so the self-updater is disabled for package-managed
-# installs: the files are owned by pacman and live outside `wu.app`, so the
-# updater can't update them (it would silently install a parallel copy under
-# ~/.local). A manual "Check for updates" shows `check()`'s prompt instead.
-export ZED_UPDATE_EXPLANATION="Please use your package manager to update"
+# The .pkg.tar.zst is published straight from GitHub Releases, so it uses the
+# same GitHub self-updater as the tar.gz build: it checks the releases API,
+# downloads `aayushicode-linux-<arch>.tar.gz`, and applies it in place. When the
+# app is installed to a root-owned location like /opt (which pacman owns and the
+# updater cannot write to without privileges), the update lands as a per-user
+# copy under ~/.local and the app restarts from there.
 
 script/generate-licenses || true
 
