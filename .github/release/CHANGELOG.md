@@ -7,6 +7,10 @@ release body.
 
 ## Unreleased
 
+## 1.0.30 - 2026-09-20
+
+- Fixed automatic updates on Linux package installs (Arch .pkg.tar.zst and .deb): they now use the same GitHub self-updater as the tar.gz build, checking the releases API, downloading `aayushicode-linux-<arch>.tar.gz`, and applying it in place. For root-owned installs the update lands in a per-user copy under `~/.local` and the app restarts from there.
+
 ## 1.0.20 - 2026-09-19
 
 - Fixed automatic update downloads failing with "operation timed out"; downloads and update checks now retry and time out gracefully.
