@@ -1,34 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
   <defs>
-    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#121218"/>
-      <stop offset="100%" style="stop-color:#1a1a24"/>
-    </linearGradient>
-    <linearGradient id="accent-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#6464ff"/>
-      <stop offset="100%" style="stop-color:#8a8aff"/>
+    <linearGradient id="aayushi-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6" />
+      <stop offset="30%" stop-color="#3B82F6" />
+      <stop offset="65%" stop-color="#06B6D4" />
+      <stop offset="100%" stop-color="#F59E0B" />
     </linearGradient>
   </defs>
-  
-  <!-- Background rounded square -->
-  <rect x="32" y="32" width="448" height="448" rx="64" fill="url(#bg-gradient)"/>
-  
-  <!-- Inner border -->
-  <rect x="48" y="48" width="416" height="416" rx="48" fill="none" stroke="#6464ff" stroke-width="4"/>
-  
-  <!-- Code brackets symbol -->
-  <g fill="none" stroke="url(#accent-gradient)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
-    <!-- Left bracket -->
-    <path d="M160 176 L96 256 L160 336"/>
-    <!-- Right bracket -->
-    <path d="M352 176 L416 256 L352 336"/>
-  </g>
-  
-  <!-- Middle slash -->
-  <line x1="220" y1="352" x2="292" y2="160" stroke="#ff79c6" stroke-width="24" stroke-linecap="round"/>
-  
-  <!-- Small dots representing editor features -->
-  <circle cx="120" cy="400" r="12" fill="#50fa7b"/>
-  <circle cx="160" cy="400" r="12" fill="#f1fa8c"/>
-  <circle cx="200" cy="400" r="12" fill="#ff79c6"/>
+  <rect width="32" height="32" rx="7" fill="#14141A" />
+  <rect width="32" height="32" rx="7" stroke="rgba(255,255,255,0.12)" stroke-width="0.8" />
+  <path d="M16 5L25 24H20.5L16 14.5L11.5 24H7L16 5Z" fill="#FFFFFF" fill-opacity="0.95" />
+  <path d="M12.5 19H19.5L18.2 21.8H13.8L12.5 19Z" fill="url(#aayushi-grad)" />
+  <circle cx="16" cy="5.5" r="1.2" fill="#06B6D4" />
 </svg>
