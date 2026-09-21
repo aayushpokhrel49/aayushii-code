@@ -36,10 +36,6 @@
 /script/node_modules
 /snap
 /zed.xcworkspace
-# Docusaurus generated files
-/docs/node_modules
-/docs/build
-/docs/.docusaurus
 DerivedData/
 Packages
 xcuserdata/
@@ -55,7 +51,6 @@ xcuserdata/
 
 # Local documentation audit files
 /december-2025-releases.md
-/docs/december-2025-documentation-gaps.md
 
 .local*
 /inno

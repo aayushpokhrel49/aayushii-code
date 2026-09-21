@@ -2,6 +2,15 @@
 > [!IMPORTANT]
 > Remove this line to confirm you've reviewed this PR before submitting.
 
+<p align="center">
+  <img
+    src="assets/images/aayushicode_icon.png"
+    alt="Aayushi Code logo"
+    width="160"
+    height="160"
+  />
+</p>
+
 # Aayushi Code
 
 Aayushi Code is a fast, native code editor built in Rust with a GPU-accelerated
