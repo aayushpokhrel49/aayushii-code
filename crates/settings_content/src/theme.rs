@@ -206,6 +206,7 @@ pub struct ThemeSettingsContent {
     #[schemars(default = "default_font_features")]
     pub buffer_font_features: Option<FontFeaturesContent>,
     pub git_commit_buffer_font_size: Option<FontSize>,
+<<<<<<< 864bfe14d123fba724f00973da673aba5373f78f
     /// The name of a font to use for rendering in the markdown preview.
     /// Falls back to the UI font if unset.
     pub markdown_preview_font_family: Option<FontFamilyName>,
@@ -219,6 +220,9 @@ pub struct ThemeSettingsContent {
     /// Falls back to the main editor theme if unset.
     pub markdown_preview_theme: Option<ThemeSelection>,
     /// The name of the Aayushi Code theme to use.
+=======
+    /// The name of the Zed theme to use.
+>>>>>>> 12d02a6899a46a1e2db834fdf9b3c59c5dfed17d
     pub theme: Option<ThemeSelection>,
     /// The name of the icon theme to use.
     pub icon_theme: Option<IconThemeSelection>,
