@@ -1,6 +1,6 @@
 /// Trait for recursively merging settings structures.
 ///
-/// When Aayushi Code starts it loads settings from `default.json` to initialize
+/// When AAYKRA starts it loads settings from `default.json` to initialize
 /// everything. These may be further refined by loading the user's settings,
 /// and any settings profiles; and then further refined by loading any
 /// local project settings.

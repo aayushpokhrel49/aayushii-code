@@ -802,7 +802,7 @@ fn open_settings_editor_with(
         cx.open_window(
             WindowOptions {
                 titlebar: Some(TitlebarOptions {
-                    title: Some("Aayushi Code — Settings".into()),
+                    title: Some("AAYKRA — Settings".into()),
                     appears_transparent: true,
                     traffic_light_position: Some(point(px(12.0), px(12.0))),
                 }),
@@ -1565,7 +1565,7 @@ fn all_language_names(cx: &App) -> Vec<SharedString> {
         .languages
         .language_names()
         .into_iter()
-        .filter(|name| name.as_ref() != "Aayushi Code Keybind Context")
+        .filter(|name| name.as_ref() != "AAYKRA Keybind Context")
         .map(Into::into)
         .collect()
 }

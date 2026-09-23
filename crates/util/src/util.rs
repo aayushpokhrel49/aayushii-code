@@ -235,8 +235,8 @@ pub fn prevent_root_execution() {
     if is_root && !allow_root {
         eprintln!(
             "\
-Error: Running Aayushi Code as root or via sudo is unsupported.
-       Doing so (even once) may subtly break things for all subsequent non-root usage of Aayushi Code.
+Error: Running AAYKRA as root or via sudo is unsupported.
+       Doing so (even once) may subtly break things for all subsequent non-root usage of AAYKRA.
        It is untested and not recommended, don't complain when things break.
        If you wish to proceed anyways, set `ZED_ALLOW_ROOT=true` in your environment."
         );

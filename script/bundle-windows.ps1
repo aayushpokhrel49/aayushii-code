@@ -178,8 +178,8 @@ function BuildInstaller {
         "stable" {
             $appId = "{{2DB0DA96-CA55-49BB-AF4F-64AF36A86712}"
             $appIconName = "app-icon"
-            $appName = "Aayushi Code"
-            $appDisplayName = "Aayushi Code"
+            $appName = "AAYKRA"
+            $appDisplayName = "AAYKRA"
             $appSetupName = "AayushiCode-$Architecture"
             # Must match the mutex created in crates/aayushicode/src/aayushicode/windows_only_instance.rs:
             # `{app_identifier()}-Instance-Mutex`.
@@ -187,20 +187,20 @@ function BuildInstaller {
             $appExeName = "Aayushi Code"
             $regValueName = "AayushiCode"
             $appUserId = "AayushPokhrel.AayushiCode"
-            $appShellNameShort = "Aayushi &Code"
+            $appShellNameShort = "AAYKRA"
             $appAppxFullName = "AayushPokhrel.AayushiCode_1.0.0.0_neutral__japxn1gcva8rg"
         }
         "dev" {
             $appId = "{{8357632E-24A4-4F32-BA97-E575B4D1FE5D}"
             $appIconName = "app-icon-dev"
-            $appName = "Aayushi Code Dev"
-            $appDisplayName = "Aayushi Code Dev"
+            $appName = "AAYKRA Dev"
+            $appDisplayName = "AAYKRA Dev"
             $appSetupName = "AayushiCode-$Architecture"
             $appMutex = "AayushiCode-Editor-Dev-Instance-Mutex"
             $appExeName = "Aayushi Code"
             $regValueName = "AayushiCodeDev"
             $appUserId = "AayushPokhrel.AayushiCode.Dev"
-            $appShellNameShort = "Aayushi &Code Dev"
+            $appShellNameShort = "AAYKRA Dev"
             $appAppxFullName = "AayushPokhrel.AayushiCode.Dev_1.0.0.0_neutral__japxn1gcva8rg"
         }
         default {

@@ -57,10 +57,10 @@ pub fn app_menus(cx: &mut App) -> Vec<Menu> {
 
     vec![
         Menu {
-            name: "Aayushi Code".into(),
+            name: "AAYKRA".into(),
             disabled: false,
             items: vec![
-                MenuItem::action("About Aayushi Code", aayushicode_actions::About),
+                MenuItem::action("About AAYKRA", aayushicode_actions::About),
                 MenuItem::action("Check for Updates", auto_update::Check),
                 MenuItem::separator(),
                 MenuItem::submenu(Menu::new("Settings").items([
@@ -92,13 +92,13 @@ pub fn app_menus(cx: &mut App) -> Vec<Menu> {
                 MenuItem::action("Install CLI", install_cli::InstallCliBinary),
                 MenuItem::separator(),
                 #[cfg(target_os = "macos")]
-                MenuItem::action("Hide Aayushi Code", super::Hide),
+                MenuItem::action("Hide AAYKRA", super::Hide),
                 #[cfg(target_os = "macos")]
                 MenuItem::action("Hide Others", super::HideOthers),
                 #[cfg(target_os = "macos")]
                 MenuItem::action("Show All", super::ShowAll),
                 MenuItem::separator(),
-                MenuItem::action("Quit Aayushi Code", Quit),
+                MenuItem::action("Quit AAYKRA", Quit),
             ],
         },
         Menu {
@@ -307,7 +307,7 @@ pub fn app_menus(cx: &mut App) -> Vec<Menu> {
                     },
                 ),
                 MenuItem::action(
-                    "Aayushi Code Repository",
+                    "AAYKRA Repository",
                     super::OpenBrowser {
                         url: "https://github.com/aayushpokhrel49/aayushii-code".into(),
                     },

@@ -96,10 +96,10 @@ find_libs() {
 mkdir -p "${install_dir}/lib"
 cp $(find_libs) "${install_dir}/lib"
 
-APP_NAME="Aayushi Code"
+APP_NAME="AAYKRA"
 APP_ID="me.aayush.Aayushi-Code"
 if [ "$channel" == "dev" ]; then
-    APP_NAME="Aayushi Code Dev"
+    APP_NAME="AAYKRA Dev"
     APP_ID="me.aayush.Aayushi-Code-Dev"
 fi
 

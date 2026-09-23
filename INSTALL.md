@@ -4,16 +4,16 @@ Download the installer for your platform [here](https://github.com/aayushpokhrel
 
 ### macOS (Apple Silicon)
 
-1. Download `AayushiCode-aarch64.dmg`, open it, and drag Aayushi Code into your Applications folder. Aayushi Code is not signed with an Apple Developer certificate yet, so macOS will block it the first time you open it.
+1. Download `AayushiCode-aarch64.dmg`, open it, and drag AAYKRA into your Applications folder. AAYKRA is not signed with an Apple Developer certificate yet, so macOS will block it the first time you open it.
 2. Open Terminal and run:
 
    ```sh
    xattr -d com.apple.quarantine /Applications/AayushiCode.app
    ```
 
-3. Open Aayushi Code normally.
+3. Open AAYKRA normally.
 
-If you'd rather not use Terminal: open Aayushi Code once (you'll see a "Aayushi Code can't be opened" or "Apple could not verify" message), then go to **System Settings → Privacy & Security**, scroll down, and click **Open Anyway** next to Aayushi Code. Confirm with your password.
+If you'd rather not use Terminal: open AAYKRA once (you'll see a "AAYKRA can't be opened" or "Apple could not verify" message), then go to **System Settings → Privacy & Security**, scroll down, and click **Open Anyway** next to AAYKRA. Confirm with your password.
 
 ### Linux (x86_64 and aarch64)
 

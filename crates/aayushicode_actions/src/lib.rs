@@ -63,7 +63,7 @@ actions!(
         OpenServerSettings,
         /// Quits the application.
         Quit,
-        /// Shows information about Aayushi Code.
+        /// Shows information about AAYKRA.
         About,
         /// Opens the documentation website.
         OpenDocs,

@@ -1,10 +1,10 @@
 name: aayushicode
-title: Aayushi Code
+title: AAYKRA
 base: core24
 version: "$RELEASE_VERSION"
 summary: The editor that doesn't get in your way
 description: |
-  Aayushi Code is a fast, native code editor built in Rust with a GPU-accelerated
+  AAYKRA is a fast, native code editor built in Rust with a GPU-accelerated
   renderer. It pairs the speed of a native app with the familiarity of
   VS Code and stays out of your way.
 grade: stable
@@ -27,10 +27,10 @@ parts:
 
     stage-packages:
       - libasound2t64
-      # snapcraft has a lint that this is unused, but without it Aayushi Code exits with
+      # snapcraft has a lint that this is unused, but without it AAYKRA exits with
       # "Missing Vulkan entry points: LibraryLoadFailure" in wgpu.
       - libvulkan1
-      # snapcraft has a lint that this is unused, but without it Aayushi Code exits with
+      # snapcraft has a lint that this is unused, but without it AAYKRA exits with
       # "NoWaylandLib" when run with Wayland.
       - libwayland-client0
       - libxcb1

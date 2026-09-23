@@ -283,7 +283,7 @@ impl Render for Onboarding {
                                             .child(
                                                 v_flex()
                                                     .child(
-                                                        Headline::new("Welcome to Aayushi Code")
+                                                        Headline::new("Welcome to AAYKRA")
                                                             .size(HeadlineSize::Small),
                                                     )
                                                     .child(

@@ -7,6 +7,10 @@ release body.
 
 ## Unreleased
 
+## 1.0.50 - 2026-09-23
+
+- Rebranded the editor from Aayushi Code to AAYKRA across the UI: app menus, welcome and onboarding screens, About window, notifications, settings descriptions, theme and icon-theme names, and installer/desktop display names. Core identifiers, data directories, and protocol strings are unchanged.
+
 ## 1.0.40 - 2026-09-21
 
 - Added a fresh new logo across the app, installers, and packaging.

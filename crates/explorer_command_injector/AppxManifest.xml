@@ -18,8 +18,8 @@
     Publisher="CN=Aayush Pokhrel"
     Version="1.0.0.0" />
   <Properties>
-    <DisplayName>Aayushi Code</DisplayName>
-
+    <DisplayName>AAYKRA</DisplayName>
+    <Description>AAYKRA explorer command injector</Description>
     <PublisherDisplayName>Aayush Pokhrel</PublisherDisplayName>
     <!-- TODO: Use actual icon here. -->
     <Logo>resources\logo_150x150.png</Logo>
@@ -46,8 +46,7 @@
     <!-- TODO: Use actual icon here. -->
       <uap:VisualElements
         AppListEntry="none"
-        DisplayName="Aayushi Code"
-        Description="Aayushi Code explorer command injector"
+        DisplayName="AAYKRA"
         BackgroundColor="transparent"
         Square150x150Logo="resources\logo_150x150.png"
         Square44x44Logo="resources\logo_70x70.png">

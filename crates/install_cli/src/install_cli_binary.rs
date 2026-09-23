@@ -80,7 +80,7 @@ async fn install_script(cx: &AsyncApp) -> Result<Option<PathBuf>> {
 }
 
 pub fn install_cli_binary(window: &mut Window, cx: &mut Context<Workspace>) {
-    const LINUX_PROMPT_DETAIL: &str = "If you installed Aayushi Code from our official release add ~/.local/bin to your PATH.\n\nIf you installed Aayushi Code from a different source like your package manager, then you may need to create an alias/symlink manually.\n\nDepending on your package manager, the CLI might be named zeditor, zedit, zed-editor or something else.";
+    const LINUX_PROMPT_DETAIL: &str = "If you installed AAYKRA from our official release add ~/.local/bin to your PATH.\n\nIf you installed AAYKRA from a different source like your package manager, then you may need to create an alias/symlink manually.\n\nDepending on your package manager, the CLI might be named zeditor, zedit, zed-editor or something else.";
 
     cx.spawn_in(window, async move |workspace, cx| {
         if cfg!(any(target_os = "linux", target_os = "freebsd")) {
@@ -111,7 +111,7 @@ pub fn install_cli_binary(window: &mut Window, cx: &mut Context<Workspace>) {
                                     "You can add `aayushicode` to your PATH manually.",
                                     cx,
                                 )
-                                .with_title("Couldn't install the Aayushi Code CLI")
+                                .with_title("Couldn't install the AAYKRA CLI")
                                 .more_info_message("Show me how")
                                 .more_info_url(CANT_INSTALL_DOCS_URL)
                             })
@@ -140,5 +140,5 @@ pub fn install_cli_binary(window: &mut Window, cx: &mut Context<Workspace>) {
         register_aayushicode_scheme(cx).await.log_err();
         Ok(())
     })
-    .detach_and_prompt_err("Cannot install the Aayushi Code CLI", window, cx, |_, _, _| None);
+    .detach_and_prompt_err("Cannot install the AAYKRA CLI", window, cx, |_, _, _| None);
 }

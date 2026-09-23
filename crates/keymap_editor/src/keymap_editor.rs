@@ -3515,7 +3515,7 @@ async fn load_keybind_context_language(
                 .project()
                 .read(cx)
                 .languages()
-                .language_for_name("Aayushi Code Keybind Context")
+                .language_for_name("AAYKRA Keybind Context")
         })
         .context("Failed to load Zed Keybind Context language")
         .log_err();
@@ -3529,7 +3529,7 @@ async fn load_keybind_context_language(
     language.unwrap_or_else(|| {
         Arc::new(Language::new(
             LanguageConfig {
-                name: "Aayushi Code Keybind Context".into(),
+                name: "AAYKRA Keybind Context".into(),
                 ..Default::default()
             },
             Some(tree_sitter_rust::LANGUAGE.into()),
