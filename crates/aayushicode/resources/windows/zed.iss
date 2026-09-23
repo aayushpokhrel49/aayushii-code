@@ -65,7 +65,7 @@ Name: "addtopath"; Description: "{cm:AddToPath}"; GroupDescription: "{cm:Other}"
 Name: "{app}"; AfterInstall: DisableAppDirInheritance
 
 [Files]
-Source: "{#ResourcesDir}\Aayushi Code.exe"; DestDir: "{code:GetInstallDir}"; Flags: ignoreversion
+Source: "{#ResourcesDir}\Aaykra.exe"; DestDir: "{code:GetInstallDir}"; Flags: ignoreversion
 Source: "{#ResourcesDir}\bin\*"; DestDir: "{code:GetInstallDir}\bin"; Flags: ignoreversion
 Source: "{#ResourcesDir}\tools\*"; DestDir: "{app}\tools"; Flags: ignoreversion
 Source: "{#ResourcesDir}\appx\*"; DestDir: "{app}\appx";  BeforeInstall: RemoveAppxPackage; AfterInstall: AddAppxPackage; Flags: ignoreversion; Check: IsWindows11OrLater
@@ -1258,8 +1258,8 @@ Root: HKCU; Subkey: "Environment"; ValueType: expandsz; ValueName: "Path"; Value
 ; URI Scheme
 Root: HKCU; Subkey: "Software\Classes\aayushicode"; ValueType: "string"; ValueData: "URL:aayushicode Protocol"; Flags: uninsdeletekey
 Root: HKCU; Subkey: "Software\Classes\aayushicode"; ValueType: "string"; ValueName: "URL Protocol"; ValueData: ""
-Root: HKCU; Subkey: "Software\Classes\aayushicode\DefaultIcon"; ValueType: "string"; ValueData: "{app}\AayushiCode.exe,1"
-Root: HKCU; Subkey: "Software\Classes\aayushicode\shell\open\command"; ValueType: "string"; ValueData: """{app}\AayushiCode.exe"" ""%1"""
+Root: HKCU; Subkey: "Software\Classes\aayushicode\DefaultIcon"; ValueType: "string"; ValueData: "{app}\Aaykra.exe,1"
+Root: HKCU; Subkey: "Software\Classes\aayushicode\shell\open\command"; ValueType: "string"; ValueData: """{app}\Aaykra.exe"" ""%1"""
 
 [Code]
 function WizardNotSilent(): Boolean;

@@ -90,9 +90,9 @@ function GenerateLicenses {
 }
 
 function BuildAayushicodeAndItsFriends {
-    Write-Output "Building Aayushi Code and its friends, for channel: $channel"
+    Write-Output "Building Aaykra and its friends, for channel: $channel"
     cargo build --release --package aayushicode --package cli --package auto_update_helper --target $target
-    Copy-Item -Path ".\$CargoOutDir\aayushicode.exe" -Destination "$innoDir\Aayushi Code.exe" -Force
+    Copy-Item -Path ".\$CargoOutDir\aayushicode.exe" -Destination "$innoDir\Aaykra.exe" -Force
     Copy-Item -Path ".\$CargoOutDir\cli.exe" -Destination "$innoDir\cli.exe" -Force
     Copy-Item -Path ".\$CargoOutDir\auto_update_helper.exe" -Destination "$innoDir\auto_update_helper.exe" -Force
     switch ($channel) {
@@ -180,11 +180,11 @@ function BuildInstaller {
             $appIconName = "app-icon"
             $appName = "AAYKRA"
             $appDisplayName = "AAYKRA"
-            $appSetupName = "AayushiCode-$Architecture"
+            $appSetupName = "aaykra-$Architecture"
             # Must match the mutex created in crates/aayushicode/src/aayushicode/windows_only_instance.rs:
             # `{app_identifier()}-Instance-Mutex`.
             $appMutex = "AayushiCode-Editor-Stable-Instance-Mutex"
-            $appExeName = "Aayushi Code"
+            $appExeName = "Aaykra"
             $regValueName = "AayushiCode"
             $appUserId = "AayushPokhrel.AayushiCode"
             $appShellNameShort = "AAYKRA"
@@ -195,9 +195,9 @@ function BuildInstaller {
             $appIconName = "app-icon-dev"
             $appName = "AAYKRA Dev"
             $appDisplayName = "AAYKRA Dev"
-            $appSetupName = "AayushiCode-$Architecture"
+            $appSetupName = "aaykra-$Architecture"
             $appMutex = "AayushiCode-Editor-Dev-Instance-Mutex"
-            $appExeName = "Aayushi Code"
+            $appExeName = "Aaykra"
             $regValueName = "AayushiCodeDev"
             $appUserId = "AayushPokhrel.AayushiCode.Dev"
             $appShellNameShort = "AAYKRA Dev"
@@ -268,8 +268,8 @@ Pop-Location
 if ($buildSuccess) {
     Write-Output "Build successful"
     if ($Install) {
-        Write-Output "Installing Aayushi Code..."
-        Start-Process -FilePath "$workspace/target/AayushiCode-$Architecture.exe"
+        Write-Output "Installing Aaykra..."
+        Start-Process -FilePath "$workspace/target/aaykra-$Architecture.exe"
     }
     exit 0
 }

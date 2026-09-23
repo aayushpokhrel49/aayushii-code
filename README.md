@@ -39,15 +39,15 @@ AAYKRA builds stable releases for:
 
 | Platform  | Architecture | Artifact                            |
 | --------- | ------------ | ----------------------------------- |
-| macOS     | Apple Silicon | `AayushiCode-aarch64.dmg`          |
-| macOS     | Intel        | `AayushiCode-x86_64.dmg`           |
-| Linux     | x86_64       | `aayushicode-linux-x86_64.tar.gz`  |
-| Linux     | aarch64      | `aayushicode-linux-aarch64.tar.gz` |
-| Arch      | x86_64       | `aayushicode-<version>.pkg.tar.zst` |
-| Arch      | aarch64      | `aayushicode-<version>.pkg.tar.zst` |
-| Windows   | x86_64       | `AayushiCode-x86_64.exe`           |
+| macOS     | Apple Silicon | `aaykra-aarch64.dmg`              |
+| macOS     | Intel        | `aaykra-x86_64.dmg`               |
+| Linux     | x86_64       | `aaykra-linux-x86_64.tar.gz`      |
+| Linux     | aarch64      | `aaykra-linux-aarch64.tar.gz`     |
+| Arch      | x86_64       | `aaykra-<version>.pkg.tar.zst`    |
+| Arch      | aarch64      | `aaykra-<version>.pkg.tar.zst`    |
+| Windows   | x86_64       | `aaykra-x86_64.exe`               |
 
-A `.deb` package is also published for Debian/Ubuntu-based distributions.
+A `.deb` package (`aaykra_*.deb`) is also published for Debian/Ubuntu-based distributions.
 
 ## Install
 

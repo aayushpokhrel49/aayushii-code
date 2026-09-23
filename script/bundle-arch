@@ -47,7 +47,7 @@ export CC="${CC:-$(command -v clang)}"
 
 # The .pkg.tar.zst is published straight from GitHub Releases, so it uses the
 # same GitHub self-updater as the tar.gz build: it checks the releases API,
-# downloads `aayushicode-linux-<arch>.tar.gz`, and applies it in place. When the
+# downloads `aaykra-linux-<arch>.tar.gz`, and applies it in place. When the
 # app is installed to a root-owned location like /opt (which pacman owns and the
 # updater cannot write to without privileges), the update lands as a per-user
 # copy under ~/.local and the app restarts from there.
@@ -74,7 +74,7 @@ if [ "$channel" != "stable" ]; then
     suffix="-$channel"
 fi
 
-package_name="aayushicode${suffix}"
+package_name="aaykra${suffix}"
 pkgrel="1"
 
 package_root="$(mktemp -d)"

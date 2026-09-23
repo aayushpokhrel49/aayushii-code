@@ -36,12 +36,12 @@ jobs:
         run: ./script/bundle-deb
       - name: Verify package
         run: |
-          deb_file=$(ls target/release/aayushicode*.deb)
+          deb_file=$(ls target/release/aaykra*.deb)
           echo "Package: $deb_file"
           dpkg-deb --info "$deb_file"
           dpkg-deb --contents "$deb_file" | head -40
       - uses: actions/upload-artifact@v4
         with:
-          name: aayushicode-deb
-          path: target/release/aayushicode*.deb
+          name: aaykra-deb
+          path: target/release/aaykra*.deb
           if-no-files-found: error

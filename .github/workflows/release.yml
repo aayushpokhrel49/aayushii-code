@@ -86,13 +86,13 @@ jobs:
         with:
           name: macos-${{ matrix.arch }}
           path: |
-            target/${{ matrix.target_triple }}/release/AayushiCode-${{ matrix.arch }}.dmg
+            target/${{ matrix.target_triple }}/release/aaykra-${{ matrix.arch }}.dmg
             target/aayushicode-remote-server-macos-${{ matrix.arch }}.gz
           if-no-files-found: error
       - uses: actions/upload-artifact@v4
         with:
           name: macos-${{ matrix.arch }}-dsym
-          path: target/${{ matrix.target_triple }}/release/AayushiCode.dSYM.zip
+          path: target/${{ matrix.target_triple }}/release/aaykra.dSYM.zip
           if-no-files-found: error
 
   bundle_linux:
@@ -124,7 +124,7 @@ jobs:
         with:
           name: linux-${{ matrix.arch }}
           path: |
-            target/release/aayushicode-linux-${{ matrix.arch }}.tar.gz
+            target/release/aaykra-linux-${{ matrix.arch }}.tar.gz
             target/aayushicode-remote-server-linux-${{ matrix.arch }}.gz
           if-no-files-found: error
 
@@ -156,7 +156,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: linux-deb-${{ matrix.arch }}
-          path: target/release/aayushicode*.deb
+          path: target/release/aaykra*.deb
           if-no-files-found: error
 
   bundle_arch_linux:
@@ -189,7 +189,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: arch-linux-${{ matrix.arch }}
-          path: target/release/aayushicode-*.pkg.tar.zst
+          path: target/release/aaykra-*.pkg.tar.zst
           if-no-files-found: error
 
   bundle_windows:
@@ -210,7 +210,7 @@ jobs:
         with:
           name: windows-x86_64
           path: |
-            target/AayushiCode-x86_64.exe
+            target/aaykra-x86_64.exe
             target/aayushicode-remote-server-windows-x86_64.gz
           if-no-files-found: error
 

@@ -253,7 +253,7 @@ function sign_app_binaries() {
     else
         dmg_target_directory="target/${target_triple}/${target_dir}"
         dmg_source_directory="${dmg_target_directory}/dmg"
-        dmg_file_path="${dmg_target_directory}/AayushiCode-${arch_suffix}.dmg"
+        dmg_file_path="${dmg_target_directory}/aaykra-${arch_suffix}.dmg"
         xcode_bin_dir_path="$(xcode-select -p)/usr/bin"
 
         rm -rf ${dmg_source_directory}
@@ -301,7 +301,7 @@ cp target/${target_triple}/${target_dir}/aayushicode "${app_path}/Contents/MacOS
 cp target/${target_triple}/${target_dir}/cli "${app_path}/Contents/MacOS/cli"
 
 if [[ "$target_dir" = "release" && -n "${CI:-}${BUNDLE_DSYM:-}" ]]; then
-    dsym_path="target/${target_triple}/${target_dir}/AayushiCode.dSYM"
+    dsym_path="target/${target_triple}/${target_dir}/aaykra.dSYM"
     rm -rf "$dsym_path" "${dsym_path}.zip"
     # Use rustc's dSYM when split-debuginfo produced one, otherwise build it.
     if [[ -d "target/${target_triple}/${target_dir}/aayushicode.dSYM" ]]; then

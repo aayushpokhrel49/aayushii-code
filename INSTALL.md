@@ -4,11 +4,11 @@ Download the installer for your platform [here](https://github.com/aayushpokhrel
 
 ### macOS (Apple Silicon)
 
-1. Download `AayushiCode-aarch64.dmg`, open it, and drag AAYKRA into your Applications folder. AAYKRA is not signed with an Apple Developer certificate yet, so macOS will block it the first time you open it.
+1. Download `aaykra-aarch64.dmg`, open it, and drag AAYKRA into your Applications folder. AAYKRA is not signed with an Apple Developer certificate yet, so macOS will block it the first time you open it.
 2. Open Terminal and run:
 
    ```sh
-   xattr -d com.apple.quarantine /Applications/AayushiCode.app
+   xattr -d com.apple.quarantine /Applications/AAYKRA.app
    ```
 
 3. Open AAYKRA normally.
@@ -17,10 +17,10 @@ If you'd rather not use Terminal: open AAYKRA once (you'll see a "AAYKRA can't b
 
 ### Linux (x86_64 and aarch64)
 
-Download `aayushicode-linux-<arch>.tar.gz` and unpack it into `~/.local`:
+Download `aaykra-linux-<arch>.tar.gz` and unpack it into `~/.local`:
 
 ```sh
-tar -xzf aayushicode-linux-$(uname -m).tar.gz -C ~/.local
+tar -xzf aaykra-linux-$(uname -m).tar.gz -C ~/.local
 ln -sf ~/.local/aayushicode.app/bin/aayushicode ~/.local/bin/aayushicode
 ```
 
@@ -28,4 +28,4 @@ Make sure `~/.local/bin` is on your `PATH`, then run `aayushicode`.
 
 ### Windows (x86_64)
 
-Download and run `AayushiCode-x86_64.exe`. The installer isn't code-signed, so Windows SmartScreen may warn you. Click **More info**, then **Run anyway**.
+Download and run `aaykra-x86_64.exe`. The installer isn't code-signed, so Windows SmartScreen may warn you. Click **More info**, then **Run anyway**.
