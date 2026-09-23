@@ -100,19 +100,19 @@ impl UpdateButton {
     }
 
     pub fn checking() -> Self {
-        Self::new(IconName::LoadCircle, "Checking for Aayushi Code Updates…")
+        Self::new(IconName::LoadCircle, "Checking for AAYKRA Updates…")
             .icon_animate(true)
             .disabled(true)
     }
 
     pub fn downloading(progress: Option<f32>) -> Self {
-        Self::new(IconName::Download, "Downloading Aayushi Code Update…")
+        Self::new(IconName::Download, "Downloading AAYKRA Update…")
             .progress(progress)
             .disabled(true)
     }
 
     pub fn installing(version: impl Into<SharedString>) -> Self {
-        Self::new(IconName::LoadCircle, "Installing Aayushi Code Update…")
+        Self::new(IconName::LoadCircle, "Installing AAYKRA Update…")
             .icon_animate(true)
             .tooltip(version)
             .disabled(true)

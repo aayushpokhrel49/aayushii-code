@@ -93,7 +93,7 @@ impl UpdateLock {
         match file.try_lock() {
             Ok(()) => Ok(Self { _file: file }),
             Err(std::fs::TryLockError::WouldBlock) => {
-                anyhow::bail!("another Aayushi Code instance is already checking for updates")
+                anyhow::bail!("another AAYKRA instance is already checking for updates")
             }
             Err(std::fs::TryLockError::Error(error)) => {
                 Err(error).with_context(|| format!("locking update lock at {path:?}"))
@@ -395,7 +395,7 @@ pub fn check(_: &Check, window: &mut Window, cx: &mut App) {
     {
         drop(window.prompt(
             gpui::PromptLevel::Info,
-            "Aayushi Code was installed via a package manager.",
+            "AAYKRA was installed via a package manager.",
             Some(&message),
             &["OK"],
             cx,
@@ -1400,7 +1400,7 @@ async fn install_release_linux(
 
     anyhow::ensure!(
         output.status.success(),
-        "failed to copy Aayushi Code update from {:?} to {:?}: {:?}",
+        "failed to copy AAYKRA update from {:?} to {:?}: {:?}",
         from,
         to,
         String::from_utf8_lossy(&output.stderr)

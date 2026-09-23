@@ -770,7 +770,7 @@ edition = "2021"
     // Create README.md
     let readme = r#"# Test Project
 
-This is a test project for visual testing of Aayushi Code.
+This is a test project for visual testing of AAYKRA.
 
 ## Features
 

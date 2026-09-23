@@ -29,7 +29,7 @@ pub struct OpenRecentProject {
 actions!(
     aayushicode,
     [
-        /// Show the Aayushi Code welcome screen
+        /// Show the AAYKRA welcome screen
         ShowWelcome
     ]
 );
@@ -394,9 +394,9 @@ impl Render for WelcomePage {
         };
 
         let welcome_label = if self.fallback_to_recent_projects {
-            "Welcome back to Aayushi Code"
+            "Welcome back to AAYKRA"
         } else {
-            "Welcome to Aayushi Code"
+            "Welcome to AAYKRA"
         };
 
         h_flex()

@@ -306,7 +306,7 @@ impl ExtensionCard {
                             move |_, cx| {
                                 Tooltip::simple(
                                     format!(
-                                        "v{version} is not compatible with this version of Aayushi Code."
+                                        "v{version} is not compatible with this version of AAYKRA."
                                     ),
                                     cx,
                                 )

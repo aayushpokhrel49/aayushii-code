@@ -12,7 +12,7 @@
     </developer>
     <description>
         <p>
-            Aayushi Code is a code editor for people who want the speed of a native app and the familiarity of VS Code. Built on the Zed engine, it keeps the editor core, GPU rendering, and language tooling, then strips out everything that isn't editing.
+            AAYKRA is a code editor for people who want the speed of a native app and the familiarity of VS Code. Built on the Zed engine, it keeps the editor core, GPU rendering, and language tooling, then strips out everything that isn't editing.
         </p>
         <p>Features:</p>
         <ul>
@@ -49,11 +49,11 @@
 
     <screenshots>
         <screenshot type="default">
-            <caption>Aayushi Code with a project open, in the Catppuccin Mocha theme</caption>
+            <caption>AAYKRA with a project open, in the Catppuccin Mocha theme</caption>
             <image>https://raw.githubusercontent.com/aayushpokhrel49/aayushii-code/main/assets/images/screenshot-dark.png</image>
         </screenshot>
         <screenshot>
-            <caption>Aayushi Code with a project open, in the Catppuccin Latte theme</caption>
+            <caption>AAYKRA with a project open, in the Catppuccin Latte theme</caption>
             <image>https://raw.githubusercontent.com/aayushpokhrel49/aayushii-code/main/assets/images/screenshot-light.png</image>
         </screenshot>
     </screenshots>

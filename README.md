@@ -5,17 +5,19 @@
 <p align="center">
   <img
     src="assets/images/aayushicode_icon.png"
-    alt="Aayushi Code logo"
+    alt="AAYKRA logo"
     width="160"
     height="160"
   />
 </p>
 
-# Aayushi Code
+# AAYKRA
 
-Aayushi Code is a fast, native code editor built in Rust with a GPU-accelerated
+AAYKRA is a fast, native code editor built in Rust with a GPU-accelerated
 renderer. It pairs the speed of a native application with the familiarity of a
 modern IDE, and stays out of your way.
+
+Previously known as **Aayushi Code**.
 
 ## Features
 
@@ -33,7 +35,7 @@ modern IDE, and stays out of your way.
 
 ## Platforms
 
-Aayushi Code builds stable releases for:
+AAYKRA builds stable releases for:
 
 | Platform  | Architecture | Artifact                            |
 | --------- | ------------ | ----------------------------------- |
@@ -112,7 +114,7 @@ Distributed under the GPL-3.0-or-later and Apache-2.0 licenses. See
 
 ## Credits
 
-Aayushi Code is a fork of [Zed](https://zed.dev), and would not exist without
+AAYKRA is a fork of [Zed](https://zed.dev), and would not exist without
 the incredible editor built by [Zed Industries](https://github.com/zed-industries).
 Most of this codebase originates from
 [`zed-industries/zed`](https://github.com/zed-industries/zed) and is used under

@@ -105,10 +105,10 @@ cp $(find_libs) "${install_dir}/lib"
 
 # App identity: the app ID doubles as the Wayland window ID, so an icon file
 # named after it must be installed for compositors to show a window/taskbar icon.
-APP_NAME="Aayushi Code"
+APP_NAME="AAYKRA"
 APP_ID="me.aayush.Aayushi-Code"
 if [ "$channel" == "dev" ]; then
-  APP_NAME="Aayushi Code Dev"
+  APP_NAME="AAYKRA Dev"
   APP_ID="me.aayush.Aayushi-Code-Dev"
 fi
 
