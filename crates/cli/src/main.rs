@@ -1280,9 +1280,9 @@ mod windows {
                 let cli = std::env::current_exe()?;
                 let dir = cli.parent().context("no parent path for cli")?;
 
-                // ../Aayushi Code.exe is the standard, ./aayushicode.exe is for the target
+                // ../Aaykra.exe is the standard, ./aayushicode.exe is for the target
                 // directory in development builds.
-                let possible_locations = ["../Aayushi Code.exe", "./aayushicode.exe"];
+                let possible_locations = ["../Aaykra.exe", "./aayushicode.exe"];
                 possible_locations
                     .iter()
                     .find_map(|p| dir.join(p).canonicalize().ok().filter(|path| path != &cli))

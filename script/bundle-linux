@@ -177,10 +177,10 @@ cp "assets/licenses.md" "${wu_dir}/licenses.md"
 
 # Create archive out of everything that's in the temp directory
 arch=$(uname -m)
-archive="aayushicode-linux-${arch}.tar.gz"
+archive="aaykra-linux-${arch}.tar.gz"
 
 rm -rf "${archive}"
-remove_match="aayushicode(-[a-zA-Z0-9]+)?-linux-$(uname -m)\.tar\.gz"
+remove_match="aaykra(-[a-zA-Z0-9]+)?-linux-$(uname -m)\.tar\.gz"
 ls "${target_dir}/release" | grep -E ${remove_match} | xargs -d "\n" -I {} rm -f "${target_dir}/release/{}" || true
 tar -czvf "${target_dir}/release/$archive" -C ${temp_dir} "aayushicode$suffix.app"
 

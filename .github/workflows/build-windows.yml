@@ -33,10 +33,10 @@ jobs:
         shell: pwsh
       - name: Verify package
         run: |
-          Test-Path target/AayushiCode-x86_64.exe
+          Test-Path target/aaykra-x86_64.exe
         shell: pwsh
       - uses: actions/upload-artifact@v4
         with:
-          name: aayushicode-exe
-          path: target/AayushiCode-*.exe
+          name: aaykra-exe
+          path: target/aaykra-*.exe
           if-no-files-found: error

@@ -54,7 +54,7 @@ export CC="${CC:-$(command -v clang)}"
 
 # The .deb is published straight from GitHub Releases, so it uses the same
 # GitHub self-updater as the tar.gz build: it checks the releases API, downloads
-# `aayushicode-linux-<arch>.tar.gz`, and applies it in place. When the app is
+# `aaykra-linux-<arch>.tar.gz`, and applies it in place. When the app is
 # installed to a root-owned location like /opt (which dpkg owns and the updater
 # cannot write to without privileges), the update lands as a per-user copy under
 # ~/.local and the app restarts from there.
@@ -87,7 +87,7 @@ if [ "$channel" != "stable" ]; then
   suffix="-$channel"
 fi
 
-package_name="aayushicode${suffix}"
+package_name="aaykra${suffix}"
 package_root="$(mktemp -d)"
 install_dir="${package_root}/opt/aayushicode"
 
@@ -161,7 +161,7 @@ Installed-Size: $(du -sk "${package_root}/opt" | cut -f1)
 Depends: libasound2 | libasound2t64, libglib2.0-0, libstdc++6, libssl3 | libssl1.1, libwayland-client0, libx11-6, libxcb1, libxkbcommon0, libxkbcommon-x11-0, libxi6, libxcursor1
 Recommends: libvulkan1, xdg-desktop-portal, pipewire
 Homepage: https://aayushhpokhrel.com.np
-Description: Aayushi Code - a fast, native code editor
+Description: AAYKRA - a fast, native code editor
  A fast, native code editor built in Rust with a GPU-accelerated renderer.
  It pairs the speed of a native app with the familiarity of VS Code and
  stays out of your way.

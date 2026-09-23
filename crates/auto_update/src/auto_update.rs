@@ -268,9 +268,9 @@ struct GitHubReleaseAsset {
 
 fn github_asset_name(asset: &str, os: &str, arch: &str) -> Result<String> {
     match (asset, os) {
-        ("zed", "macos") => Ok(format!("AayushiCode-{arch}.dmg")),
-        ("zed", "linux") => Ok(format!("aayushicode-linux-{arch}.tar.gz")),
-        ("zed", "windows") => Ok(format!("AayushiCode-{arch}.exe")),
+        ("zed", "macos") => Ok(format!("aaykra-{arch}.dmg")),
+        ("zed", "linux") => Ok(format!("aaykra-linux-{arch}.tar.gz")),
+        ("zed", "windows") => Ok(format!("aaykra-{arch}.exe")),
         ("aayushicode-remote-server", _) => Ok(format!("aayushicode-remote-server-{os}-{arch}.gz")),
         _ => anyhow::bail!("no release asset for {asset} on {os}"),
     }
@@ -478,7 +478,7 @@ impl InstallerDir {
     async fn new() -> Result<Self> {
         let installer_dir = std::env::current_exe()?
             .parent()
-            .context("No parent dir for Aayushi Code.exe")?
+            .context("No parent dir for Aaykra.exe")?
             .join("updates");
         if smol::fs::metadata(&installer_dir).await.is_ok() {
             smol::fs::remove_dir_all(&installer_dir).await?;
@@ -1041,9 +1041,9 @@ impl AutoUpdater {
 
     async fn target_path(installer_dir: &InstallerDir) -> Result<PathBuf> {
         let filename = match OS {
-            "macos" => anyhow::Ok("AayushiCode.dmg"),
-            "linux" => Ok("aayushicode.tar.gz"),
-            "windows" => Ok("AayushiCode.exe"),
+            "macos" => anyhow::Ok("aaykra.dmg"),
+            "linux" => Ok("aaykra.tar.gz"),
+            "windows" => Ok("aaykra.exe"),
             unsupported_os => anyhow::bail!("not supported: {unsupported_os}"),
         }?;
         Ok(installer_dir.path().join(filename))
@@ -1514,7 +1514,7 @@ async fn cleanup_stale_installer_dirs() {
 async fn cleanup_windows() -> Result<()> {
     let parent = std::env::current_exe()?
         .parent()
-        .context("No parent dir for Aayushi Code.exe")?
+        .context("No parent dir for Aaykra.exe")?
         .to_owned();
 
     // keep in sync with crates/auto_update_helper/src/updater.rs. `updates` and
@@ -1557,7 +1557,7 @@ async fn install_release_windows(downloaded_installer: &Path) -> Result<Option<P
     // deleting the old one, and launching the new binary.
     let helper_path = std::env::current_exe()?
         .parent()
-        .context("No parent dir for Aayushi Code.exe")?
+        .context("No parent dir for Aaykra.exe")?
         .join("tools")
         .join("auto_update_helper.exe");
     Ok(Some(helper_path))
@@ -1767,7 +1767,7 @@ mod tests {
                 Ok(Response::builder()
                     .status(200)
                     .body(
-                        r#"{"tag_name":"v1.0.0","assets":[{"name":"AayushiCode-x86_64.exe","browser_download_url":"http://test.example/win.exe","digest":null}]}"#
+                        r#"{"tag_name":"v1.0.0","assets":[{"name":"aaykra-x86_64.exe","browser_download_url":"http://test.example/win.exe","digest":null}]}"#
                             .into(),
                     )
                     .unwrap())

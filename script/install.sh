@@ -84,10 +84,10 @@ main() {
 
 linux() {
     if [ -n "${ZED_BUNDLE_PATH:-}" ]; then
-        cp "$ZED_BUNDLE_PATH" "$temp/aayushicode-linux-$arch.tar.gz"
+        cp "$ZED_BUNDLE_PATH" "$temp/aaykra-linux-$arch.tar.gz"
     else
         echo "Downloading Aayushi Code version: $ZED_VERSION"
-        curl "$download_base/aayushicode-linux-$arch.tar.gz" > "$temp/aayushicode-linux-$arch.tar.gz"
+        curl "$download_base/aaykra-linux-$arch.tar.gz" > "$temp/aaykra-linux-$arch.tar.gz"
     fi
 
     suffix=""
@@ -112,7 +112,7 @@ linux() {
     # Unpack
     rm -rf "$HOME/.local/aayushicode$suffix.app"
     mkdir -p "$HOME/.local/aayushicode$suffix.app"
-    tar -xzf "$temp/aayushicode-linux-$arch.tar.gz" -C "$HOME/.local/"
+    tar -xzf "$temp/aaykra-linux-$arch.tar.gz" -C "$HOME/.local/"
 
     aayushicode_editor="$HOME/.local/aayushicode$suffix.app/libexec/aayushicode-editor"
     if [ -f "$aayushicode_editor" ] && command -v ldd >/dev/null 2>&1; then
@@ -157,8 +157,8 @@ linux() {
 
 macos() {
     echo "Downloading Aayushi Code version: $ZED_VERSION"
-    curl "$download_base/AayushiCode-$arch.dmg" > "$temp/AayushiCode-$arch.dmg"
-    hdiutil attach -quiet "$temp/AayushiCode-$arch.dmg" -mountpoint "$temp/mount"
+    curl "$download_base/aaykra-$arch.dmg" > "$temp/aaykra-$arch.dmg"
+    hdiutil attach -quiet "$temp/aaykra-$arch.dmg" -mountpoint "$temp/mount"
     app="$(cd "$temp/mount/"; echo *.app)"
     echo "Installing $app"
     if [ -d "/Applications/$app" ]; then
