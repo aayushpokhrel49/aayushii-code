@@ -1,8 +1,13 @@
 [package]
 description = "The fast, native VSCode alternative."
 edition.workspace = true
+<<<<<<< f0ef8c70a37e946424ce654f8d07267111d3233b:crates/aayushicode/Cargo.toml
 name = "aayushicode"
 version = "1.0.50"
+=======
+name = "zed"
+version = "1.21.0"
+>>>>>>> 63c8558121bd9f1afbe6db38cd6076711420d1b8:crates/zed/Cargo.toml
 publish.workspace = true
 license = "GPL-3.0-or-later"
 repository = "https://github.com/aayushpokhrel49/aayushii-code"
@@ -13,11 +18,6 @@ default-run = "aayushicode"
 workspace = true
 
 [features]
-inspector = [
-    "gpui/inspector",
-    "inspector_ui/inspector",
-    "ui/derive_inspector_reflection",
-]
 tracy = ["ztracing/tracy"]
 # LEAK_BACKTRACE=1 cargo run --features zed/track-project-leak --profile release-fast
 track-project-leak = ["gpui/leak-detection"]
@@ -125,6 +125,7 @@ language_tools.workspace = true
 languages = { workspace = true, features = ["load-grammars"] }
 libc.workspace = true
 line_ending_selector.workspace = true
+lsp_command_selector.workspace = true
 log.workspace = true
 lsp_locations.workspace = true
 markdown.workspace = true
