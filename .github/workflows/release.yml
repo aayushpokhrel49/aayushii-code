@@ -87,7 +87,7 @@ jobs:
           name: macos-${{ matrix.arch }}
           path: |
             target/${{ matrix.target_triple }}/release/aaykra-${{ matrix.arch }}.dmg
-            target/aayushicode-remote-server-macos-${{ matrix.arch }}.gz
+            target/aaykra-remote-server-macos-${{ matrix.arch }}.gz
           if-no-files-found: error
       - uses: actions/upload-artifact@v4
         with:
@@ -125,7 +125,7 @@ jobs:
           name: linux-${{ matrix.arch }}
           path: |
             target/release/aaykra-linux-${{ matrix.arch }}.tar.gz
-            target/aayushicode-remote-server-linux-${{ matrix.arch }}.gz
+            target/aaykra-remote-server-linux-${{ matrix.arch }}.gz
           if-no-files-found: error
 
   bundle_deb:
@@ -211,7 +211,7 @@ jobs:
           name: windows-x86_64
           path: |
             target/aaykra-x86_64.exe
-            target/aayushicode-remote-server-windows-x86_64.gz
+            target/aaykra-remote-server-windows-x86_64.gz
           if-no-files-found: error
 
   release:
@@ -247,5 +247,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ needs.check_version.outputs.version }}
+          name: AAYKRA v${{ needs.check_version.outputs.version }}
           body_path: release-body.md
           files: artifacts/**

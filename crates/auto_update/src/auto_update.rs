@@ -76,9 +76,9 @@ struct UpdateLock {
 impl UpdateLock {
     fn path() -> PathBuf {
         #[cfg(test)]
-        let file_name = format!("aayushicode-auto-update-{}.lock", std::process::id());
+        let file_name = format!("aaykra-auto-update-{}.lock", std::process::id());
         #[cfg(not(test))]
-        let file_name = "aayushicode-auto-update.lock".to_string();
+        let file_name = "aaykra-auto-update.lock".to_string();
         paths::temp_dir().join(file_name)
     }
 
@@ -250,7 +250,7 @@ pub struct ReleaseAsset {
 }
 
 const GITHUB_RELEASES_API_URL: &str =
-    "https://api.github.com/repos/aayushpokhrel49/aayushii-code/releases";
+    "https://api.github.com/repos/aayushpokhrel49/Aaykra/releases";
 
 #[derive(Deserialize)]
 struct GitHubRelease {
@@ -271,7 +271,7 @@ fn github_asset_name(asset: &str, os: &str, arch: &str) -> Result<String> {
         ("zed", "macos") => Ok(format!("aaykra-{arch}.dmg")),
         ("zed", "linux") => Ok(format!("aaykra-linux-{arch}.tar.gz")),
         ("zed", "windows") => Ok(format!("aaykra-{arch}.exe")),
-        ("aayushicode-remote-server", _) => Ok(format!("aayushicode-remote-server-{os}-{arch}.gz")),
+        ("aaykra-remote-server", _) => Ok(format!("aaykra-remote-server-{os}-{arch}.gz")),
         _ => anyhow::bail!("no release asset for {asset} on {os}"),
     }
 }
@@ -433,11 +433,11 @@ pub fn release_notes_url(cx: &mut App) -> Option<String> {
             current_version.pre = semver::Prerelease::EMPTY;
             current_version.build = semver::BuildMetadata::EMPTY;
             format!(
-                "https://github.com/aayushpokhrel49/aayushii-code/releases/tag/v{current_version}"
+                "https://github.com/aayushpokhrel49/Aaykra/releases/tag/v{current_version}"
             )
         }
         ReleaseChannel::Dev => {
-            "https://github.com/aayushpokhrel49/aayushii-code/commits/main/".to_string()
+            "https://github.com/aayushpokhrel49/Aaykra/commits/main/".to_string()
         }
     };
     Some(url)
@@ -450,7 +450,7 @@ pub fn view_release_notes(_: &ViewReleaseNotes, cx: &mut App) -> Option<()> {
 }
 
 #[cfg(not(target_os = "windows"))]
-const INSTALLER_DIR_PREFIX: &str = "aayushi-auto-update";
+const INSTALLER_DIR_PREFIX: &str = "aaykra-auto-update";
 
 #[cfg(not(target_os = "windows"))]
 struct InstallerDir(tempfile::TempDir);
@@ -690,7 +690,7 @@ impl AutoUpdater {
             &this,
             release_channel,
             version,
-            "aayushicode-remote-server",
+            "aaykra-remote-server",
             os,
             arch,
             cx,
@@ -707,7 +707,7 @@ impl AutoUpdater {
 
         if smol::fs::metadata(&version_path).await.is_err() {
             log::info!(
-                "downloading aayushicode-remote-server {os} {arch} version {}",
+                "downloading aaykra-remote-server {os} {arch} version {}",
                 release.version
             );
             set_status("Downloading remote server", cx);
@@ -745,7 +745,7 @@ impl AutoUpdater {
             &this,
             channel,
             version,
-            "aayushicode-remote-server",
+            "aaykra-remote-server",
             os,
             arch,
             cx,
@@ -1349,7 +1349,7 @@ async fn install_release_linux(
 ) -> Result<Option<PathBuf>> {
     let home_dir = PathBuf::from(env::var("HOME").context("no HOME env var set")?);
 
-    let extracted = temp_dir.path().join("aayushicode");
+    let extracted = temp_dir.path().join("aaykra");
     fs::create_dir_all(&extracted)
         .await
         .context("failed to create directory into which to extract update")?;
@@ -1377,12 +1377,12 @@ async fn install_release_linux(
     } else {
         String::default()
     };
-    let app_folder_name = format!("aayushicode{}.app", suffix);
+    let app_folder_name = format!("aaykra{}.app", suffix);
 
     let from = extracted.join(&app_folder_name);
     let mut to = home_dir.join(".local");
 
-    let expected_suffix = format!("{}/libexec/aayushicode-editor", app_folder_name);
+    let expected_suffix = format!("{}/libexec/aaykra-editor", app_folder_name);
 
     if let Some(prefix) = running_app_path
         .to_str()
@@ -1419,7 +1419,7 @@ async fn install_release_macos(
         .file_name()
         .with_context(|| format!("invalid running app path {running_app_path:?}"))?;
 
-    let mount_path = temp_dir.path().join("AayushiCode");
+    let mount_path = temp_dir.path().join("AAYKRA");
     let mut mounted_app_path: OsString = mount_path.join(running_app_filename).into();
 
     mounted_app_path.push("/");
@@ -1648,7 +1648,7 @@ mod tests {
                 let release_available = release_available.load(atomic::Ordering::Relaxed);
                 let dmg_rx = dmg_rx.clone();
                 async move {
-                if req.uri().path() == "/repos/aayushpokhrel49/aayushii-code/releases/latest" {
+                if req.uri().path() == "/repos/aayushpokhrel49/Aaykra/releases/latest" {
                     let tag = if release_available { "v0.100.1" } else { "v0.100.0" };
                     let asset_name = github_asset_name("zed", OS, ARCH).unwrap();
                     return Ok(Response::builder().status(200).body(

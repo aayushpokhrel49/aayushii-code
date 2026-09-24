@@ -1,13 +1,13 @@
 #!/usr/bin/env sh
 set -eu
 
-# Downloads an Aayushi Code release from GitHub and unpacks it into ~/.local/.
+# Downloads an AAYKRA release from GitHub and unpacks it into ~/.local/.
 
 main() {
     platform="$(uname -s)"
     arch="$(uname -m)"
     channel="${ZED_CHANNEL:-stable}"
-    repo="aayushpokhrel49/aayushii-code"
+    repo="aayushpokhrel49/Aaykra"
     ZED_VERSION="${ZED_VERSION:-latest}"
     if [ "$ZED_VERSION" = "latest" ]; then
         download_base="https://github.com/$repo/releases/latest/download"
@@ -16,9 +16,9 @@ main() {
     fi
     # Use TMPDIR if available (for environments with non-standard temp directories)
     if [ -n "${TMPDIR:-}" ] && [ -d "${TMPDIR}" ]; then
-        temp="$(mktemp -d "$TMPDIR/aayushicode-XXXXXX")"
+        temp="$(mktemp -d "$TMPDIR/aaykra-XXXXXX")"
     else
-        temp="$(mktemp -d "/tmp/aayushicode-XXXXXX")"
+        temp="$(mktemp -d "/tmp/aaykra-XXXXXX")"
     fi
 
     if [ "$platform" = "Darwin" ]; then
@@ -58,10 +58,10 @@ main() {
 
     "$platform" "$@"
 
-    if [ "$(command -v aayushicode)" = "$HOME/.local/bin/aayushicode" ]; then
-        echo "Aayushi Code has been installed. Run with 'aayushicode'"
+    if [ "$(command -v aaykra)" = "$HOME/.local/bin/aaykra" ]; then
+        echo "AAYKRA has been installed. Run with 'aaykra'"
     else
-        echo "To run Aayushi Code from your terminal, you must add ~/.local/bin to your PATH"
+        echo "To run AAYKRA from your terminal, you must add ~/.local/bin to your PATH"
         echo "Run:"
 
         case "$SHELL" in
@@ -78,7 +78,7 @@ main() {
                 ;;
         esac
 
-        echo "To run Aayushi Code now, '~/.local/bin/aayushicode'"
+        echo "To run AAYKRA now, '~/.local/bin/aaykra'"
     fi
 }
 
@@ -86,7 +86,7 @@ linux() {
     if [ -n "${ZED_BUNDLE_PATH:-}" ]; then
         cp "$ZED_BUNDLE_PATH" "$temp/aaykra-linux-$arch.tar.gz"
     else
-        echo "Downloading Aayushi Code version: $ZED_VERSION"
+        echo "Downloading AAYKRA version: $ZED_VERSION"
         curl "$download_base/aaykra-linux-$arch.tar.gz" > "$temp/aaykra-linux-$arch.tar.gz"
     fi
 
@@ -110,17 +110,17 @@ linux() {
     esac
 
     # Unpack
-    rm -rf "$HOME/.local/aayushicode$suffix.app"
-    mkdir -p "$HOME/.local/aayushicode$suffix.app"
+    rm -rf "$HOME/.local/aaykra$suffix.app"
+    mkdir -p "$HOME/.local/aaykra$suffix.app"
     tar -xzf "$temp/aaykra-linux-$arch.tar.gz" -C "$HOME/.local/"
 
-    aayushicode_editor="$HOME/.local/aayushicode$suffix.app/libexec/aayushicode-editor"
-    if [ -f "$aayushicode_editor" ] && command -v ldd >/dev/null 2>&1; then
-        missing="$(ldd "$aayushicode_editor" 2>/dev/null | sed -n 's/^[[:space:]]*\(.*\) => not found$/\1/p')"
+    aaykra_editor="$HOME/.local/aaykra$suffix.app/libexec/aaykra-editor"
+    if [ -f "$aaykra_editor" ] && command -v ldd >/dev/null 2>&1; then
+        missing="$(ldd "$aaykra_editor" 2>/dev/null | sed -n 's/^[[:space:]]*\(.*\) => not found$/\1/p')"
         if [ -n "$missing" ]; then
-            echo "Warning: your system is missing libraries that Aayushi Code needs:"
+            echo "Warning: your system is missing libraries that AAYKRA needs:"
             echo "$missing" | sed 's/^/    /'
-            echo "Install them with your package manager, or Aayushi Code will fail to start."
+            echo "Install them with your package manager, or AAYKRA will fail to start."
         fi
     fi
 
@@ -128,26 +128,26 @@ linux() {
     mkdir -p "$HOME/.local/bin" "$HOME/.local/share/applications"
 
     # Link the binary
-    ln -sf "$HOME/.local/aayushicode$suffix.app/bin/aayushicode" "$HOME/.local/bin/aayushicode"
+    ln -sf "$HOME/.local/aaykra$suffix.app/bin/aaykra" "$HOME/.local/bin/aaykra"
 
     # Install icons into the standard local icon theme paths. The desktop entry
-    # references `Icon=aayushicode`; a copy named after $appid is installed
+    # references `Icon=aaykra`; a copy named after $appid is installed
     # too, because Wayland compositors look up the window/taskbar icon by the
     # window's app ID.
-    icon_src_dir="$HOME/.local/aayushicode$suffix.app/share/icons/hicolor"
+    icon_src_dir="$HOME/.local/aaykra$suffix.app/share/icons/hicolor"
     mkdir -p "$HOME/.local/share/icons/hicolor/512x512/apps" "$HOME/.local/share/icons/hicolor/1024x1024/apps"
-    cp "$icon_src_dir/512x512/apps/aayushicode.png" "$HOME/.local/share/icons/hicolor/512x512/apps/aayushicode.png"
-    cp "$icon_src_dir/512x512/apps/aayushicode.png" "$HOME/.local/share/icons/hicolor/512x512/apps/${appid}.png"
-    cp "$icon_src_dir/1024x1024/apps/aayushicode.png" "$HOME/.local/share/icons/hicolor/1024x1024/apps/aayushicode.png"
-    cp "$icon_src_dir/1024x1024/apps/aayushicode.png" "$HOME/.local/share/icons/hicolor/1024x1024/apps/${appid}.png"
+    cp "$icon_src_dir/512x512/apps/aaykra.png" "$HOME/.local/share/icons/hicolor/512x512/apps/aaykra.png"
+    cp "$icon_src_dir/512x512/apps/aaykra.png" "$HOME/.local/share/icons/hicolor/512x512/apps/${appid}.png"
+    cp "$icon_src_dir/1024x1024/apps/aaykra.png" "$HOME/.local/share/icons/hicolor/1024x1024/apps/aaykra.png"
+    cp "$icon_src_dir/1024x1024/apps/aaykra.png" "$HOME/.local/share/icons/hicolor/1024x1024/apps/${appid}.png"
 
-    # Copy the .desktop file. The bundled entry uses the on-PATH `aayushicode`
-    # command and `aayushicode` icon name; point both at the installed paths.
+    # Copy the .desktop file. The bundled entry uses the on-PATH `aaykra`
+    # command and `aaykra` icon name; point both at the installed paths.
     desktop_file_path="$HOME/.local/share/applications/${appid}.desktop"
-    src_dir="$HOME/.local/aayushicode$suffix.app/share/applications"
+    src_dir="$HOME/.local/aaykra$suffix.app/share/applications"
     cp "$src_dir/${appid}.desktop" "${desktop_file_path}"
-    sed -i "s|^Exec=aayushicode|Exec=$HOME/.local/bin/aayushicode|g" "${desktop_file_path}"
-    sed -i "s|^Icon=aayushicode|Icon=$HOME/.local/aayushicode$suffix.app/share/icons/hicolor/512x512/apps/aayushicode.png|g" "${desktop_file_path}"
+    sed -i "s|^Exec=aaykra|Exec=$HOME/.local/bin/aaykra|g" "${desktop_file_path}"
+    sed -i "s|^Icon=aaykra|Icon=$HOME/.local/aaykra$suffix.app/share/icons/hicolor/512x512/apps/aaykra.png|g" "${desktop_file_path}"
 
     # Refresh the icon cache so the icon theme picks up the new entries.
     if command -v gtk-update-icon-cache >/dev/null 2>&1; then
@@ -156,7 +156,7 @@ linux() {
 }
 
 macos() {
-    echo "Downloading Aayushi Code version: $ZED_VERSION"
+    echo "Downloading AAYKRA version: $ZED_VERSION"
     curl "$download_base/aaykra-$arch.dmg" > "$temp/aaykra-$arch.dmg"
     hdiutil attach -quiet "$temp/aaykra-$arch.dmg" -mountpoint "$temp/mount"
     app="$(cd "$temp/mount/"; echo *.app)"
@@ -170,7 +170,7 @@ macos() {
 
     mkdir -p "$HOME/.local/bin"
     # Link the binary
-    ln -sf "/Applications/$app/Contents/MacOS/cli" "$HOME/.local/bin/aayushicode"
+    ln -sf "/Applications/$app/Contents/MacOS/cli" "$HOME/.local/bin/aaykra"
 }
 
 main "$@"

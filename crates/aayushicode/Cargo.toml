@@ -2,12 +2,12 @@
 description = "The fast, native VSCode alternative."
 edition.workspace = true
 name = "aayushicode"
-version = "1.0.50"
+version = "1.0.60"
 publish.workspace = true
 license = "GPL-3.0-or-later"
-repository = "https://github.com/aayushpokhrel49/aayushii-code"
+repository = "https://github.com/aayushpokhrel49/Aaykra"
 homepage = "https://aayushhpokhrel.com.np"
-default-run = "aayushicode"
+default-run = "aaykra"
 
 [lints]
 workspace = true
@@ -50,7 +50,7 @@ visual-tests = [
 ]
 
 [[bin]]
-name = "aayushicode"
+name = "aaykra"
 path = "src/main.rs"
 
 [[bin]]

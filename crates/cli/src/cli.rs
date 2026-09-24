@@ -33,7 +33,7 @@ pub enum OpenBehavior {
     ExistingWindow,
     /// New window for directories, reuse existing window for files in open
     /// worktrees. The classic pre-sidebar behavior.
-    /// Corresponds to `aayushicode --classic`.
+    /// Corresponds to `aaykra --classic`.
     Classic,
     /// Replace the content of an existing window with a new workspace.
     /// Corresponds to `zed -r`.

@@ -7,6 +7,11 @@ release body.
 
 ## Unreleased
 
+## 1.0.60 - 2026-09-24
+
+- Rebranded installers, packaging, and GitHub release artifacts to AAYKRA on every platform: macOS `.dmg`, Linux `.tar.gz`/`.deb`/`.pkg.tar.zst`, Windows `.exe`, Snap, Flatpak, and the remote-server binaries.
+- Pointed the auto-updater, install scripts, and docs at the renamed Aaykra repository after moving the project on GitHub.
+
 ## 1.0.50 - 2026-09-23
 
 - Rebranded the editor from Aayushi Code to AAYKRA across the UI: app menus, welcome and onboarding screens, About window, notifications, settings descriptions, theme and icon-theme names, and installer/desktop display names. Core identifiers, data directories, and protocol strings are unchanged.
@@ -18,7 +23,7 @@ release body.
 
 ## 1.0.30 - 2026-09-20
 
-- Fixed automatic updates on Linux package installs (Arch .pkg.tar.zst and .deb): they now use the same GitHub self-updater as the tar.gz build, checking the releases API, downloading `aayushicode-linux-<arch>.tar.gz`, and applying it in place. For root-owned installs the update lands in a per-user copy under `~/.local` and the app restarts from there.
+- Fixed automatic updates on Linux package installs (Arch .pkg.tar.zst and .deb): they now use the same GitHub self-updater as the tar.gz build, checking the releases API, downloading `aaykra-linux-<arch>.tar.gz`, and applying it in place. For root-owned installs the update lands in a per-user copy under `~/.local` and the app restarts from there.
 
 ## 1.0.20 - 2026-09-19
 

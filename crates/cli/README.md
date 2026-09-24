@@ -11,5 +11,5 @@ cargo build -p aayushicode
 And then building and running the `cli` crate with the following parameters:
 
 ```
- cargo run -p cli -- --zed ./target/debug/aayushicode.exe
+ cargo run -p cli -- --zed ./target/debug/aaykra.exe
 ```

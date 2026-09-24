@@ -6,10 +6,11 @@ GenericName=Text Editor
 Comment=A fast, native code editor.
 TryExec=$APP_CLI
 StartupNotify=$DO_STARTUP_NOTIFY
+StartupWMClass=$APP_ID
 Exec=$APP_CLI $APP_ARGS
 Icon=$APP_ICON
 Categories=Utility;TextEditor;Development;IDE;
-Keywords=aayushicode;codeeditor;
+Keywords=aaykra;codeeditor;
 # To add Aayushi Code to "Open Folder With..." context menu, add `inode/directory` to the MimeType field (semicolon separated)
 # Arch linux users have reported this setting Aayushi Code as default file browser. See https://github.com/zed-industries/zed/pull/39076 and related issues.
 # If this happens to you, an unconfirmed fix may be to install Arch's `gnome-defaults-list` package.
