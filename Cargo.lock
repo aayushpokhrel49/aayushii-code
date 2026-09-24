@@ -4,7 +4,7 @@ version = 4
 
 [[package]]
 name = "aayushicode"
-version = "1.0.50"
+version = "1.0.60"
 dependencies = [
  "aayushicode_actions",
  "aayushicode_env_vars",

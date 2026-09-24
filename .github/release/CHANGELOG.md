@@ -7,6 +7,11 @@ release body.
 
 ## Unreleased
 
+## 1.0.60 - 2026-09-24
+
+- Rebranded installers, packaging, and GitHub release artifacts to AAYKRA on every platform: macOS `.dmg`, Linux `.tar.gz`/`.deb`/`.pkg.tar.zst`, Windows `.exe`, Snap, Flatpak, and the remote-server binaries.
+- Pointed the auto-updater, install scripts, and docs at the renamed Aaykra repository after moving the project on GitHub.
+
 ## 1.0.50 - 2026-09-23
 
 - Rebranded the editor from Aayushi Code to AAYKRA across the UI: app menus, welcome and onboarding screens, About window, notifications, settings descriptions, theme and icon-theme names, and installer/desktop display names. Core identifiers, data directories, and protocol strings are unchanged.
