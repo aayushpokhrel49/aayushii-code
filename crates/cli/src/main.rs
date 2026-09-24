@@ -48,21 +48,21 @@ trait InstalledApp {
 
 #[derive(Parser, Debug)]
 #[command(
-    name = "aayushicode",
+    name = "aaykra",
     disable_version_flag = true,
     before_help = "The AAYKRA CLI binary.
 This CLI is a separate binary that invokes AAYKRA.
 
 Examples:
-    `aayushicode`
+    `aaykra`
           Simply opens AAYKRA
-    `aayushicode --foreground`
+    `aaykra --foreground`
           Runs in foreground (shows all logs)
-    `aayushicode path-to-your-project`
+    `aaykra path-to-your-project`
           Open your project in AAYKRA
-    `aayushicode -n path-to-file `
+    `aaykra -n path-to-file `
           Open file/folder in a new window",
-    after_help = "To read from stdin, append '-', e.g. 'ps axf | aayushicode -'"
+    after_help = "To read from stdin, append '-', e.g. 'ps axf | aaykra -'"
 )]
 struct Args {
     /// Wait for all of the given paths to be opened/closed before exiting.
@@ -103,13 +103,13 @@ struct Args {
     /// Print AAYKRA's version and the app path.
     #[arg(short, long)]
     version: bool,
-    /// Run aayushicode in the foreground (useful for debugging)
+    /// Run aaykra in the foreground (useful for debugging)
     #[arg(long)]
     foreground: bool,
-    /// Custom path to AAYKRA.app or the aayushicode binary
+    /// Custom path to AAYKRA.app or the aaykra binary
     #[arg(long)]
     zed: Option<PathBuf>,
-    /// Run aayushicode in dev-server mode
+    /// Run aaykra in dev-server mode
     #[arg(long)]
     dev_server_token: Option<String>,
     /// The username and WSL distribution to use when opening paths. If not specified,
@@ -837,7 +837,7 @@ fn anonymous_fd(path: &str) -> Option<fs::File> {
 }
 
 /// Shows an interactive prompt asking the user to choose the default open
-/// behavior for `aayushicode <path>`. Returns `None` if the prompt cannot be shown
+/// behavior for `aaykra <path>`. Returns `None` if the prompt cannot be shown
 /// (e.g. stdin is not a terminal) or the user cancels.
 fn prompt_open_behavior() -> Option<cli::CliBehaviorSetting> {
     if !std::io::stdin().is_terminal() {
@@ -848,14 +848,14 @@ fn prompt_open_behavior() -> Option<cli::CliBehaviorSetting> {
     let items = [
         format!(
             "Add to existing AAYKRA window ({})",
-            blue.apply_to("aayushicode --existing")
+            blue.apply_to("aaykra --existing")
         ),
-        format!("Open a new window ({})", blue.apply_to("aayushicode --classic")),
+        format!("Open a new window ({})", blue.apply_to("aaykra --classic")),
     ];
 
     let prompt = format!(
         "Configure default behavior for {}\n{}",
-        blue.apply_to("aayushicode <path>"),
+        blue.apply_to("aaykra <path>"),
         console::style("You can change this later in AAYKRA settings"),
     );
 
@@ -902,8 +902,8 @@ mod linux {
                 let cli = env::current_exe()?;
                 let dir = cli.parent().context("no parent path for cli")?;
 
-                // libexec is the standard, ./aayushicode is for the target directory in development builds.
-                let possible_locations = ["../libexec/aayushicode-editor", "./aayushicode"];
+                // libexec is the standard, ./aaykra is for the target directory in development builds.
+                let possible_locations = ["../libexec/aaykra-editor", "./aaykra"];
                 possible_locations
                     .iter()
                     .find_map(|p| dir.join(p).canonicalize().ok().filter(|path| path != &cli))
@@ -1036,7 +1036,7 @@ mod flatpak {
         if !invocation_args.iter().any(|arg| arg == "--zed") {
             // Positional paths consume all following arguments, so launcher options must precede them.
             args.push("--zed".into());
-            args.push(flatpak_dir.join("libexec").join("aayushicode-editor").into());
+            args.push(flatpak_dir.join("libexec").join("aaykra-editor").into());
         }
 
         args.extend_from_slice(invocation_args);
@@ -1071,7 +1071,7 @@ mod flatpak {
                 )
                 .into(),
             );
-            args.push(flatpak_dir.join("bin").join("aayushicode").into());
+            args.push(flatpak_dir.join("bin").join("aaykra").into());
 
             let invocation_args = env::args_os().skip(1).collect::<Vec<_>>();
             args.extend(restart_cli_args(&flatpak_dir, &invocation_args));
@@ -1087,7 +1087,7 @@ mod flatpak {
             && env::var("FLATPAK_ID").is_ok_and(|id| id.starts_with("me.aayush.Aayushi-Code"))
             && args.zed.is_none()
         {
-            args.zed = Some("/app/libexec/aayushicode-editor".into());
+            args.zed = Some("/app/libexec/aaykra-editor".into());
             unsafe { env::set_var("ZED_UPDATE_EXPLANATION", "Please use flatpak to update zed") };
         }
         args
@@ -1142,10 +1142,10 @@ mod flatpak {
             let flatpak_dir = Path::new("/flatpak");
             let args = restart_cli_args(flatpak_dir, &["project".into()]);
             let parsed =
-                crate::Args::try_parse_from(std::iter::once(OsString::from("aayushicode")).chain(args))
+                crate::Args::try_parse_from(std::iter::once(OsString::from("aaykra")).chain(args))
                     .unwrap();
 
-            assert_eq!(parsed.zed, Some(flatpak_dir.join("libexec/aayushicode-editor")));
+            assert_eq!(parsed.zed, Some(flatpak_dir.join("libexec/aaykra-editor")));
             assert_eq!(parsed.paths_with_position, ["project"]);
 
             let invocation_args = ["--zed".into(), "/custom/zed-editor".into()];
@@ -1280,9 +1280,9 @@ mod windows {
                 let cli = std::env::current_exe()?;
                 let dir = cli.parent().context("no parent path for cli")?;
 
-                // ../Aaykra.exe is the standard, ./aayushicode.exe is for the target
+                // ../Aaykra.exe is the standard, ./aaykra.exe is for the target
                 // directory in development builds.
-                let possible_locations = ["../Aaykra.exe", "./aayushicode.exe"];
+                let possible_locations = ["../Aaykra.exe", "./aaykra.exe"];
                 possible_locations
                     .iter()
                     .find_map(|p| dir.join(p).canonicalize().ok().filter(|path| path != &cli))
@@ -1458,7 +1458,7 @@ mod mac_os {
             user_data_dir: Option<&str>,
         ) -> io::Result<ExitStatus> {
             let path = match self {
-                Bundle::App { app_bundle, .. } => app_bundle.join("Contents/MacOS/aayushicode"),
+                Bundle::App { app_bundle, .. } => app_bundle.join("Contents/MacOS/aaykra"),
                 Bundle::LocalPath { executable, .. } => executable.clone(),
             };
 
@@ -1472,7 +1472,7 @@ mod mac_os {
 
         fn path(&self) -> PathBuf {
             match self {
-                Bundle::App { app_bundle, .. } => app_bundle.join("Contents/MacOS/aayushicode"),
+                Bundle::App { app_bundle, .. } => app_bundle.join("Contents/MacOS/aaykra"),
                 Bundle::LocalPath { executable, .. } => executable.clone(),
             }
         }

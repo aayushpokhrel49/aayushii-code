@@ -338,11 +338,11 @@ pub fn get_zed_cli_path() -> Result<PathBuf> {
         // so here ./cli is for both installed and development builds.
         &["./cli"]
     } else if cfg!(target_os = "windows") {
-        // bin/aayushicode.exe is for installed builds, ./cli.exe is for development builds.
-        &["bin/aayushicode.exe", "./cli.exe"]
+        // bin/aaykra.exe is for installed builds, ./cli.exe is for development builds.
+        &["bin/aaykra.exe", "./cli.exe"]
     } else if cfg!(target_os = "linux") || cfg!(target_os = "freebsd") {
         // bin is the standard, ./cli is for the target directory in development builds.
-        &["../bin/aayushicode", "./cli"]
+        &["../bin/aaykra", "./cli"]
     } else {
         anyhow::bail!("unsupported platform for determining zed-cli path");
     };

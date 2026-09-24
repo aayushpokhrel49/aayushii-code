@@ -200,7 +200,7 @@ impl WslRemoteConnection {
         };
 
         let binary_name = format!(
-            "aayushicode-remote-server-{}-{}",
+            "aaykra-remote-server-{}-{}",
             release_channel.dev_name(),
             version_str
         );

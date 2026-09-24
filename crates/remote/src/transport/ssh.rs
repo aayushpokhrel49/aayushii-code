@@ -842,7 +842,7 @@ impl SshRemoteConnection {
             _ => version.to_string(),
         };
         let binary_name = format!(
-            "aayushicode-remote-server-{}-{}{}",
+            "aaykra-remote-server-{}-{}{}",
             release_channel.dev_name(),
             version_str,
             if self.ssh_platform.os.is_windows() {

@@ -1,17 +1,17 @@
 #!/usr/bin/env sh
 set -eu
 
-# Uninstalls Aayushi Code that was installed using the install.sh script
+# Uninstalls AAYKRA that was installed using the install.sh script
 
 check_remaining_installations() {
     platform="$(uname -s)"
     if [ "$platform" = "Darwin" ]; then
-        # Check for any Aayushi Code variants in /Applications
-        remaining=$(ls -d "/Applications/Aayushi Code"*.app 2>/dev/null | wc -l)
+        # Check for any AAYKRA variants in /Applications
+        remaining=$(ls -d "/Applications/AAYKRA"*.app 2>/dev/null | wc -l)
         [ "$remaining" -eq 0 ]
     else
-        # Check for any Aayushi Code variants in ~/.local
-        remaining=$(ls -d "$HOME/.local/aayushicode"*.app 2>/dev/null | wc -l)
+        # Check for any AAYKRA variants in ~/.local
+        remaining=$(ls -d "$HOME/.local/aaykra"*.app 2>/dev/null | wc -l)
         [ "$remaining" -eq 0 ]
     fi
 }
@@ -45,7 +45,7 @@ main() {
 
     "$platform"
 
-    echo "Aayushi Code has been uninstalled"
+    echo "AAYKRA has been uninstalled"
 }
 
 linux() {
@@ -73,10 +73,10 @@ linux() {
     esac
 
     # Remove the app directory
-    rm -rf "$HOME/.local/aayushicode$suffix.app"
+    rm -rf "$HOME/.local/aaykra$suffix.app"
 
     # Remove the binary symlink
-    rm -f "$HOME/.local/bin/aayushicode"
+    rm -f "$HOME/.local/bin/aaykra"
 
     # Remove the .desktop file
     rm -f "$HOME/.local/share/applications/${appid}.desktop"
@@ -97,12 +97,12 @@ linux() {
 }
 
 macos() {
-    app="Aayushi Code.app"
+    app="AAYKRA.app"
     db_suffix="stable"
     app_id="me.aayush.Aayushi-Code"
     case "$channel" in
       dev)
-        app="Aayushi Code Dev.app"
+        app="AAYKRA Dev.app"
         db_suffix="dev"
         app_id="me.aayush.Aayushi-Code-Dev"
         ;;
@@ -114,7 +114,7 @@ macos() {
     fi
 
     # Remove the binary symlink
-    rm -f "$HOME/.local/bin/aayushicode"
+    rm -f "$HOME/.local/bin/aaykra"
 
     # Remove the database directory for this channel
     rm -rf "$HOME/Library/Application Support/Aayushi Code/db/0-$db_suffix"

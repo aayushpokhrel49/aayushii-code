@@ -92,7 +92,7 @@ function GenerateLicenses {
 function BuildAayushicodeAndItsFriends {
     Write-Output "Building Aaykra and its friends, for channel: $channel"
     cargo build --release --package aayushicode --package cli --package auto_update_helper --target $target
-    Copy-Item -Path ".\$CargoOutDir\aayushicode.exe" -Destination "$innoDir\Aaykra.exe" -Force
+    Copy-Item -Path ".\$CargoOutDir\aaykra.exe" -Destination "$innoDir\Aaykra.exe" -Force
     Copy-Item -Path ".\$CargoOutDir\cli.exe" -Destination "$innoDir\cli.exe" -Force
     Copy-Item -Path ".\$CargoOutDir\auto_update_helper.exe" -Destination "$innoDir\auto_update_helper.exe" -Force
     switch ($channel) {
@@ -111,7 +111,7 @@ function BuildRemoteServer {
     cargo build --release --package remote_server --target $target
 
     $remoteServerSrc = (Resolve-Path ".\$CargoOutDir\remote_server.exe").Path
-    $remoteServerDst = "$workspace\target\aayushicode-remote-server-windows-$Architecture.gz"
+    $remoteServerDst = "$workspace\target\aaykra-remote-server-windows-$Architecture.gz"
     Write-Output "Compressing remote_server to $remoteServerDst"
 
     $input = [System.IO.File]::OpenRead($remoteServerSrc)
@@ -154,8 +154,8 @@ function DownloadConpty {
 function CollectFiles {
     Move-Item -Path "$innoDir\zed_explorer_command_injector.appx" -Destination "$innoDir\appx\zed_explorer_command_injector.appx" -Force
     Move-Item -Path "$innoDir\zed_explorer_command_injector.dll" -Destination "$innoDir\appx\zed_explorer_command_injector.dll" -Force
-    Move-Item -Path "$innoDir\cli.exe" -Destination "$innoDir\bin\aayushicode.exe" -Force
-    Move-Item -Path "$innoDir\zed.sh" -Destination "$innoDir\bin\aayushicode" -Force
+    Move-Item -Path "$innoDir\cli.exe" -Destination "$innoDir\bin\aaykra.exe" -Force
+    Move-Item -Path "$innoDir\zed.sh" -Destination "$innoDir\bin\aaykra" -Force
     Move-Item -Path "$innoDir\auto_update_helper.exe" -Destination "$innoDir\tools\auto_update_helper.exe" -Force
     if($Architecture -eq "aarch64") {
         New-Item -Type Directory -Path "$innoDir\arm64" -Force

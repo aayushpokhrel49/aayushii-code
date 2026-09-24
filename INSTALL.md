@@ -1,6 +1,6 @@
 ## Install
 
-Download the installer for your platform [here](https://github.com/aayushpokhrel49/aayushii-code/releases/latest). Then follow the steps below.
+Download the installer for your platform [here](https://github.com/aayushpokhrel49/Aaykra/releases/latest). Then follow the steps below.
 
 ### macOS (Apple Silicon)
 
@@ -21,10 +21,10 @@ Download `aaykra-linux-<arch>.tar.gz` and unpack it into `~/.local`:
 
 ```sh
 tar -xzf aaykra-linux-$(uname -m).tar.gz -C ~/.local
-ln -sf ~/.local/aayushicode.app/bin/aayushicode ~/.local/bin/aayushicode
+ln -sf ~/.local/aaykra.app/bin/aaykra ~/.local/bin/aaykra
 ```
 
-Make sure `~/.local/bin` is on your `PATH`, then run `aayushicode`.
+Make sure `~/.local/bin` is on your `PATH`, then run `aaykra`.
 
 ### Windows (x86_64)
 

@@ -424,7 +424,7 @@ impl Render for WelcomePage {
                             .mb_4()
                             .gap_4()
                             .child(
-                                img("images/aayushicode_icon.png")
+                                img("images/aaykra_icon.png")
                                     .size(rems_from_px(45_f32))
                                     .flex_none(),
                             )

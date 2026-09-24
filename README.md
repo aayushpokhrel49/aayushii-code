@@ -4,7 +4,7 @@
 
 <p align="center">
   <img
-    src="assets/images/aayushicode_icon.png"
+    src="assets/images/aaykra_icon.png"
     alt="AAYKRA logo"
     width="160"
     height="160"
@@ -52,7 +52,7 @@ A `.deb` package (`aaykra_*.deb`) is also published for Debian/Ubuntu-based dist
 ## Install
 
 Download the latest release from the
-[releases page](https://github.com/aayushpokhrel49/aayushii-code/releases) and
+[releases page](https://github.com/aayushpokhrel49/Aaykra/releases) and
 follow the instructions in [INSTALL.md](./INSTALL.md).
 
 ## Build from source
@@ -105,7 +105,7 @@ workflow when a `v*` tag is pushed.
 ## Contributing
 
 Bug reports, feature ideas, and pull requests are welcome. Open an issue or
-submit a PR on the [repository](https://github.com/aayushpokhrel49/aayushii-code).
+submit a PR on the [repository](https://github.com/aayushpokhrel49/Aaykra).
 
 ## License
 

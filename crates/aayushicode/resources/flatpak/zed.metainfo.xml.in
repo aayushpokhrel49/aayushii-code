@@ -33,10 +33,10 @@
     <content_rating type="oars-1.1" />
 
     <url type="homepage">https://aayushhpokhrel.com.np</url>
-    <url type="bugtracker">https://github.com/aayushpokhrel49/aayushii-code/issues</url>
+    <url type="bugtracker">https://github.com/aayushpokhrel49/Aaykra/issues</url>
     <url type="help">https://aayushhpokhrel.com.np</url>
     <url type="contact">mailto:info@aayushhpokhrel.com.np</url>
-    <url type="vcs-browser">https://github.com/aayushpokhrel49/aayushii-code</url>
+    <url type="vcs-browser">https://github.com/aayushpokhrel49/Aaykra</url>
 
     <supports>
         <internet>offline-only</internet>
@@ -50,11 +50,11 @@
     <screenshots>
         <screenshot type="default">
             <caption>AAYKRA with a project open, in the Catppuccin Mocha theme</caption>
-            <image>https://raw.githubusercontent.com/aayushpokhrel49/aayushii-code/main/assets/images/screenshot-dark.png</image>
+            <image>https://raw.githubusercontent.com/aayushpokhrel49/Aaykra/main/assets/images/screenshot-dark.png</image>
         </screenshot>
         <screenshot>
             <caption>AAYKRA with a project open, in the Catppuccin Latte theme</caption>
-            <image>https://raw.githubusercontent.com/aayushpokhrel49/aayushii-code/main/assets/images/screenshot-light.png</image>
+            <image>https://raw.githubusercontent.com/aayushpokhrel49/Aaykra/main/assets/images/screenshot-light.png</image>
         </screenshot>
     </screenshots>
 

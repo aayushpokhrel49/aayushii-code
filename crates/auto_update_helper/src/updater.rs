@@ -174,8 +174,8 @@ pub(crate) static JOBS: LazyLock<[Job; 22]> = LazyLock::new(|| {
         Job::mkdir(p("old")),
         Job::move_file(p("Aaykra.exe"), p("old\\Aaykra.exe")),
         Job::mkdir(p("old\\bin")),
-        Job::move_file(p("bin\\aayushicode.exe"), p("old\\bin\\aayushicode.exe")),
-        Job::move_file(p("bin\\aayushicode"), p("old\\bin\\aayushicode")),
+        Job::move_file(p("bin\\aaykra.exe"), p("old\\bin\\aaykra.exe")),
+        Job::move_file(p("bin\\aaykra"), p("old\\bin\\aaykra")),
         //
         // TODO: remove after a few weeks once everyone is on the new version and this file never exists
         Job::move_if_exists(p("OpenConsole.exe"), p("old\\OpenConsole.exe")),
@@ -190,8 +190,8 @@ pub(crate) static JOBS: LazyLock<[Job; 22]> = LazyLock::new(|| {
         Job::move_file(p("conpty.dll"), p("old\\conpty.dll")),
         // Copy new files
         Job::move_file(p("install\\Aaykra.exe"), p("Aaykra.exe")),
-        Job::move_file(p("install\\bin\\aayushicode.exe"), p("bin\\aayushicode.exe")),
-        Job::move_file(p("install\\bin\\aayushicode"), p("bin\\aayushicode")),
+        Job::move_file(p("install\\bin\\aaykra.exe"), p("bin\\aaykra.exe")),
+        Job::move_file(p("install\\bin\\aaykra"), p("bin\\aaykra")),
         //
         Job::mkdir_if_exists(p("x64"), p("install\\x64")),
         Job::mkdir_if_exists(p("arm64"), p("install\\arm64")),
@@ -280,8 +280,8 @@ fn release_file_handles(app_dir: &Path) -> Result<()> {
     // Files that commonly get locked by Explorer or other processes
     let files_to_release = [
         app_dir.join("Aaykra.exe"),
-        app_dir.join("bin\\aayushicode.exe"),
-        app_dir.join("bin\\aayushicode"),
+        app_dir.join("bin\\aaykra.exe"),
+        app_dir.join("bin\\aaykra"),
         app_dir.join("conpty.dll"),
     ];
 

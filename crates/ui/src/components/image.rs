@@ -13,8 +13,8 @@ use crate::traits::transformable::Transformable;
 )]
 #[strum(serialize_all = "snake_case")]
 pub enum VectorName {
-    #[strum(serialize = "aayushicode_logo")]
-    AayushiCodeLogo,
+    #[strum(serialize = "aaykra_logo")]
+    AAYKRALogo,
 }
 
 impl VectorName {
@@ -116,7 +116,7 @@ impl Component for Vector {
                     vec![
                         single_example(
                             "Default",
-                            Vector::square(VectorName::AayushiCodeLogo, size).into_any_element(),
+                            Vector::square(VectorName::AAYKRALogo, size).into_any_element(),
                         ),
                         single_example(
                             "Custom Size",
@@ -124,7 +124,7 @@ impl Component for Vector {
                                 .h(rems_from_px(120_f32))
                                 .justify_center()
                                 .child(Vector::new(
-                                    VectorName::AayushiCodeLogo,
+                                    VectorName::AAYKRALogo,
                                     rems_from_px(120_f32),
                                     rems_from_px(200_f32),
                                 ))
@@ -137,13 +137,13 @@ impl Component for Vector {
                     vec![
                         single_example(
                             "Accent Color",
-                            Vector::square(VectorName::AayushiCodeLogo, size)
+                            Vector::square(VectorName::AAYKRALogo, size)
                                 .color(Color::Accent)
                                 .into_any_element(),
                         ),
                         single_example(
                             "Error Color",
-                            Vector::square(VectorName::AayushiCodeLogo, size)
+                            Vector::square(VectorName::AAYKRALogo, size)
                                 .color(Color::Error)
                                 .into_any_element(),
                         ),
@@ -160,6 +160,6 @@ mod tests {
 
     #[test]
     fn vector_path() {
-        assert_eq!(VectorName::AayushiCodeLogo.path().as_ref(), "images/aayushicode_logo.svg");
+        assert_eq!(VectorName::AAYKRALogo.path().as_ref(), "images/aaykra_logo.svg");
     }
 }

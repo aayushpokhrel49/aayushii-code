@@ -279,7 +279,7 @@ impl Render for Onboarding {
                                     .child(
                                         h_flex()
                                             .gap_4()
-                                            .child(img("images/aayushicode_icon.png").size(rems(2.5)).flex_none())
+                                            .child(img("images/aaykra_icon.png").size(rems(2.5)).flex_none())
                                             .child(
                                                 v_flex()
                                                     .child(

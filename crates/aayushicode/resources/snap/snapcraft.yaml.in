@@ -1,4 +1,4 @@
-name: aayushicode
+name: aaykra
 title: AAYKRA
 base: core24
 version: "$RELEASE_VERSION"
@@ -11,14 +11,14 @@ grade: stable
 confinement: classic
 compression: lzo
 website: https://aayushhpokhrel.com.np
-source-code: https://github.com/aayushpokhrel49/aayushii-code
-issues: https://github.com/aayushpokhrel49/aayushii-code/issues
+source-code: https://github.com/aayushpokhrel49/Aaykra
+issues: https://github.com/aayushpokhrel49/Aaykra/issues
 contact: mailto:info@aayushhpokhrel.com.np
 
 parts:
-  aayushicode:
+  aaykra:
     plugin: dump
-    source: "https://github.com/aayushpokhrel49/aayushii-code/releases/download/v$RELEASE_VERSION/aayushicode-linux-x86_64.tar.gz"
+    source: "https://github.com/aayushpokhrel49/Aaykra/releases/download/v$RELEASE_VERSION/aaykra-linux-x86_64.tar.gz"
 
     organize:
       # These renames seem to not be necessary, but it's tidier.
@@ -53,8 +53,8 @@ parts:
       - -usr/share/man
 
 apps:
-  aayushicode:
-    command: usr/bin/aayushicode
+  aaykra:
+    command: usr/bin/aaykra
     common-id: me.aayush.Aayushi-Code
     environment:
       ZED_BUNDLE_TYPE: snap

@@ -220,7 +220,7 @@ fn main() {
 
     let args = Args::parse();
 
-    // `aayushicode --askpass` Makes zed operate in nc/netcat mode for use with askpass
+    // `aaykra --askpass` Makes zed operate in nc/netcat mode for use with askpass
     #[cfg(not(target_os = "windows"))]
     if let Some(socket) = &args.askpass {
         askpass::main(socket);
@@ -250,7 +250,7 @@ fn main() {
         }
     }
 
-    // `aayushicode --printenv` Outputs environment variables as JSON to stdout
+    // `aaykra --printenv` Outputs environment variables as JSON to stdout
     if args.printenv {
         util::shell_env::print_env();
         return;
@@ -332,7 +332,7 @@ fn main() {
         .unwrap();
 
     log::info!(
-        "========== starting aayushicode version {}, sha {} ==========",
+        "========== starting aaykra version {}, sha {} ==========",
         app_version,
         app_commit_sha
             .as_ref()
@@ -373,11 +373,11 @@ fn main() {
         }
     };
     if failed_single_instance_check {
-        println!("aayushicode is already running");
+        println!("aaykra is already running");
         #[cfg(any(target_os = "linux", target_os = "freebsd"))]
         if !args.paths_or_urls.is_empty() || !args.diff.is_empty() {
             println!(
-                "Could not open {:?} {:?}, use the `aayushicode` CLI to open paths in the running instance",
+                "Could not open {:?} {:?}, use the `aaykra` CLI to open paths in the running instance",
                 args.paths_or_urls, args.diff
             );
         }
@@ -1394,7 +1394,7 @@ fn stdout_is_a_pty() -> bool {
 }
 
 #[derive(Parser, Debug)]
-#[command(name = "aayushicode", disable_version_flag = true, max_term_width = 100)]
+#[command(name = "aaykra", disable_version_flag = true, max_term_width = 100)]
 struct Args {
     /// A sequence of space-separated paths or urls that you want to open.
     ///
@@ -1431,7 +1431,7 @@ struct Args {
     #[arg(long, value_name = "USER@DISTRO")]
     wsl: Option<String>,
 
-    /// Instructs aayushicode to run as a dev server on this machine. (not implemented)
+    /// Instructs aaykra to run as a dev server on this machine. (not implemented)
     #[arg(long)]
     dev_server_token: Option<String>,
 
@@ -1443,7 +1443,7 @@ struct Args {
     #[arg(long)]
     system_specs: bool,
 
-    /// Run aayushicode in the foreground, only used on Windows, to match the behavior on macOS.
+    /// Run aaykra in the foreground, only used on Windows, to match the behavior on macOS.
     #[arg(long)]
     #[cfg(target_os = "windows")]
     #[arg(hide = true)]
