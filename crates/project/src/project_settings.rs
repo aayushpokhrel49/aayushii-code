@@ -658,7 +658,7 @@ pub struct SettingsObserver {
     _global_debug_config_watcher: Task<()>,
 }
 
-/// SettingsObserver observers changes to .zed/{settings, task}.json files in local worktrees
+/// SettingsObserver observers changes to .aaykra/{settings, task}.json files in local worktrees
 /// (or the equivalent protobuf messages from upstream) and updates local settings
 /// and sends notifications downstream.
 /// In ssh mode it also monitors ~/.config/zed/{settings, task}.json and sends the content
@@ -1048,9 +1048,9 @@ impl SettingsObserver {
                         legacy_file_path.clone(),
                         exists,
                     );
-                    // A `.zed` file shadowed by its `.aayushicode` counterpart has no effect. Its
-                    // removal still falls through so the `.zed` directory gets cleared,
-                    // e.g. when `.zed` was renamed to `.aayushicode` in one batch.
+                    // A `.aayushicode` file shadowed by its `.aaykra` counterpart has no effect. Its
+                    // removal still falls through so the `.aayushicode` directory gets cleared,
+                    // e.g. when `.aayushicode` was renamed to `.aaykra` in one batch.
                     if active_path == file_path
                         && *path != file_path
                         && exists(&file_path)
@@ -1063,7 +1063,7 @@ impl SettingsObserver {
                     } else {
                         file_path
                     };
-                    // Tasks and debug configs are keyed by their `.aayushicode` or `.zed` directory,
+                    // Tasks and debug configs are keyed by their `.aaykra` or `.aayushicode` directory,
                     // so the directory that lost precedence has to be cleared explicitly.
                     if let Some(shadowed_dir) =
                         strip_components(&shadowed_path, file.directory_depth)

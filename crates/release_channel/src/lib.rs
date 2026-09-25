@@ -7,7 +7,7 @@ use std::{env, str::FromStr, sync::LazyLock};
 use gpui::{App, Global};
 use semver::Version;
 
-const ZED_DOCS_URL: &str = "https://zed.dev/docs";
+const ZED_DOCS_URL: &str = "https://code.aayushpokhrel.info.np/docs";
 
 /// stable | dev
 pub static RELEASE_CHANNEL_NAME: LazyLock<String> = LazyLock::new(|| {
@@ -251,12 +251,15 @@ mod tests {
     fn test_docs_url_for_release_channel() {
         assert_eq!(
             ReleaseChannel::Dev.docs_url("settings"),
-            "https://zed.dev/docs/settings"
+            "https://code.aayushpokhrel.info.np/docs/settings"
         );
         assert_eq!(
             ReleaseChannel::Stable.docs_url("settings"),
-            "https://zed.dev/docs/settings"
+            "https://code.aayushpokhrel.info.np/docs/settings"
         );
-        assert_eq!(ReleaseChannel::Stable.docs_url(""), "https://zed.dev/docs");
+        assert_eq!(
+            ReleaseChannel::Stable.docs_url(""),
+            "https://code.aayushpokhrel.info.np/docs"
+        );
     }
 }

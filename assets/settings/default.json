@@ -1820,9 +1820,11 @@
   //
   "file_types": {
     "JSONC": [
+      "**/.aaykra/*.json",
+      "**/.aayushicode/*.json",
       "**/.zed/*.json",
       "**/.vscode/**/*.json",
-      "**/{zed,Zed}/{settings,keymap,tasks,debug}.json",
+      "**/{aaykra,Aaykra,aayushicode,AayushiCode,zed,Zed}/{settings,keymap,tasks,debug}.json",
       "tsconfig*.json",
     ],
     "Markdown": [".rules", ".cursorrules", ".windsurfrules", ".clinerules"],

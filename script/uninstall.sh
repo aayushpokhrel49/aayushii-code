@@ -93,7 +93,7 @@ linux() {
         prompt_remove_preferences
     fi
 
-    rm -rf "$HOME/.aayushicode_server"
+    rm -rf "$HOME/.aaykra_server"
 }
 
 macos() {
@@ -134,7 +134,7 @@ macos() {
         prompt_remove_preferences
     fi
 
-    rm -rf "$HOME/.aayushicode_server"
+    rm -rf "$HOME/.aaykra_server"
 }
 
 main "$@"

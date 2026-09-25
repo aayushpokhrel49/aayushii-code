@@ -228,6 +228,17 @@ jobs:
           merge-multiple: true
       - name: Keep debug symbols out of the release assets
         run: find artifacts -name '*.dSYM.zip' -delete
+      - name: Publish legacy asset names so older installs can self-update
+        run: |
+          cd artifacts
+          for arch in x86_64 aarch64; do
+            [ -f "aaykra-linux-${arch}.tar.gz" ] && cp "aaykra-linux-${arch}.tar.gz" "aayushicode-linux-${arch}.tar.gz" || true
+            [ -f "aaykra-${arch}.dmg" ] && cp "aaykra-${arch}.dmg" "AayushiCode-${arch}.dmg" || true
+            [ -f "aaykra-remote-server-linux-${arch}.gz" ] && cp "aaykra-remote-server-linux-${arch}.gz" "aayushicode-remote-server-linux-${arch}.gz" || true
+            [ -f "aaykra-remote-server-macos-${arch}.gz" ] && cp "aaykra-remote-server-macos-${arch}.gz" "aayushicode-remote-server-macos-${arch}.gz" || true
+          done
+          [ -f "aaykra-x86_64.exe" ] && cp "aaykra-x86_64.exe" "AayushiCode-x86_64.exe" || true
+          [ -f "aaykra-remote-server-windows-x86_64.gz" ] && cp "aaykra-remote-server-windows-x86_64.gz" "aayushicode-remote-server-windows-x86_64.gz" || true
       - name: Write the release body
         run: |
           version="${{ needs.check_version.outputs.version }}"

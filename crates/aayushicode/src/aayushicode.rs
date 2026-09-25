@@ -101,7 +101,7 @@ use aayushicode_actions::{
     OpenAayushicodeUrl, Quit,
 };
 
-const DOCS_URL: &str = "https://aayushhpokhrel.com.np";
+const DOCS_URL: &str = "https://code.aayushpokhrel.info.np/docs";
 
 actions!(
     aayushicode,
@@ -541,7 +541,7 @@ fn initialize_file_watcher(window: &mut Window, cx: &mut Context<Workspace>) {
             db::indoc! {r#"
             inotify_init returned {}
 
-            This may be due to system-wide limits on inotify instances. For troubleshooting see: https://zed.dev/docs/linux
+            This may be due to system-wide limits on inotify instances. For troubleshooting see: https://code.aayushpokhrel.info.np/docs/linux
             "#},
             e
         );
@@ -555,7 +555,7 @@ fn initialize_file_watcher(window: &mut Window, cx: &mut Context<Workspace>) {
         cx.spawn(async move |_, cx| {
             if prompt.await == Ok(0) {
                 cx.update(|cx| {
-                    cx.open_url("https://zed.dev/docs/linux#could-not-start-inotify");
+                    cx.open_url("https://code.aayushpokhrel.info.np/docs/linux#could-not-start-inotify");
                     cx.quit();
                 });
             }
@@ -572,7 +572,7 @@ fn initialize_file_watcher(window: &mut Window, cx: &mut Context<Workspace>) {
             db::indoc! {r#"
             ReadDirectoryChangesW initialization failed: {}
 
-            This may occur on network filesystems and WSL paths. For troubleshooting see: https://zed.dev/docs/windows
+            This may occur on network filesystems and WSL paths. For troubleshooting see: https://code.aayushpokhrel.info.np/docs/windows
             "#},
             e
         );
@@ -586,7 +586,7 @@ fn initialize_file_watcher(window: &mut Window, cx: &mut Context<Workspace>) {
         cx.spawn(async move |_, cx| {
             if prompt.await == Ok(0) {
                 cx.update(|cx| {
-                    cx.open_url("https://zed.dev/docs/windows");
+                    cx.open_url("https://code.aayushpokhrel.info.np/docs/windows");
                     cx.quit()
                 });
             }
@@ -604,14 +604,14 @@ fn show_software_emulation_warning_if_needed(
         let (graphics_api, docs_url, open_url) = if cfg!(target_os = "windows") {
             (
                 "DirectX",
-                "https://zed.dev/docs/windows",
-                "https://zed.dev/docs/windows",
+                "https://code.aayushpokhrel.info.np/docs/windows",
+                "https://code.aayushpokhrel.info.np/docs/windows",
             )
         } else {
             (
                 "Vulkan",
-                "https://zed.dev/docs/linux",
-                "https://zed.dev/docs/linux#zed-fails-to-open-windows",
+                "https://code.aayushpokhrel.info.np/docs/linux",
+                "https://code.aayushpokhrel.info.np/docs/linux#zed-fails-to-open-windows",
             )
         };
         let message = format!(
@@ -5734,14 +5734,14 @@ mod tests {
             .insert_tree(
                 Path::new("/root"),
                 json!({
-                    ".zed": {
+                    ".aayushicode": {
                         "settings.json": settings_init
                     }
                 }),
             )
             .await;
 
-        eprintln!("Created project with .zed/settings.json containing UNIQUEVALUE");
+        eprintln!("Created project with .aayushicode/settings.json containing UNIQUEVALUE");
 
         // 2. Create a project with the file system and load it
         let project = Project::test(app_state.fs.clone(), [Path::new("/root")], cx).await;
@@ -5749,7 +5749,7 @@ mod tests {
         // Save original settings content for comparison
         let original_settings = app_state
             .fs
-            .load(Path::new("/root/.zed/settings.json"))
+            .load(Path::new("/root/.aayushicode/settings.json"))
             .await
             .unwrap();
 
@@ -5762,35 +5762,35 @@ mod tests {
             "Test setup failed - settings file doesn't contain our marker"
         );
 
-        // 3. Add .zed to file scan exclusions in user settings
+        // 3. Add .aayushicode to file scan exclusions in user settings
         cx.update_global::<SettingsStore, _>(|store, cx| {
             store.update_user_settings(cx, |worktree_settings| {
                 worktree_settings.project.worktree.file_scan_exclusions =
-                    Some(SplicingVec::from(vec![".zed".to_string()]));
+                    Some(SplicingVec::from(vec![".aayushicode".to_string()]));
             });
         });
 
-        eprintln!("Added .zed to file_scan_exclusions in settings");
+        eprintln!("Added .aayushicode to file_scan_exclusions in settings");
 
         // 4. Run tasks to apply settings
         cx.background_executor.run_until_parked();
 
-        // 5. Critical: Verify .zed is actually excluded from worktree
+        // 5. Critical: Verify .aayushicode is actually excluded from worktree
         let worktree = cx.update(|cx| project.read(cx).worktrees(cx).next().unwrap());
 
         let has_zed_entry =
-            cx.update(|cx| worktree.read(cx).entry_for_path(rel_path(".zed")).is_some());
+            cx.update(|cx| worktree.read(cx).entry_for_path(rel_path(".aayushicode")).is_some());
 
         eprintln!(
-            "Is .zed directory visible in worktree after exclusion: {}",
+            "Is .aayushicode directory visible in worktree after exclusion: {}",
             has_zed_entry
         );
 
         // This assertion verifies the test is set up correctly to show the bug
-        // If .zed is not excluded, the test will fail here
+        // If .aayushicode is not excluded, the test will fail here
         assert!(
             !has_zed_entry,
-            "Test precondition failed: .zed directory should be excluded but was found in worktree"
+            "Test precondition failed: .aayushicode directory should be excluded but was found in worktree"
         );
 
         // 6. Create workspace and trigger the actual function that causes the bug
@@ -5815,7 +5815,7 @@ mod tests {
         // 8. Verify file contents after calling function
         let new_content = app_state
             .fs
-            .load(Path::new("/root/.zed/settings.json"))
+            .load(Path::new("/root/.aayushicode/settings.json"))
             .await
             .unwrap();
 

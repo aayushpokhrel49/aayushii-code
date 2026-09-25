@@ -7,6 +7,10 @@ release body.
 
 ## Unreleased
 
+- Renamed the in-project config folder to `.aaykra` for `settings.json`, `tasks.json`, and `debug.json`, and the remote server folders to `.aaykra_server`/`.aaykra_wsl_server`. Existing `.aayushicode` (and older `.zed`) folders are still picked up as a fallback, so no project needs to be migrated by hand.
+- Fixed auto-update for installs that predate the AAYKRA rebrand: each release now also publishes the legacy `aayushicode-*`/`AayushiCode-*` asset names, and the updater falls back to them when the `aaykra-*` asset is missing.
+- Pointed every in-app documentation link (settings, themes, key bindings, tasks, debugger, git, remote development, extensions, and troubleshooting) at https://code.aayushpokhrel.info.np/docs.
+
 ## 1.0.60 - 2026-09-24
 
 - Rebranded installers, packaging, and GitHub release artifacts to AAYKRA on every platform: macOS `.dmg`, Linux `.tar.gz`/`.deb`/`.pkg.tar.zst`, Windows `.exe`, Snap, Flatpak, and the remote-server binaries.

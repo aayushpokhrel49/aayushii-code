@@ -1504,7 +1504,7 @@ impl SshSocket {
                 "AMD64" => RemoteArch::X86_64,
                 "ARM64" => RemoteArch::Aarch64,
                 arch => anyhow::bail!(
-                    "Prebuilt remote servers are not yet available for windows-{arch}. See https://zed.dev/docs/remote-development"
+                    "Prebuilt remote servers are not yet available for windows-{arch}. See https://code.aayushpokhrel.info.np/docs/remote-development"
                 ),
             },
         })
@@ -2206,9 +2206,9 @@ mod tests {
         assert_eq!(
             sftp_put_command(
                 "/tmp/Zed Repro/remote_server",
-                ".aayushicode_server/downloaded server",
+                ".aaykra_server/downloaded server",
             ),
-            "put \"/tmp/Zed Repro/remote_server\" \".aayushicode_server/downloaded server\"\n"
+            "put \"/tmp/Zed Repro/remote_server\" \".aaykra_server/downloaded server\"\n"
         );
     }
 
@@ -2217,9 +2217,9 @@ mod tests {
         assert_eq!(
             sftp_put_command(
                 r#"/tmp/Zed "Nightly"/remote_server"#,
-                ".aayushicode_server/remote_server",
+                ".aaykra_server/remote_server",
             ),
-            "put \"/tmp/Zed \\\"Nightly\\\"/remote_server\" \".aayushicode_server/remote_server\"\n"
+            "put \"/tmp/Zed \\\"Nightly\\\"/remote_server\" \".aaykra_server/remote_server\"\n"
         );
     }
 
@@ -2236,9 +2236,9 @@ mod tests {
         assert_eq!(
             sftp_put_command(
                 r"/tmp/zed\server/remote_server",
-                ".aayushicode_server/remote_server",
+                ".aaykra_server/remote_server",
             ),
-            "put \"/tmp/zed\\\\server/remote_server\" \".aayushicode_server/remote_server\"\n"
+            "put \"/tmp/zed\\\\server/remote_server\" \".aaykra_server/remote_server\"\n"
         );
     }
 
@@ -2247,9 +2247,9 @@ mod tests {
         assert_eq!(
             sftp_put_command(
                 r"C:\Users\Smit\Zed Repro\remote_server",
-                ".aayushicode_server/remote_server",
+                ".aaykra_server/remote_server",
             ),
-            "put \"C:\\\\Users\\\\Smit\\\\Zed Repro\\\\remote_server\" \".aayushicode_server/remote_server\"\n"
+            "put \"C:\\\\Users\\\\Smit\\\\Zed Repro\\\\remote_server\" \".aaykra_server/remote_server\"\n"
         );
     }
 

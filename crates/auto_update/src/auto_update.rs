@@ -258,7 +258,7 @@ struct GitHubRelease {
     assets: Vec<GitHubReleaseAsset>,
 }
 
-#[derive(Deserialize)]
+#[derive(Clone, Deserialize)]
 struct GitHubReleaseAsset {
     name: String,
     browser_download_url: String,
@@ -266,14 +266,32 @@ struct GitHubReleaseAsset {
     digest: Option<String>,
 }
 
-fn github_asset_name(asset: &str, os: &str, arch: &str) -> Result<String> {
-    match (asset, os) {
-        ("zed", "macos") => Ok(format!("aaykra-{arch}.dmg")),
-        ("zed", "linux") => Ok(format!("aaykra-linux-{arch}.tar.gz")),
-        ("zed", "windows") => Ok(format!("aaykra-{arch}.exe")),
-        ("aaykra-remote-server", _) => Ok(format!("aaykra-remote-server-{os}-{arch}.gz")),
+/// All release asset names the updater recognizes for `asset` on `os`/`arch`,
+/// most preferred first.
+///
+/// The primary name follows the current `aaykra-*` scheme. Legacy names from
+/// before the rebrand are kept as fallbacks: releases still publish copies under
+/// the old names so already-installed binaries built before the rebrand (which
+/// only know the legacy names) can self-update, and matching them first lets a
+/// future release drop the legacy copies without breaking us.
+fn github_asset_names(asset: &str, os: &str, arch: &str) -> Result<Vec<String>> {
+    let mut names = vec![match (asset, os) {
+        ("zed", "macos") => format!("aaykra-{arch}.dmg"),
+        ("zed", "linux") => format!("aaykra-linux-{arch}.tar.gz"),
+        ("zed", "windows") => format!("aaykra-{arch}.exe"),
+        ("aaykra-remote-server", _) => format!("aaykra-remote-server-{os}-{arch}.gz"),
         _ => anyhow::bail!("no release asset for {asset} on {os}"),
+    }];
+    match (asset, os) {
+        ("zed", "macos") => names.push(format!("AayushiCode-{arch}.dmg")),
+        ("zed", "linux") => names.push(format!("aayushicode-linux-{arch}.tar.gz")),
+        ("zed", "windows") => names.push(format!("AayushiCode-{arch}.exe")),
+        ("aaykra-remote-server", _) => {
+            names.push(format!("aayushicode-remote-server-{os}-{arch}.gz"));
+        }
+        _ => {}
     }
+    Ok(names)
 }
 
 struct MacOsUnmounter<'a> {
@@ -854,11 +872,16 @@ impl AutoUpdater {
         cx: &mut AsyncApp,
     ) -> Result<ReleaseAsset> {
         let (version, assets) = Self::fetch_release(this, version, cx).await?;
-        let asset_name = github_asset_name(asset, os, arch)?;
-        let asset = assets
-            .into_iter()
-            .find(|release_asset| release_asset.name == asset_name)
-            .with_context(|| format!("release v{version} has no asset named {asset_name}"))?;
+        let asset_names = github_asset_names(asset, os, arch)?;
+        let asset = asset_names
+            .iter()
+            .find_map(|asset_name| {
+                assets
+                    .iter()
+                    .find(|release_asset| &release_asset.name == asset_name)
+                    .cloned()
+            })
+            .with_context(|| format!("release v{version} has no asset named {asset_names:?}"))?;
 
         Ok(ReleaseAsset {
             version: version.to_string(),
@@ -908,12 +931,17 @@ impl AutoUpdater {
         // Only resolve the platform asset once we know there is an update to
         // install, so that a release which is missing the asset for this
         // platform does not break the "already up to date" check.
-        let asset_name = github_asset_name("zed", OS, ARCH)?;
-        let asset = release_assets
-            .into_iter()
-            .find(|release_asset| release_asset.name == asset_name)
+        let asset_names = github_asset_names("zed", OS, ARCH)?;
+        let asset = asset_names
+            .iter()
+            .find_map(|asset_name| {
+                release_assets
+                    .iter()
+                    .find(|release_asset| &release_asset.name == asset_name)
+                    .cloned()
+            })
             .with_context(|| {
-                format!("release v{fetched_version} has no asset named {asset_name}")
+                format!("release v{fetched_version} has no asset named {asset_names:?}")
             })?;
         let fetched_release_data = ReleaseAsset {
             version: fetched_version.to_string(),
@@ -1362,7 +1390,7 @@ async fn install_release_linux(
     let output = cmd
         .output()
         .await
-        .with_context(|| "failed to extract: {cmd}")?;
+        .with_context(|| format!("failed to extract: {cmd:?}"))?;
 
     anyhow::ensure!(
         output.status.success(),
@@ -1396,7 +1424,7 @@ async fn install_release_linux(
     let output = cmd
         .output()
         .await
-        .with_context(|| "failed to rsync: {cmd}")?;
+        .with_context(|| format!("failed to rsync: {cmd:?}"))?;
 
     anyhow::ensure!(
         output.status.success(),
@@ -1431,7 +1459,7 @@ async fn install_release_macos(
     let output = cmd
         .output()
         .await
-        .with_context(|| "failed to mount: {cmd}")?;
+        .with_context(|| format!("failed to mount: {cmd:?}"))?;
 
     anyhow::ensure!(
         output.status.success(),
@@ -1454,7 +1482,7 @@ async fn install_release_macos(
     // can be deleted once this function returns.
     unmounter.unmount().await;
 
-    let output = rsync_output.with_context(|| "failed to rsync: {cmd}")?;
+    let output = rsync_output.with_context(|| format!("failed to rsync: {cmd:?}"))?;
 
     anyhow::ensure!(
         output.status.success(),
@@ -1628,6 +1656,32 @@ mod tests {
         });
     }
 
+    #[test]
+    fn test_github_asset_names_include_legacy_names() {
+        assert_eq!(
+            github_asset_names("zed", "linux", "x86_64").unwrap(),
+            [
+                "aaykra-linux-x86_64.tar.gz",
+                "aayushicode-linux-x86_64.tar.gz",
+            ]
+        );
+        assert_eq!(
+            github_asset_names("zed", "macos", "aarch64").unwrap(),
+            ["aaykra-aarch64.dmg", "AayushiCode-aarch64.dmg"]
+        );
+        assert_eq!(
+            github_asset_names("zed", "windows", "x86_64").unwrap(),
+            ["aaykra-x86_64.exe", "AayushiCode-x86_64.exe"]
+        );
+        assert_eq!(
+            github_asset_names("aaykra-remote-server", "linux", "x86_64").unwrap(),
+            [
+                "aaykra-remote-server-linux-x86_64.gz",
+                "aayushicode-remote-server-linux-x86_64.gz",
+            ]
+        );
+    }
+
     #[gpui::test]
     async fn test_auto_update_downloads(cx: &mut TestAppContext) {
         cx.background_executor.allow_parking();
@@ -1650,7 +1704,9 @@ mod tests {
                 async move {
                 if req.uri().path() == "/repos/aayushpokhrel49/Aaykra/releases/latest" {
                     let tag = if release_available { "v0.100.1" } else { "v0.100.0" };
-                    let asset_name = github_asset_name("zed", OS, ARCH).unwrap();
+                    let asset_name = github_asset_names("zed", OS, ARCH)
+                        .unwrap()
+                        .remove(0);
                     return Ok(Response::builder().status(200).body(
                         format!(
                             r#"{{"tag_name":"{tag}","assets":[{{"name":"{asset_name}","browser_download_url":"http://test.example/new-download","digest":null}}]}}"#

@@ -187,7 +187,7 @@ impl Render for SecurityModal {
                             )
                             .child(
                                 Label::new(
-                                    "Review .aayushicode/settings.json for any extensions or commands configured by this project.",
+                                    "Review .aaykra/settings.json for any extensions or commands configured by this project.",
                                 )
                                 .color(Color::Muted),
                             ),

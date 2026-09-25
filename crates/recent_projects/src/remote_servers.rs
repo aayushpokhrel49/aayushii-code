@@ -1863,7 +1863,7 @@ impl RemoteServerProjects {
                                             )
                                             .on_click(|_, _, cx| {
                                                 cx.open_url(
-                                                    "https://zed.dev/docs/remote-development",
+                                                    "https://code.aayushpokhrel.info.np/docs/remote-development",
                                                 );
                                             }),
                                     ),

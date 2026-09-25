@@ -1065,7 +1065,7 @@ impl DebugDelegate {
                     };
 
                     match path.components().next_back() {
-                        Some(".aayushicode") | Some(".zed") => {
+                        Some(".aaykra") | Some(".aayushicode") => {
                             path.push(RelPath::from_unix_str("debug.json").unwrap());
                         }
                         Some(".vscode") => {
@@ -1163,8 +1163,8 @@ impl DebugDelegate {
                         directory_in_worktree: dir,
                         id_base: _,
                     } => {
-                        dir.ends_with(RelPath::from_unix_str(".aayushicode").unwrap())
-                            || dir.ends_with(RelPath::from_unix_str(".zed").unwrap())
+                        dir.ends_with(RelPath::from_unix_str(".aaykra").unwrap())
+                            || dir.ends_with(RelPath::from_unix_str(".aayushicode").unwrap())
                     }
                     _ => false,
                 });

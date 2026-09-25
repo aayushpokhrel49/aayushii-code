@@ -17,7 +17,7 @@ actions!(
     ]
 );
 
-const CANT_INSTALL_DOCS_URL: &str = "https://zed.dev/docs/macos#cant-install-cli";
+const CANT_INSTALL_DOCS_URL: &str = "https://code.aayushpokhrel.info.np/docs/macos#cant-install-cli";
 
 /// Attempts to install the CLI symlink. Returns the installed path on success,
 /// or `None` if the user dismissed the macOS administrator authentication
